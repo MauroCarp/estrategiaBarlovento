@@ -1,0 +1,183 @@
+.checkbox{
+    
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+
+}
+
+.lineaSeparadora{
+
+    border-bottom: 1px solid rgb(200, 200, 200);
+    margin: 15px 0;
+    
+}
+
+.badge{
+    font-size:1.2em;
+}
+
+.box-body#carpetasScroll{
+    height: 100%!important;
+}
+
+/* BTN ELIMINAR */
+
+.btnEliminar{
+
+  -ms-transform: scale(0.6); /* IE 9 */
+  -webkit-transform: scale(0.6); /* Chrome, Safari, Opera */
+  transform: scale(0.6);
+
+}
+
+.tablaIngresos tbody tr td:last-child{
+  
+  padding: 0px;
+
+}
+
+
+/* RADIO INPUT */
+
+input[type="radio"] {
+    -ms-transform: scale(1.5); /* IE 9 */
+    -webkit-transform: scale(1.5); /* Chrome, Safari, Opera */
+    transform: scale(1.5);
+}
+
+
+/* RANGE INPUT */
+
+input[type="range"] {
+    -webkit-appearance: none;
+    height: 7px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 5px;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    margin:5.5px 0;
+  }
+  
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background: #3c8dbc;
+    cursor: ew-resize;
+    box-shadow: 0 0 2px 0 #555;
+    transition: background .3s ease-in-out;
+  }
+  
+  input[type=range]::-webkit-slider-runnable-track  {
+    -webkit-appearance: none;
+    box-shadow: none;
+    border: none;
+    background: transparent;
+  }
+
+  input[type="range"].redSlider {
+
+  background-image: linear-gradient(#dd4b39, #dd4b39);
+  
+}
+
+input[type="range"].greenSlider {
+
+  background-image: linear-gradient(#00a65a, #00a65a);
+  
+}
+
+input[type="range"].yellowSlider {
+
+  background-image: linear-gradient(#f39c12, #f39c12);
+  
+}
+input[type="range"].ligth-greenSlider {
+
+  background-image: linear-gradient(rgb(137 221 113), rgb(137 221 113));
+  
+}
+
+.sliderIcon, .sliderIcon button{
+  
+  border:none;
+  background-color: transparent;
+  height: auto;
+
+}
+
+.sliderBox .form-group{
+  margin-bottom:0px;
+}
+
+/* PERFILES */
+
+.modalPerfil, .modalCarpeta{
+  width:400px;
+  display:flex;
+}
+
+.hideElement{
+
+  display:none;
+
+}
+
+.showPerfilModal{
+  
+  width: 40%;
+  display:block;
+  margin-left: 20px;
+
+
+}
+
+.perfilesList{
+  width: 100%;
+}
+
+
+.planificado{
+  color:green;
+}
+
+.real{
+  color:blue;
+}
+
+.rowDieta, .rowConsumos, .rowTotales{
+  display:none;
+}
+
+.tablaEstrategia td:has(input), .tablaEstrategia td:has(select), .ingEgrTable td:has(input){
+  padding: 0!important;
+}
+
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
+  z-index: 9999; /* Asegúrate de que el overlay esté en la parte superior */
+}
+
+.overlay-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+}
+
+.expand-graph{
+  position: fixed;
+  top: 5%;
+  left: 25%;
+  width: 65%;
+  height: 50%;
+  z-index: 1050;
+}

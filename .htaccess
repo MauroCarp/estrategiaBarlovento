@@ -1,0 +1,15 @@
+#Options All
+
+# Redirigir solicitudes a project1
+#RewriteCond %{REQUEST_URI} ^/caseQuality/
+#RewriteRule ^caseQuality/(.*)$ /caseQuality/public/$1 [L]
+
+
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP:CDN-LOOP} !cloudflare
+RewriteCond %{REQUEST_URI} !^/.well-known/acme-challenge/
+RewriteCond %{HTTP_HOST} ^(www\.)?jcornale\.com\.ar
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L,QSA]
+
+RewriteRule ^([-a-zA-Z0-9]+)$ index.php?ruta=$1
