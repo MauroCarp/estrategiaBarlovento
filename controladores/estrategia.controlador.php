@@ -74,7 +74,6 @@ class ControladorEstrategia{
 		
 		$insumos = ControladorEstrategia::ctrMostrarInsumos();
 		
-		var_dump($respuesta);
 		if(!is_null($respuesta['cerealesPlan']) && $respuesta['cerealesPlan']){	
 
 			$arr_cerealesPlan = json_decode($respuesta['cerealesPlan'],true);
@@ -208,7 +207,7 @@ class ControladorEstrategia{
 					timer: 2500
 					})
 					.then(function(){
-						window.location = "index.php?ruta=estrategia/index&campania=' . $_POST['selectCampania'] . '";
+						window.location = "index.php?ruta=inicio&campania=' . $_POST['selectCampania'] . '";
 					});
 				
 
@@ -386,7 +385,7 @@ class ControladorEstrategia{
 					timer: 2500
 					})
 					.then(function(){
-						window.location = "index.php?ruta=estrategia/index&campania=' . $campania . '";
+						window.location = "index.php?' . $campania . '";
 					});
 				
 
@@ -404,7 +403,7 @@ class ControladorEstrategia{
 					timer: 2500
 					})
 					.then(function(){
-						window.location = "index.php?ruta=estrategia/index&campania=' . $campania . '";
+						window.location = "index.php?ruta=inicio&campania=' . $campania . '";
 					});
 			
 
@@ -435,9 +434,10 @@ class ControladorEstrategia{
 
 				if($resultado == 'ok'){
 
+					$url = "index.php?ruta=inicio&asd=asd&campania=" . urlencode($buscarCampania);
 
 					echo'<script>
-
+						console.log("' . $url .'")
 						Swal.fire({
 						position: "top-end",
 						icon: "success",
@@ -446,7 +446,7 @@ class ControladorEstrategia{
 						timer: 2500
 						})
 						.then(function(){
-							window.location = "index.php?ruta=estrategia/index&campania=' . $campania . '";
+							window.location = "' . $url . '";
 						});
 					
 

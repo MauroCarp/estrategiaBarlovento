@@ -136,7 +136,7 @@ $('.selectCampania').select2({
 $('#selectCampania').on('change',function(){
 
     let campania = $(this).val()
-    window.location = `index.php?ruta=estrategia/index&campania=${campania}`
+    window.location = `index.php?ruta=inicio&campania=${campania}`
 
 })
 
@@ -152,7 +152,7 @@ year = Number(year[0])
 let nextYear = year + 2;
       
 let options = []
-console.log(year)
+
 for (let index = 0; index < 5; index++) {
 
     options.push(`<option value='${year + 1}'>${year + 1}</option>`)

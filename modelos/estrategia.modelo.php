@@ -86,7 +86,7 @@ class ModeloEstrategia{
 				WHERE $tabla.id = (select MAX($tabla.id) from $tabla)");
 
 			}
-			var_dump($stmt);
+
 			$stmt->setFetchMode(PDO::FETCH_ASSOC);
 			$stmt -> execute();
 

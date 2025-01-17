@@ -1,3 +1,4 @@
+
 <div class="row"> 
 
   <div class="col-md-12">
@@ -11,7 +12,9 @@
           <div class="row">
 
             <?php 
-            if(!$data['estrategia']['seteado']){ ?>
+            if(!$data['estrategia']['seteado']){ 
+
+              ?>
 
               <div class="col-md-2"> 
       
@@ -82,10 +85,11 @@
                   <select class="form-control" name="selectCampania" id="selectCampania" required>
 
                   <?php
-                      foreach ($data['campanias'] as $key => $campania) {?>
+                      foreach ($data['campanias'] as $key => $campania) {
+                        ?>
                       
                       <option value="<?=$campania['campania']?>" 
-                      <?=($campania['campania'] == $_GET['campania']) ? 'selected' : '' ?>><?=$campania['campania']?></option>
+                      <?=(array_key_exists('campania',$_GET) && $campania['campania'] == $_GET['campania']) ? 'selected' : '' ?>><?=$campania['campania']?></option>
 
                       <?php }
                   ?>
