@@ -518,4 +518,39 @@ if (event.key === 'F1') {
 });
 
 
+const validarPorcentajesDieta = ()=>{
+    
+    let total = 0
+
+    $('.dietaReal').each(function(){
+
+        let valor = $(this).val() 
+        total += Number(valor)
+
+    })
+
+    if(total < 100){
+        $('#btnCargaReal').attr('disabled','disabled')
+
+        $('#alertaDietaReal').remove()
+
+        $('#cargaRealModal').append($('<small id="alertaDietaReal"><b style="color:red">El total de la dieta no puede ser menor a 100%</small>'))
+
+    } else if(total > 100) {
+
+        $('#btnCargaReal').attr('disabled','disabled')
+
+        $('#alertaDietaReal').remove()
+
+        $('#cargaRealModal').append($('<small id="alertaDietaReal"><b style="color:red">El total de la dieta no puede ser mayor a 100%</small>'))
+
+    } else {
+
+        $('#btnCargaReal').removeAttr('disabled')
+
+        $('#alertaDietaReal').remove()
+
+    }
+}
+
 
