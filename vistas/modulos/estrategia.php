@@ -944,7 +944,7 @@ if(seteado){
 
                                         <div class="form-group">
                                           <label>% ${key}</label>
-                                          <input type="number" min="0" class="form-control real" name="dietaReal${insumosNameId[key]}" value="0">
+                                          <input type="number" min="0" class="form-control real dietaReal" onchange="validarPorcentajesDieta()" name="dietaReal${insumosNameId[key]}" value="0">
                                         </div>
 
                                       </div>`))
@@ -1009,6 +1009,9 @@ if(seteado){
   
 }
         
+
+
+
 
 </script>
 
