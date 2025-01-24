@@ -16,7 +16,7 @@
 
               ?>
 
-              <div class="col-md-2"> 
+              <div class="col-md-1"> 
       
                 <div class="form-group">
 
@@ -42,7 +42,7 @@
 
                 <label>&nbsp;</label>
 
-                <button type="button" class="btn btn-primary btn-block" id="stock" data-toggle="modal" data-target="#modalEstrategiaStock">Stock</button>
+                <button type="button" class="btn btn-primary btn-block" id="stock" data-toggle="modal" data-target="#modalEstrategiaStock">Stock Inicial</button>
 
               </div>
               
@@ -55,11 +55,24 @@
 
                   <label>&nbsp;</label>
 
-                  <button class="btn btn-primary btn-block" type="button" id="btnIngEgr" data-toggle="modal" data-target="#modalEstrategiaIngEgr">Ingresos / Egresos</button>
+                  <button class="btn btn-primary btn-block" type="button" id="btnIngEgr" data-toggle="modal" data-target="#modalEstrategiaIngEgr">Ingresos/Egresos de Animales</button>
 
                 </div>
                 
               </div>
+
+              <div class="col-md-2"> 
+
+                <div class="form-group">
+
+                  <label>&nbsp;</label>
+
+                  <button class="btn btn-primary btn-block" type="button" id="btnIngEgr" data-toggle="modal" data-target="#modalEstrategiaIngresoInsumos">Insumos</button>
+
+                </div>
+                
+              </div>
+
             <?php if(!$data['estrategia']['seteado']){ ?>
 
               <div class="col-md-2"> 
@@ -100,7 +113,7 @@
 
             </div>
 
-            <div class="col-md-2">
+            <div class="col-md-1">
 
               <div class="form-group">
 

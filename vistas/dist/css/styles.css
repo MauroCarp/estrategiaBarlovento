@@ -181,3 +181,16 @@ input[type="range"].ligth-greenSlider {
   height: 50%;
   z-index: 1050;
 }
+
+  /* Estilo adicional para las pestañas verticales */
+.nav-insumos.nav-pills {
+    border-right: 1px solid #ddd;
+}
+
+.nav-insumos.nav-pills > li {
+    width: 100%;
+}
+
+.tab-content.tab-insumos {
+    margin-left: 20px;
+}
