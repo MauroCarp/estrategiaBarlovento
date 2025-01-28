@@ -971,7 +971,9 @@ if(seteado){
                 
           });
 
-          $('#tbodyEstrategia').prepend($(`<tr>${tds}</tr>`))
+          //TODO RESTRUCTURAR TABLA DE INSUMOS EN MODAL
+
+          // $('#tbodyEstrategia').prepend($(`<tr>${tds}</tr>`))
 
           index++
 
@@ -987,23 +989,6 @@ if(seteado){
         }
         
       }, 700);
-
-      // SI NO CARGA EL STOCK MENSUAL
-     /* setTimeout(() => {
-
-        let stock = $('stockPlan1').html()
-
-        if(seteado && stock == undefined){
-          calculateStockAndTotals()
-
-          setTimeout(() => {
-            calcularPesoPromedio(dataEstrategia,'real')
-
-          }, 500);
-
-        }
-
-      }, 1300);*/
 
     }
 

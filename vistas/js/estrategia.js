@@ -44,10 +44,16 @@ $('#dieta').on('change',function(){
                 $('.stockInsumos').remove()
 
                 let stockInsumosValue = []
+                let months = {
+                    5:'Mayo', 6:'Junio', 7:'Julio', 8:'Agosto', 
+                    9:'Septiembre', 10:'Octubre', 11:'Noviembre', 12:'Diciembre',
+                    1:'Enero', 2:'Febrero', 3:'Marzo', 4:'Abril'
+                };
 
-                data.forEach(element => {
-                    
+                data.forEach((element,index) => {
+
                     let insumo = element.insumo
+                    let idInsumo = element.idInsumo
 
                     $('#trStock').append($(`
                         <th class="stockInsumos">${insumo}</th>
@@ -60,13 +66,39 @@ $('#dieta').on('change',function(){
 
                     stockInsumosValue.push(`{"${element.idInsumo}":0}`)
 
-                    let tr = document.createElement('TR')
-                    tr.setAttribute('class','insumosDieta')
 
-                    let td = document.createElement('TD')
-                    td.setAttribute('style','border: 1px solid #f4f4f4;padding: 8px;box-sizing:border-boxvertical-align: top;')
-                    td.innerText = insumo
-                    tr.append(td)
+                    //------------------------------------------
+                  
+                    let tabInsumo = $(`<li class="active"><a href="#insumo${index}" data-toggle="pill">${insumo}</a></li>`)
+                    $('#tabsInsumos').append(tabInsumo)
+
+                    let divTab = document.createElement('DIV')
+                    divTab.setAttribute('id',`insumo${index}`)
+                    divTab.setAttribute('class','tab-pane fade in active')
+
+                    let h3Insumo = document.createElement('H3')
+                    h3Insumo.innerText = insumo 
+                    
+                    divTab.append(h3Insumo)
+
+                    let tableInsumo = document.createElement('TABLE')
+                    tableInsumo.setAttribute('class','table table-bordered insumosTable')
+
+                    let thead = document.createElement('THEAD')
+                    let tr = document.createElement('TR')
+                    let th = document.createElement('TH')
+                    let thNecesario = th.cloneNode(true)
+                    let thIngreso = th.cloneNode(true)
+                    let thPrecio = th.cloneNode(true)
+                    let thAPagar = th.cloneNode(true)  
+                    thNecesario.innerText = 'Necesario' 
+                    thIngreso.innerText = 'Ingreso'
+                    thPrecio.innerText = 'Precio'   
+                    thAPagar.innerText = 'A Pagar'   
+                    tr.append(th,thNecesario,thIngreso,thPrecio,thAPagar)
+                    thead.append(tr)    
+                    tableInsumo.append(thead)
+
 
                     let input = document.createElement('INPUT')
                     input.setAttribute('class','form-control input-sm compraInsumos')
@@ -78,14 +110,23 @@ $('#dieta').on('change',function(){
 
                     while (true) {
 
-                        let inputInsumo = input.cloneNode(true)
-                        inputInsumo.setAttribute('name',`insumo${element.idInsumo}[]`)
-                        
-                        let td = document.createElement('TD')
-                        td.setAttribute('style','border: 1px solid #f4f4f4;padding: 8px;box-sizing:border-boxvertical-align: top;')
-                        
-                        td.append(inputInsumo)
-                        tr.append(td)
+
+                        let trInsumo = document.createElement('TR');
+                        let tdMonth = document.createElement('TD');
+                        tdMonth.innerText = months[i];
+                        trInsumo.append(tdMonth);
+
+                        for (let j = 0; j < 4; j++) {
+                            let inputInsumo = input.cloneNode(true);
+                            let columnHeader = ['Necesario', 'Ingreso', 'Precio', 'APagar'][j];
+                            inputInsumo.setAttribute('id', `insumo${columnHeader}${idInsumo}${i}`);
+                            inputInsumo.setAttribute('name', `insumo${columnHeader}${idInsumo}${i}`);
+                            let td = document.createElement('TD');
+                            td.append(inputInsumo);
+                            trInsumo.append(td);
+                        }
+
+                        tableInsumo.append(trInsumo);
 
                         if (i === 12) {
                             i = 1;  // Reinicia el índice a 1 después de llegar a 12
@@ -95,7 +136,10 @@ $('#dieta').on('change',function(){
                             i++;
                         }
 
-                        $('#tbodyEstrategia').before(tr)
+                        divTab.append(tableInsumo)
+                        
+                        $('#tab-insumos').append(divTab)
+                        //TODO RESTRUCTURAR TABLA DE INSUMOS EN MODAL
                     }
                     
                 });

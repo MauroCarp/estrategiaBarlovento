@@ -2,7 +2,7 @@
   
   <div class="modal-dialog">
 
-    <div class="modal-content">
+    <div class="modal-content" style="width:1000px; margin-left:-150px;">
 
       <form role="form" method="post" enctype="multipart/form-data" id="formCarga">
 
@@ -28,33 +28,16 @@
 
             <div class="col-sm-3">
               <!-- Lista de pestañas -->
-              <ul class="nav nav-insumos nav-pills nav-stacked">
-                  <li class="active"><a href="#home" data-toggle="pill">Inicio</a></li>
-                  <li><a href="#profile" data-toggle="pill">Perfil</a></li>
-                  <li><a href="#messages" data-toggle="pill">Mensajes</a></li>
-                  <li><a href="#settings" data-toggle="pill">Configuración</a></li>
+              <ul class="nav nav-insumos nav-pills nav-stacked" id="tabsInsumos">
+
               </ul>
             </div>
 
             <div class="col-sm-9">
                 <!-- Contenido de las pestañas -->
-                <div class="tab-content tab-insumos">
-                    <div id="home" class="tab-pane fade in active">
-                        <h3>Inicio</h3>
-                        <p>Contenido de la pestaña de Inicio.</p>
-                    </div>
-                    <div id="profile" class="tab-pane fade">
-                        <h3>Perfil</h3>
-                        <p>Contenido de la pestaña de Perfil.</p>
-                    </div>
-                    <div id="messages" class="tab-pane fade">
-                        <h3>Mensajes</h3>
-                        <p>Contenido de la pestaña de Mensajes.</p>
-                    </div>
-                    <div id="settings" class="tab-pane fade">
-                        <h3>Configuración</h3>
-                        <p>Contenido de la pestaña de Configuración.</p>
-                    </div>
+                <div class="tab-content tab-insumos" id="tab-insumos">
+
+                  
                 </div>
             </div>
 

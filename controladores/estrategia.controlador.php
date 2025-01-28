@@ -64,8 +64,8 @@ class ControladorEstrategia{
 		return $data;
 
 	}
-	// TODO REVISAR CARGA DE CEREALES REALES 
-    static public function ctrMostrarEstrategia($campania = null){
+
+	static public function ctrMostrarEstrategia($campania = null){
 		
 		$tabla = "estrategias";
 
