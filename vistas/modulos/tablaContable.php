@@ -26,102 +26,28 @@
           </thead>
 
           <tbody id="tbodyContable">
+          <?php
+          $rows = [
+            'Ingresos' => 'ingresoPlanContable',
+            'Kg Prom Ing' => 'kgPromIngresoPlanContable',
+            'Egresos' => 'ventaPlanContable',
+            'Kg Prom Egr' => 'kgVentaPlanContable'
+          ];
 
+          foreach ($rows as $label => $idPrefix) { ?>
             <tr>
-            
-              <td>Ingresos</td>
-
+              <td><?= $label ?></td>
               <?php
-
-                if(!$data['estrategia']['seteado']){
-
-                  foreach ($meses as $key => $mes) { ?>
-
-                    <td id="<?=$key?>">0</td>
-  
-                  <?php } 
-                  
-                } else {
-                  
-                 
-
-                }
-
+              if (!$data['estrategia']['seteado']) {
+                foreach ($meses as $key => $mes) { ?>
+                  <td id="<?= $idPrefix . $key ?>">0</td>
+                <?php }
+              } else {
+                // Add your logic here for when $data['estrategia']['seteado'] is true
+              }
               ?>
-              
             </tr>
-
-            <tr>
-            
-              <td>Kg Prom Ing</td>
-
-              <?php
-
-                if(!$data['estrategia']['seteado']){
-
-                  foreach ($meses as $key => $mes) { ?>
-
-                    <td id="kgIngresoPlan<?=$key?>" >0</td>
-  
-                  <?php } 
-                  
-                } else {
-                  
-                 
-                }
-
-              ?>
-              
-            </tr>
-
-            <tr>
-
-              <td>Egresos</td>
-
-              <?php
-
-                if(!$data['estrategia']['seteado']){
-
-                  foreach ($meses as $key => $mes) { ?>
-
-                    <td id="ventaPlan<?=$key?>" >0</td>
-
-                  <?php } 
-                  
-                } else {
-
-      
-
-                }
-
-              ?>
-
-            </tr>
-
-            <tr>
-
-              <td>Kg Prom Egr</td>
-
-              <?php
-
-                if(!$data['estrategia']['seteado']){
-
-                  foreach ($meses as $key => $mes) { ?>
-
-                    <td id="kgVentaPlan<?=$key?>" >0</td>
-
-                  <?php } 
-                  
-                } else {
-
-
-                }
-
-              ?>
-
-            </tr>
-
-            <!--  DIETA ---->
+          <?php } ?>
 
           </tbody>
 

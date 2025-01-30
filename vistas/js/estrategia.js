@@ -70,102 +70,141 @@ $('#dieta').on('change',function(){
                     stockInsumosValue.push(`{"${element.idInsumo}":0}`)
 
 
-                    //------------------------------------------
+                    /*------ CARGO DINAMICAMENTE LOS INSUMOS EN EL MODAL CON SU TABLA MENSUAL ---------*/
                   
-                    let isActive = (index == 0) ? 'active' : ''
-                    let isClassActive = (index == 0) ? 'fade in active' : ''
+                        let isActive = (index == 0) ? 'active' : ''
+                        let isClassActive = (index == 0) ? 'fade in active' : ''
 
-                    let tabInsumo = $(`<li class="${isActive}"><a href="#insumo${index}" data-toggle="pill">${insumo}</a></li>`)
+                        let tabInsumo = $(`<li class="${isActive}"><a href="#insumo${index}" data-toggle="pill">${insumo}</a></li>`)
 
-                    $('#tabsInsumos').append(tabInsumo)
+                        $('#tabsInsumos').append(tabInsumo)
 
-                    let divTab = document.createElement('DIV')
-                    divTab.setAttribute('id',`insumo${index}`)
-                    divTab.setAttribute('class',`tab-pane ${isClassActive}`)
+                        let divTab = document.createElement('DIV')
+                        divTab.setAttribute('id',`insumo${index}`)
+                        divTab.setAttribute('class',`tab-pane ${isClassActive}`)
 
-                    let h3Insumo = document.createElement('H3')
-                    h3Insumo.innerText = insumo 
-                    
-                    divTab.append(h3Insumo)
+                        let h3Insumo = document.createElement('H3')
+                        h3Insumo.innerText = insumo 
+                        
+                        divTab.append(h3Insumo)
 
-                    let tableInsumo = document.createElement('TABLE')
-                    tableInsumo.setAttribute('class','table table-bordered insumosTable')
+                        let tableInsumo = document.createElement('TABLE')
+                        tableInsumo.setAttribute('class','table table-bordered insumosTable')
 
-                    let thead = document.createElement('THEAD')
-                    let tr = document.createElement('TR')
-                    let th = document.createElement('TH')
-                    let thNecesario = th.cloneNode(true)
-                    let thIngreso = th.cloneNode(true)
-                    let thPrecio = th.cloneNode(true)
-                    let thAPagar = th.cloneNode(true)  
-                    thNecesario.innerText = 'Necesario' 
-                    thIngreso.innerText = 'Ingreso'
-                    thPrecio.innerText = 'Precio'   
-                    thAPagar.innerText = 'A Pagar'   
-                    tr.append(th,thNecesario,thIngreso,thPrecio,thAPagar)
-                    thead.append(tr)    
-                    tableInsumo.append(thead)
-
-
-                    let input = document.createElement('INPUT')
-                    input.setAttribute('class','form-control input-sm compraInsumos')
-                    input.setAttribute('type','number')
-                    input.setAttribute('min','0')
-                    input.setAttribute('value','0')
-
-                    let i = 5;
-
-                    while (true) {
+                        let thead = document.createElement('THEAD')
+                        let tr = document.createElement('TR')
+                        let th = document.createElement('TH')
+                        let thNecesario = th.cloneNode(true)
+                        let thIngreso = th.cloneNode(true)
+                        let thPrecio = th.cloneNode(true)
+                        let thAPagar = th.cloneNode(true)  
+                        thNecesario.innerText = 'Necesario' 
+                        thIngreso.innerText = 'Ingreso'
+                        thPrecio.innerText = 'Precio'   
+                        thAPagar.innerText = 'A Pagar'   
+                        tr.append(th,thNecesario,thIngreso,thPrecio,thAPagar)
+                        thead.append(tr)    
+                        tableInsumo.append(thead)
 
 
-                        let trInsumo = document.createElement('TR');
-                        let tdMonth = document.createElement('TD');
-                        tdMonth.setAttribute('style','font-weight:bold;padding:10px')
+                        let input = document.createElement('INPUT')
+                        input.setAttribute('class','form-control input-sm compraInsumos')
+                        input.setAttribute('type','number')
+                        input.setAttribute('min','0')
+                        input.setAttribute('value','0')
 
-                        tdMonth.innerText = months[i];
-                        trInsumo.append(tdMonth);
+                        let i = 5;
 
-                        for (let j = 0; j < 4; j++) {
+                        while (true) {
 
-                            let columnHeader = ['Necesario', 'Ingreso', 'Precio', 'APagar'][j];
-                            let td = document.createElement('TD');
-                            
-                            if(columnHeader == 'Necesario'){
 
-                                td.setAttribute('class','form-control input-sm')
-                                td.setAttribute('id', `insumo${columnHeader}${idInsumo}${i}`);
-                                td.setAttribute('style','font-weight:bold;margin:5px')
+                            let trInsumo = document.createElement('TR');
+                            let tdMonth = document.createElement('TD');
+                            tdMonth.setAttribute('style','font-weight:bold;padding:10px')
 
-                            }else{
+                            tdMonth.innerText = months[i];
+                            trInsumo.append(tdMonth);
 
-                                let inputInsumo = input.cloneNode(true);
-                                inputInsumo.setAttribute('id', `insumo${columnHeader}${idInsumo}${i}`);
-                                inputInsumo.setAttribute('name', `insumo${columnHeader}${idInsumo}[]`);
-    
-                                td.append(inputInsumo);
+                            for (let j = 0; j < 4; j++) {
+
+                                let columnHeader = ['Necesario', 'Ingreso', 'Precio', 'APagar'][j];
+                                let td = document.createElement('TD'); 
+
+                                if(columnHeader == 'Necesario'){
+
+                                    td.setAttribute('class','form-control input-sm')
+                                    td.setAttribute('id', `insumo${columnHeader}${idInsumo}${i}`);
+                                    td.setAttribute('style','font-weight:bold;margin:5px')
+
+                                }else{
+
+                                    let inputInsumo = input.cloneNode(true);
+                                    inputInsumo.setAttribute('id', `insumo${columnHeader}${idInsumo}${i}`);
+                                    inputInsumo.setAttribute('name', `insumo${columnHeader}${idInsumo}[]`);
+        
+                                    if(columnHeader == 'APagar')
+                                        inputInsumo.setAttribute('max','24')   
+
+                                    td.append(inputInsumo);
+
+                                }
+
+                                trInsumo.append(td);
 
                             }
 
-                            trInsumo.append(td);
+                            tableInsumo.append(trInsumo);
 
+
+
+                            if (i === 12) {
+                                i = 1;  // Reinicia el índice a 1 después de llegar a 12
+                            } else if (i === 4) {
+                                break;  // Termina el bucle después de llegar a 4
+                            } else {
+                                i++;
+                            }
+
+                            divTab.append(tableInsumo)
+                            
+                            $('#tab-insumos').append(divTab)
+                            //TODO RESTRUCTURAR TABLA DE INSUMOS EN MODAL
+                        }
+                    
+                    //------ CARGO DINAMICAMENTE LOS INSUMOS EN LA TABLA CONTABLE ---------//
+
+                    let tbodyContable = document.getElementById('tbodyContable');
+
+                    let j = 5;
+                    while (true) {
+                        let trContable = document.createElement('TR');
+                        let tdInsumo = document.createElement('TD');
+                        tdInsumo.innerText = insumo;
+                        trContable.append(tdInsumo);
+
+                        for (let k = 0; k < 12; k++) {
+                            let td = document.createElement('TD');
+                            td.innerText = '0';
+                            td.setAttribute('id', `insumo${idInsumo}${j}Contable`);
+                            trContable.append(td);
+
+                            if (j === 12) {
+                                j = 1;
+                            } else if (j === 4) {
+                                break;
+                            } else {
+                                j++;
+                            }
                         }
 
-                        tableInsumo.append(trInsumo);
+                        tbodyContable.prepend(trContable);
 
-                        if (i === 12) {
-                            i = 1;  // Reinicia el índice a 1 después de llegar a 12
-                        } else if (i === 4) {
-                            break;  // Termina el bucle después de llegar a 4
-                        } else {
-                            i++;
+                        if (j === 4) {
+                            break;
                         }
-
-                        divTab.append(tableInsumo)
-                        
-                        $('#tab-insumos').append(divTab)
-                        //TODO RESTRUCTURAR TABLA DE INSUMOS EN MODAL
                     }
                     
+
                 });
 
                 $('input[name="stockInsumos"]').val(`[${stockInsumosValue}]`)
