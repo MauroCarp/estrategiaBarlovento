@@ -22,6 +22,7 @@ if(isset($_GET["ruta"])){
   if($_GET["ruta"] == "inicio" ||
      $_GET["ruta"] == "404" ||
      $_GET["ruta"] == "index" ||
+     $_GET["ruta"] == "contable" ||
      $_GET["ruta"] == "usuarios" ||
      $_GET["ruta"] == "salir"){
 

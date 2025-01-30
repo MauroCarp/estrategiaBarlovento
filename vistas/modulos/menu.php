@@ -3,62 +3,14 @@
 	 <section class="sidebar">
 
 		<ul class="sidebar-menu">
-			
-	<?php if($_SESSION['empresa'] != 'Estrategia' && $_COOKIE['empresa'] != 'Estrategia'){ ?>
-
-			<li class="active">
-				
-				<a href="inicio">
-					
-					<i class="fa fa-home" style="font-size:1.2em;"></i>
-					<span>Inicio</span>
-					
-				</a>
-				
-			</li>
+	
 				
 <?php
- 
-	if($_SESSION["perfil"] == "Administrador" && ($_SESSION["empresa"] != "Estrategia" && $_COOKIE["empresa"] != "Estrategia")){
-		
-				echo '
-					<li>
+
 	
-					<a href="#" data-toggle="modal" data-target="#ventanaModalCarpetas" id="menuCarpetas">
-	
-					<i class="fa fa-files-o" style="font-size:1.2em;padding-right:5px;"></i>
-					<span>Carpetas </span>
-	
-					</a>
-	
-					</li>
-	
-					<li>
-	
-					<a href="#" data-toggle="modal" data-target="#	" id="menuPerfiles">
-	
-					<i class="fa fa-sliders" style="font-size:1.8em;"></i>
-					<span>&nbsp;Perfiles</span>
-	
-					</a>
-	
-				</li>';
-	}
-	
-	if($_SESSION["usuario"] == "Jorge" || $_SESSION["usuario"] == "Tecnico"){
+	if($_SESSION["usuario"] == "Tecnico"){
 	
 				echo '<li>
-	
-					<a href="analisis">
-	
-						<i class="fa fa-line-chart"></i>
-						<span>Analisis</span>
-	
-					</a>
-	
-				</li>
-	
-				<li>
 	
 					<a href="usuarios">
 	
@@ -70,8 +22,6 @@
 				</li>';
 	
 	}
-
-}
 
 ?>
 
