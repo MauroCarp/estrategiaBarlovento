@@ -66,7 +66,7 @@ $meses = array(1=>'May',2=>'Jun',3=>'Jul',4=>'Ago',5=>'Sep',6=>'Oct',7=>'Nov',8=
 
   <div class="tabCollapse v-tabs">
 
-      <ul class="nav nav-tabs" role="tablist" style="position:fixed;z-index:9999;top:50px;margin-left:50%;font-size:1.2em">
+      <ul class="nav nav-tabs" role="tablist" style="position:fixed;z-index:9999;top:50px;right:10px;font-size:1.2em">
           <li role="presentation" class="active"><a href="#inicioEstrategia" class="nav-link vertical-text"  style="border:solid 1px rgb(220,220,220);border-top-right-radius:5px;line-height:2em;padding:5px;" aria-controls="inicioEstrategia" role="tab" data-toggle="tab"><b><i class="fa fa-calendar"></i> Estrategia</b></a></li>
           <li role="presentation"><a href="#inicioContable" class="nav-link vertical-text" style="border:solid 1px rgb(220,220,220);border-bottom-right-radius:5px;line-height:2em;padding:5px;" aria-controls="inicioContable" role="tab" data-toggle="tab"><b><i class="fa fa-dollar"></i> Contable</b></a></li>
       </ul>
