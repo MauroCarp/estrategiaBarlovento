@@ -567,22 +567,28 @@ let calcularConsumos = async ()=>{
 
                     $('.compraInsumos').each(function(){
 
-                        let id = $(this).attr('name').replace('insumo','').replace('[]','')
+                        let masterId = $(this).attr('name').replace('insumo','').replace('[]','')
 
-                        if(typeof compraInsumos[id] !== 'undefined'){
+                        let id = masterId.slice(-2)
+                        
+                        let header = masterId.replace(id,'')
 
-                            compraInsumos[id].push($(this).val())
-                        } else {
-                            compraInsumos[id] = []
-                            compraInsumos[id].push($(this).val())
-
+                        if(typeof compraInsumos[id] === 'undefined'){
+                            compraInsumos[id] = {};
                         }
+
+                        if(typeof compraInsumos[id][header] === 'undefined'){
+                            compraInsumos[id][header] = [];
+                        }
+
+                        compraInsumos[id][header].push($(this).val());
 
                     })
 
                     for (const key in compraInsumos) {
-        
-                        compraInsumos[key][0] = Number(compraInsumos[key][0]) + Number(stockInicialInsumos[key])  
+                        
+                        if(key == 'Ingreso')
+                            compraInsumos[key][0] = Number(compraInsumos[key][0]) + Number(stockInicialInsumos[key])  
 
                     }
 
@@ -592,37 +598,45 @@ let calcularConsumos = async ()=>{
 
                     for (const insumo in compraInsumos) {
                         
-                        for (const mes in compraInsumos[insumo]) {
+                        for (const header in compraInsumos[insumo]) {
 
-                            if(stock.planificado[mes] == undefined){
+                            if(header == 'Ingreso'){
 
-                                stock.planificado[mes] = {}
-                                saldo.planificado[mes] = {}
+                                for (const mes in compraInsumos[insumo][header]) {
+
+                                    if(stock.planificado[mes] == undefined){
+
+                                        stock.planificado[mes] = {}
+                                        saldo.planificado[mes] = {}
 
 
-                                if(mes == 0){
+                                        if(mes == 0){
 
-                                    stock.planificado[mes][insumo] = Number(stockInicialInsumos[insumo]) + Number(compraInsumos[insumo][mes])
-                                    saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes][insumo]['consumoTotal'])
+                                            stock.planificado[mes][insumo] = Number(stockInicialInsumos[insumo]) + Number(compraInsumos[insumo][header][mes])
+                                            saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes][insumo]['consumoTotal'])
 
-                                } else {
+                                        } else {
 
-                                    stock.planificado[mes][insumo] = Number(saldo.planificado[mes - 1][insumo]) + Number(compraInsumos[insumo][mes])
-                                    saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes][insumo]['consumoTotal'])
+                                            stock.planificado[mes][insumo] = Number(saldo.planificado[mes - 1][insumo]) + Number(compraInsumos[insumo][header][mes])
+                                            saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes][insumo]['consumoTotal'])
 
-                                }
+                                        }
 
-                            } else {
+                                    } else {
 
-                                if(mes == 0){
+                                        if(mes == 0){
 
-                                    stock.planificado[mes][insumo] = Number(stockInicialInsumos[insumo]) + Number(compraInsumos[insumo][mes])
-                                    saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes][insumo]['consumoTotal'])
+                                            stock.planificado[mes][insumo] = Number(stockInicialInsumos[insumo]) + Number(compraInsumos[insumo][header][mes])
+                                            saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes][insumo]['consumoTotal'])
 
-                                } else {
+                                        } else {
 
-                                    stock.planificado[mes][insumo] = Number(saldo.planificado[mes - 1][insumo]) + Number(compraInsumos[insumo][mes])
-                                    saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes][insumo]['consumoTotal'])
+                                            stock.planificado[mes][insumo] = Number(saldo.planificado[mes - 1][insumo]) + Number(compraInsumos[insumo][header][mes])
+                                            saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes][insumo]['consumoTotal'])
+
+                                        }
+
+                                    }
 
                                 }
 
@@ -631,8 +645,6 @@ let calcularConsumos = async ()=>{
                         }
 
                     }
-
-
 
                     let insumosNameId = {}
 

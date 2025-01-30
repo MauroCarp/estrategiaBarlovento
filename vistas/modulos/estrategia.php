@@ -618,6 +618,40 @@ let calcularPesoPromedio = (dataEstrategia = false,tipo = 'plan')=>{
  
       }
 
+      let idDieta = $('#dieta').val()
+
+      $.ajax({
+        method:'POST',
+        url:'ajax/estrategia.ajax.php',
+        data:{accion:'verDieta',idDieta},
+        success:function(resp){
+
+          let respuesta = JSON.parse(resp)
+
+          let objMonths = {1:5,2:6,3:7,4:8,5:9,6:10,7:11,8:12,9:1,10:2,11:3,12:4}
+
+          for (const key in respuesta) {
+
+            for (let index = 1; index <= 12; index++) {
+
+              let stockMesPlan = Number($(`#stockPlan${index}`).html())
+
+              let consMS = Number($(`#porcentMS${index}`).val())
+  
+              let consumoInsumo = (respuesta[key].porcentaje * consMS) / 100 
+
+              let totalConsumoMensual = consumoInsumo * stockMesPlan * 30 //dias del mes
+
+              $(`#insumoNecesario${respuesta[key].idInsumo}${objMonths[index]}`).html(totalConsumoMensual.toLocaleString('de-DE'))
+
+            }
+
+          }
+
+        }
+
+      })
+
       $('#overlay').remove()
       
     }, 1000);

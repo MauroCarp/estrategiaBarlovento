@@ -30,6 +30,12 @@ $('#dieta').on('change',function(){
 
     if(idDieta != ''){
 
+        let months = {
+            5:'Mayo', 6:'Junio', 7:'Julio', 8:'Agosto', 
+            9:'Septiembre', 10:'Octubre', 11:'Noviembre', 12:'Diciembre',
+            1:'Enero', 2:'Febrero', 3:'Marzo', 4:'Abril'
+        };
+
         $.ajax({
             method:'POST',
             url:'ajax/estrategia.ajax.php',
@@ -38,17 +44,14 @@ $('#dieta').on('change',function(){
                 $('body').append($('<div id="overlay"><div class="overlay-content"><i class="fa fa-spinner fa-spin"></i> Cargando...</div></div>'))
             },
             success:function(resp){
-    
                 let data =  JSON.parse(resp)
+
                 $('.insumosDieta').remove()
                 $('.stockInsumos').remove()
 
                 let stockInsumosValue = []
-                let months = {
-                    5:'Mayo', 6:'Junio', 7:'Julio', 8:'Agosto', 
-                    9:'Septiembre', 10:'Octubre', 11:'Noviembre', 12:'Diciembre',
-                    1:'Enero', 2:'Febrero', 3:'Marzo', 4:'Abril'
-                };
+                $('#tabsInsumos').html('')
+                $('#tab-insumos').html('')
 
                 data.forEach((element,index) => {
 
@@ -69,12 +72,16 @@ $('#dieta').on('change',function(){
 
                     //------------------------------------------
                   
-                    let tabInsumo = $(`<li class="active"><a href="#insumo${index}" data-toggle="pill">${insumo}</a></li>`)
+                    let isActive = (index == 0) ? 'active' : ''
+                    let isClassActive = (index == 0) ? 'fade in active' : ''
+
+                    let tabInsumo = $(`<li class="${isActive}"><a href="#insumo${index}" data-toggle="pill">${insumo}</a></li>`)
+
                     $('#tabsInsumos').append(tabInsumo)
 
                     let divTab = document.createElement('DIV')
                     divTab.setAttribute('id',`insumo${index}`)
-                    divTab.setAttribute('class','tab-pane fade in active')
+                    divTab.setAttribute('class',`tab-pane ${isClassActive}`)
 
                     let h3Insumo = document.createElement('H3')
                     h3Insumo.innerText = insumo 
@@ -113,17 +120,34 @@ $('#dieta').on('change',function(){
 
                         let trInsumo = document.createElement('TR');
                         let tdMonth = document.createElement('TD');
+                        tdMonth.setAttribute('style','font-weight:bold;padding:10px')
+
                         tdMonth.innerText = months[i];
                         trInsumo.append(tdMonth);
 
                         for (let j = 0; j < 4; j++) {
-                            let inputInsumo = input.cloneNode(true);
+
                             let columnHeader = ['Necesario', 'Ingreso', 'Precio', 'APagar'][j];
-                            inputInsumo.setAttribute('id', `insumo${columnHeader}${idInsumo}${i}`);
-                            inputInsumo.setAttribute('name', `insumo${columnHeader}${idInsumo}${i}`);
                             let td = document.createElement('TD');
-                            td.append(inputInsumo);
+                            
+                            if(columnHeader == 'Necesario'){
+
+                                td.setAttribute('class','form-control input-sm')
+                                td.setAttribute('id', `insumo${columnHeader}${idInsumo}${i}`);
+                                td.setAttribute('style','font-weight:bold;margin:5px')
+
+                            }else{
+
+                                let inputInsumo = input.cloneNode(true);
+                                inputInsumo.setAttribute('id', `insumo${columnHeader}${idInsumo}${i}`);
+                                inputInsumo.setAttribute('name', `insumo${columnHeader}${idInsumo}[]`);
+    
+                                td.append(inputInsumo);
+
+                            }
+
                             trInsumo.append(td);
+
                         }
 
                         tableInsumo.append(trInsumo);
