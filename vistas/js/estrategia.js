@@ -41,7 +41,7 @@ $('#dieta').on('change',function(){
             url:'ajax/estrategia.ajax.php',
             data:{accion:'verDieta',idDieta},
             beforeSend:function(){
-                $('body').append($('<div id="overlay"><div class="overlay-content"><i class="fa fa-spinner fa-spin"></i> Cargando...</div></div>'))
+                // $('body').append($('<div id="overlay"><div class="overlay-content"><i class="fa fa-spinner fa-spin"></i> Cargando...</div></div>'))
             },
             success:function(resp){
                 let data =  JSON.parse(resp)
@@ -52,6 +52,8 @@ $('#dieta').on('change',function(){
                 let stockInsumosValue = []
                 $('#tabsInsumos').html('')
                 $('#tab-insumos').html('')
+
+                $('.insumosContable').remove()
 
                 data.forEach((element,index) => {
 
@@ -108,8 +110,9 @@ $('#dieta').on('change',function(){
 
 
                         let input = document.createElement('INPUT')
-                        input.setAttribute('class','form-control input-sm compraInsumos')
+                        input.setAttribute('class','form-control input-sm')
                         input.setAttribute('type','number')
+                        input.setAttribute('id-insumo',idInsumo)
                         input.setAttribute('min','0')
                         input.setAttribute('value','0')
 
@@ -139,9 +142,14 @@ $('#dieta').on('change',function(){
                                 }else{
 
                                     let inputInsumo = input.cloneNode(true);
+                                    // inputInsumo.setAttribute('onchange','calcularContable()')
+
                                     inputInsumo.setAttribute('id', `insumo${columnHeader}${idInsumo}${i}`);
                                     inputInsumo.setAttribute('name', `insumo${columnHeader}${idInsumo}[]`);
         
+                                    if(columnHeader == 'Ingreso')
+                                        inputInsumo.classList.add('compraInsumos')
+                                    
                                     if(columnHeader == 'APagar')
                                         inputInsumo.setAttribute('max','24')   
 
@@ -178,6 +186,7 @@ $('#dieta').on('change',function(){
                     let j = 5;
                     while (true) {
                         let trContable = document.createElement('TR');
+                        trContable.setAttribute('class','insumosContable')
                         let tdInsumo = document.createElement('TD');
                         tdInsumo.innerText = insumo;
                         trContable.append(tdInsumo);
@@ -209,7 +218,7 @@ $('#dieta').on('change',function(){
 
                 $('input[name="stockInsumos"]').val(`[${stockInsumosValue}]`)
                 
-                $('#overlay').remove()
+                // $('#overlay').remove()
             }
     
         })

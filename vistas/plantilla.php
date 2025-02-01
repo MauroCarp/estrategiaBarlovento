@@ -213,6 +213,7 @@ CUERPO DOCUMENTO
   <script src="vistas/js/plantilla.js"></script>
   <script src="vistas/js/usuarios.js"></script>
   <script src="vistas/js/estrategia.js"></script>
+  <script src="vistas/js/contable.js"></script>
 
 </body>
 </html>

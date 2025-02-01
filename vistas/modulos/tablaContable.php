@@ -40,7 +40,7 @@
               <?php
               if (!$data['estrategia']['seteado']) {
                 foreach ($meses as $key => $mes) { ?>
-                  <td id="<?= $idPrefix . $key ?>">0</td>
+                  <td class="contable" id="<?= $idPrefix . $key ?>">0</td>
                 <?php }
               } else {
                 // Add your logic here for when $data['estrategia']['seteado'] is true

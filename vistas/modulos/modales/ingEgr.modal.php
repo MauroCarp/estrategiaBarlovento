@@ -36,6 +36,7 @@
                   <th>Venta</th>
                   <th>Kg Venta</th>
                   <th>$ Kg</th>
+                  <th>A Pagar</th>
                   <th>Stock</th>
                   <th>Dif.</th>
 
@@ -60,6 +61,7 @@
                     <td><input class="form-control ingEgr venta" type="number" id="venta<?= $index ?>" min="0" value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>></td>
                     <td><input class="form-control kgVenta" type="number" id="kgVenta<?= $index ?>" min="0" value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>></td>
                     <td><input class="form-control precioKg" type="number" id="precioKg<?= $index ?>" min="0" value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>></td>
+                    <td><input class="form-control aPagar" type="number" id="aPagar<?= $index ?>" min="0" max="24" value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>></td>
                     <td><input class="form-control stock" type="text" id="stock<?= $index ?>" value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?> readOnly></td>
                   </tr>
                 <?php endforeach; ?>
