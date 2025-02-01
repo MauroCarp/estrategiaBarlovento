@@ -896,9 +896,6 @@ let calculateStockAndTotals = () => {
         $('#avgKgIngreso').html((kgIngresoTotal / ingresoTotal).toFixed(2))
 
         $('#avgKgVenta').html((kgVentaTotal / ventaTotal).toFixed(2))
-        console.log('hola 2')
-        console.log(kgVentaTotal)
-        console.log(ventaTotal)
 
         if(!isNaN(stockReal)){
   
@@ -913,9 +910,6 @@ let calculateStockAndTotals = () => {
             $('#avgVenta').html(`${(ventaTotal / 12).toFixed(2)} <br><span style="color:blue">${(ventaTotalReal / 12).toFixed(2)}`)
             $('#avgKgIngreso').html(`${(kgIngresoTotal / ingresoTotal).toFixed(2)} <br><span style="color:blue">${(ingresoTotalReal > 0) ? (kgIngresoTotalReal / ingresoTotalReal).toFixed(2) : 0}`)
             $('#avgKgVenta').html(`${(kgVentaTotal / ventaTotal).toFixed(2)} <br><span style="color:blue">${(ventaTotalReal > 0) ? (kgVentaTotalReal / ventaTotalReal).toFixed(2) : 0}`)
-            console.log('hola 3')
-        console.log(kgVentaTotal)
-        console.log(ventaTotal)
 
           }, 500);
         }
@@ -939,7 +933,7 @@ let seteado = '<?=$data['estrategia']['seteado']?>'
 let data = '<?=json_encode($data)?>'
 
 if(seteado){
-
+  console.log('HolA  entro por aca')
   let campania = '<?=$data['estrategia']['campania']?>'
 
   $.ajax({
