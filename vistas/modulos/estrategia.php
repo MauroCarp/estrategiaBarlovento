@@ -945,6 +945,12 @@ if(seteado){
 
       let data = JSON.parse(resp)
 
+      let months = {
+            0:'Mayo', 1:'Junio', 2:'Julio', 3:'Agosto', 
+            4:'Septiembre', 5:'Octubre', 6:'Noviembre', 7:'Diciembre',
+            8:'Enero', 9:'Febrero', 10:'Marzo', 11:'Abril'
+        };
+
       dataEstrategia = data.estrategia
       // CARGO STOCK ANIMALES
       
@@ -999,12 +1005,100 @@ if(seteado){
                                       </div>`))
 
 
+          let isActive = (index == 0) ? 'active' : '';
+          let isClassActive = (index == 0) ? 'fade in active' : '';
 
-          let tds = `<td>${key}</td>`
+          let tabInsumo = $(`<li class="${isActive}"><a href="#insumo${index}" data-toggle="pill">${key}</a></li>`);
+          $('#tabsInsumos').append(tabInsumo);
 
+          let divTab = document.createElement('DIV');
+          divTab.setAttribute('id', `insumo${index}`);
+          divTab.setAttribute('class', `tab-pane ${isClassActive}`);
+
+          let h3Insumo = document.createElement('H3');
+          h3Insumo.innerText = key;
+          divTab.append(h3Insumo);
+
+          let tableInsumo = document.createElement('TABLE');
+          tableInsumo.setAttribute('class', 'table table-bordered insumosTable');
+
+          let thead = document.createElement('THEAD');
+          let tr = document.createElement('TR');
+          let th = document.createElement('TH');
+          let thNecesario = th.cloneNode(true);
+          let thIngreso = th.cloneNode(true);
+          let thPrecio = th.cloneNode(true);
+          let thAPagar = th.cloneNode(true);
+          thNecesario.innerText = 'Necesario';
+          thIngreso.innerText = 'Ingreso';
+          thPrecio.innerText = 'Precio';
+          thAPagar.innerText = 'A Pagar';
+          tr.append(th, thNecesario, thIngreso, thPrecio, thAPagar);
+          thead.append(tr);
+          tableInsumo.append(thead);
+
+          console.log(insumosNameId[key])
+          console.log(key)
+          console.log(cerealesPlan[insumosNameId[key]])
+
+          
           cerealesPlan[insumosNameId[key]].forEach((element,index) => {
-            tds +=   `<td><span class="planificado">${element}</span><span class="real" id="insumo${insumosNameId[key]}_${index + 1}">${(cerealesReal != null) ? (cerealesReal[index + 1] != undefined) ? ' | ' + cerealesReal[index + 1][insumosNameId[key]] : '' : ''}</span></td>`
-                
+            
+            let trInsumo = document.createElement('TR');
+            let tdMonth = document.createElement('TD');
+            tdMonth.setAttribute('style', 'font-weight:bold;padding:10px');
+            tdMonth.innerText = months[index];
+            trInsumo.append(tdMonth);
+
+            for (let j = 0; j < 4; j++) {
+                let columnHeader = ['Necesario', 'Ingreso', 'Precio', 'APagar'][j];
+                let td = document.createElement('TD');
+
+                let spanPlanificado = document.createElement('SPAN');
+                spanPlanificado.setAttribute('class', 'planificado');
+
+                let spanReal = document.createElement('SPAN');
+                spanReal.setAttribute('class', 'real');
+                spanReal.setAttribute('id', `insumo${insumosNameId[key]}_${index + 1}`);
+
+                let precioInsumoReal = []
+                let aPagarInsumoReal = []
+                // let precioInsumoPlan = 0
+
+                if(columnHeader == 'Ingreso'){
+
+                  spanPlanificado.innerText = element;
+                  spanReal.innerHTML = (cerealesReal != null) ? (cerealesReal[index + 1] != undefined) ? ' | ' + cerealesReal[index + 1][insumosNameId[key]] : '' : '';
+
+                }
+                  
+                if(columnHeader == 'Precio'){
+
+                  // spanPlanificado.innerText = precioInsumoPlan[index + 1][insumosNameId[key]];
+                  spanPlanificado.innerText = 0;
+                  spanReal.innerHTML = (precioInsumoReal != null) ? (precioInsumoReal[index + 1] != undefined) ? ' | ' + precioInsumoReal[index + 1][insumosNameId[key]] : '' : '';
+
+                }
+                  
+                if(columnHeader == 'APagar'){
+
+                  // spanPlanificado.innerText = aPagarInsumoPlan[index + 1][insumosNameId[key]];
+                  spanPlanificado.innerText = 0;
+                  spanReal.innerHTML = (aPagarInsumoReal != null) ? (aPagarInsumoReal[index + 1] != undefined) ? ' | ' + aPagarInsumoReal[index + 1][insumosNameId[key]] : '' : '';
+
+                }
+                  
+                  
+
+                td.append(spanPlanificado, spanReal);
+                trInsumo.append(td);
+            }
+
+            tableInsumo.append(trInsumo);
+
+            divTab.append(tableInsumo);
+            $('#tab-insumos').append(divTab);
+                  
           });
 
           //TODO RESTRUCTURAR TABLA DE INSUMOS EN MODAL
