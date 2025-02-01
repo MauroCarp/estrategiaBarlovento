@@ -853,7 +853,10 @@ let calculateStockAndTotals = () => {
           if(stockReal < Number($(`#stockPlanIngEgr${index}`).html())) $(`#stockRealIngEgr${index}`).css('color','red')
           
           let diff = stockReal - Number($(`#stockPlanIngEgr${index}`).html()) 
-          $(`#stockDif${index}`).html(diff)
+
+          let posNeg = (diff > 0) ? 'blue' : (diff == 0) ? 'green' : 'red'
+
+          $(`#stockDif${index}`).html(`<span style="color:${posNeg}">${diff}</span>`)
 
           $(`#stockReal${index}`).html(` | ${stockReal}`)
           if(stockReal < Number($(`#stockPlanIngEgr${index}`).html())) $(`#stockReal${index}`).css('color','red')

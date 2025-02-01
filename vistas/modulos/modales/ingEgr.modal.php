@@ -103,9 +103,11 @@
                   <tr class="monthRow">
                       <td><?= $month ?></td>
                       <td><span class="ingEgr planificado ingreso" id="ingreso<?= $index ?>"><?=$ingresosPlan[$index] ?></span><span id="ingresoReal<?= $index ?>" class="real"><?=(isset($ingresosReal[$index])) ? ' | ' . $ingresosReal[$index] : '' ?></span></td>
-                      <td><span class="kgIngreso planificado" id="kgIngreso<?= $index ?>"><?=$kgIngresosPlan[$index] ?></span><span id="kgIngresoReal<?= $index ?>" class="real"><?=(isset($kgIngresosReal[$index])) ? ' | ' . $kgIngresosReal[$index] : '' ?></span></td>
+                      <td><span class="planificado kgIngreso" id="kgIngreso<?= $index ?>"><?=$kgIngresosPlan[$index] ?></span><span id="kgIngresoReal<?= $index ?>" class="real"><?=(isset($kgIngresosReal[$index])) ? ' | ' . $kgIngresosReal[$index] : '' ?></span></td>
                       <td><span class="ingEgr planificado venta" id="venta<?= $index ?>"><?=$egresosPlan[$index] ?></span><span id="ventaReal<?= $index ?>" class="real"><?=(isset($egresosReal[$index])) ? ' | ' . $egresosReal[$index] : '' ?></span></td>
-                      <td><span class="kgVenta planificado" id="kgVenta<?= $index ?>"><?=$kgEgresosPlan[$index] ?></span><span id="kgVentaReal<?= $index ?>" class="real"><?=(isset($kgEgresosReal[$index])) ? ' | ' . $kgEgresosReal[$index] : '' ?></span></td>
+                      <td><span class="planificado kgVenta" id="kgVenta<?= $index ?>"><?=$kgEgresosPlan[$index] ?></span><span id="kgVentaReal<?= $index ?>" class="real"><?=(isset($kgEgresosReal[$index])) ? ' | ' . $kgEgresosReal[$index] : '' ?></span></td>
+                      <td><span class="planificado precioKg" id="precioKg<?= $index ?>">0</span><span id="precioKgReal<?= $index ?>" class="real"><?=(isset($kgEgresosReal[$index])) ? ' | ' . $kgEgresosReal[$index] : '' ?></span></td>
+                      <td><span class="planificado aPagar" id="aPagar<?= $index ?>">0</span><span id="aPagarReal<?= $index ?>" class="real"><?=(isset($kgEgresosReal[$index])) ? ' | ' . $kgEgresosReal[$index] : '' ?></span></td>
                       <td><span class="stock planificado" id="stockPlanIngEgr<?= $index?>">Plan</span><span id="stockRealIngEgr<?= $index?>" class="real"></span></td>
                       <td class="real" id="stockDif<?= $index?>"></td>
                   </tr>
@@ -118,6 +120,8 @@
                   <td class="total" id="totalKgIngreso"></td>
                   <td class="total" id="totalVenta"></td>
                   <td class="total" id="totalKgVenta"></td>
+                  <td></td>
+                  <td></td>
                   <td class="total" id="totalStock"></td>
               </tr>
               <tr>
