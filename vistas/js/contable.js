@@ -77,6 +77,77 @@ let calcularInsumosContable = ()=>{
 
 }
 
+let calcularInsumosContableSeteado = ()=>{
+
+    let objInsumoCosto = {}
+
+    $('.compraInsumos').each(function(){
+
+        let idInsumo = $(this).attr('id-insumo')
+
+        let realMonth = $(this).attr('id').replace(`insumoIngreso${idInsumo}`,'')
+
+        let precio = Number($(this).parent().next().children().val())
+        
+        let aPagar = $(this).parent().next().next().children().val()
+
+        let cantInsumo = Number($(this).val())
+
+        month = Number(realMonth) + Number(aPagar)
+
+        if($(`#insumo${idInsumo}${month}Contable`).html() == '' || $(`#insumo${idInsumo}${month}Contable`).html() == '0'){
+
+            if(cantInsumo * precio != 0){
+
+                console.log('ACA ESTOY')
+                console.log(realMonth)
+                console.log(month)
+
+            }
+
+            $(`#insumo${idInsumo}${month}Contable`).html(cantInsumo * precio)
+
+        } else {
+
+            if(cantInsumo * precio != 0){
+
+                console.log('ACA ESTOY repitiendo')
+                console.log(realMonth)
+                console.log(month)
+
+            }
+            let prevNumber = Number($(`#insumo${idInsumo}${month}Contable`).html())
+            
+            $(`#insumo${idInsumo}${month}Contable`).html(prevNumber + (cantInsumo * precio))
+
+        }
+
+        if (!(idInsumo in objInsumoCosto)) {
+
+            objInsumoCosto[idInsumo] = {};
+            objInsumoCosto[idInsumo][month] = {};
+            objInsumoCosto[idInsumo][month]['cantInsumo'] = $(this).val();
+            objInsumoCosto[idInsumo][month]['precio'] = precio;
+            objInsumoCosto[idInsumo][month]['aPagar'] = aPagar;
+
+        }else{
+
+            if (!(month in objInsumoCosto[idInsumo]))
+                objInsumoCosto[idInsumo][month] = {};
+
+            objInsumoCosto[idInsumo][month]['cantInsumo'] = $(this).val();
+            objInsumoCosto[idInsumo][month]['precio'] = precio;
+            objInsumoCosto[idInsumo][month]['aPagar'] = aPagar;
+
+        }
+
+    })
+
+    console.log(objInsumoCosto)
+    
+
+}
+
 let calcularAnimalesContable = ()=>{
 
     let objAnimalesCosto = {}
@@ -130,3 +201,4 @@ let calcularAnimalesContable = ()=>{
     
 
 }
+

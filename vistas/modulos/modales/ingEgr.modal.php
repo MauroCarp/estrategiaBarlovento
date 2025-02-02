@@ -2,7 +2,7 @@
   
   <div class="modal-dialog">
 
-    <div class="modal-content" style="width:900px;margin-left:-150px">
+    <div class="modal-content" style="width:1100px;margin-left:-150px">
 
       <form role="form" method="post" enctype="multipart/form-data" id="formCarga">
 
@@ -26,7 +26,7 @@
 
           <div class="box-body">
 
-            <table class="table table-bordered ingEgrTable">
+            <table class="table table-bordered ingEgrTable" style="table-layout: fixed;">
 
               <thead>
                 <tr>
@@ -39,7 +39,12 @@
                   <th>A Pagar</th>
                   <th>Stock</th>
                   <th>Dif.</th>
-
+                </tr>
+                <tr>
+                  <th colspan='4'><th>
+                  <th><span style="float:left">Ing</span><span style="float:right">Egr</span></th>
+                  <th><span style="float:left">Ing</span><span style="float:right">Egr</span></th>
+                  <th colspan='2'></th>
                 </tr>
               </thead>
 
@@ -60,8 +65,18 @@
                     <td><input class="form-control kgIngreso" type="number" id="kgIngreso<?= $index ?>" min="0" value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>></td>
                     <td><input class="form-control ingEgr venta" type="number" id="venta<?= $index ?>" min="0" value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>></td>
                     <td><input class="form-control kgVenta" type="number" id="kgVenta<?= $index ?>" min="0" value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>></td>
-                    <td><input class="form-control precioKg" type="number" id="precioKg<?= $index ?>" min="0" value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>></td>
-                    <td><input class="form-control aPagar" type="number" id="aPagar<?= $index ?>" min="0" max="24" value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>></td>
+                    <td>
+                      <div style="display: flex; flex-direction: row;">
+                        <input class="form-control precioKgIngreso" type="number" id="precioKgIngreso<?= $index ?>" min="0" value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>>
+                        <input class="form-control precioKgVenta" type="number" id="precioKgVenta<?= $index ?>" min="0" value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>>
+                      </div>
+                    </td>
+                    <td>
+                      <div style="display: flex; flex-direction: row;">
+                        <input class="form-control aPagarIngreso" type="number" id="aPagarIngreso<?= $index ?>" min="0" max="24" value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>>
+                        <input class="form-control aPagarVenta" type="number" id="aPagarVenta<?= $index ?>" min="0" max="24" value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>>
+                      </div>
+                    </td>
                     <td><input class="form-control stock" type="text" id="stock<?= $index ?>" value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?> readOnly></td>
                   </tr>
                 <?php endforeach; ?>
@@ -73,6 +88,7 @@
                   <td><input class="form-control total" type="text" name="" id="totalKgIngreso" readOnly value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>></tdkgIngreso1>
                   <td><input class="form-control total" type="text" name="" id="totalVenta" readOnly value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>></td>
                   <td><input class="form-control total" type="text" name="" id="totalKgVenta" readOnly value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>></td>
+                  <td></td>
                   <td></td>
                   <td><input class="form-control total" type="text" name="" id="totalStock" readOnly value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>></td>
                 </tr>
@@ -107,7 +123,15 @@
                       <td><span class="ingEgr planificado venta" id="venta<?= $index ?>"><?=$egresosPlan[$index] ?></span><span id="ventaReal<?= $index ?>" class="real"><?=(isset($egresosReal[$index])) ? ' | ' . $egresosReal[$index] : '' ?></span></td>
                       <td><span class="planificado kgVenta" id="kgVenta<?= $index ?>"><?=$kgEgresosPlan[$index] ?></span><span id="kgVentaReal<?= $index ?>" class="real"><?=(isset($kgEgresosReal[$index])) ? ' | ' . $kgEgresosReal[$index] : '' ?></span></td>
                       <td><span class="planificado precioKg" id="precioKg<?= $index ?>">0</span><span id="precioKgReal<?= $index ?>" class="real"><?=(isset($kgEgresosReal[$index])) ? ' | ' . $kgEgresosReal[$index] : '' ?></span></td>
-                      <td><span class="planificado aPagar" id="aPagar<?= $index ?>">0</span><span id="aPagarReal<?= $index ?>" class="real"><?=(isset($kgEgresosReal[$index])) ? ' | ' . $kgEgresosReal[$index] : '' ?></span></td>
+                      <td>
+                      <tr>
+                        <td>
+                          <span class="planificado aPagar" id="aPagarIngreso<?= $index ?>">0</span><span id="aPagarIngresoReal<?= $index ?>" class="real"><?=(isset($kgEgresosReal[$index])) ? ' | ' . $kgEgresosReal[$index] : '' ?></span>
+                        </td>
+                        <td>
+                          <span class="planificado aPagar" id="aPagarVenta<?= $index ?>">0</span><span id="aPagarVentaReal<?= $index ?>" class="real"><?=(isset($kgEgresosReal[$index])) ? ' | ' . $kgEgresosReal[$index] : '' ?></span>
+                        </td>
+                      </tr>
                       <td><span class="stock planificado" id="stockPlanIngEgr<?= $index?>">Plan</span><span id="stockRealIngEgr<?= $index?>" class="real"></span></td>
                       <td class="real" id="stockDif<?= $index?>"></td>
                   </tr>

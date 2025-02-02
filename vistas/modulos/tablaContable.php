@@ -28,26 +28,31 @@
           <tbody id="tbodyContable">
           <?php
           $rows = [
-            'Ingresos' => 'ingresoPlanContable',
-            'Kg Prom Ing' => 'kgPromIngresoPlanContable',
-            'Egresos' => 'ventaPlanContable',
-            'Kg Prom Egr' => 'kgVentaPlanContable'
+            'Ingresos' => ['plan' => 'ingresoPlanContable', 'real' => 'ingresoRealContable'],
+            'Kg Prom Ing' => ['plan' => 'kgPromIngresoPlanContable', 'real' => 'kgPromIngresoRealContable'],
+            'Egresos' => ['plan' => 'ventaPlanContable', 'real' => 'ventaRealContable'],
+            'Kg Prom Egr' => ['plan' => 'kgVentaPlanContable', 'real' => 'kgVentaRealContable']
           ];
 
-          foreach ($rows as $label => $idPrefix) { ?>
+          foreach ($rows as $label => $idPrefixes) { ?>
             <tr>
               <td><?= $label ?></td>
               <?php
-              if (!$data['estrategia']['seteado']) {
-                foreach ($meses as $key => $mes) { ?>
-                  <td class="contable" id="<?= $idPrefix . $key ?>">0</td>
-                <?php }
-              } else {
-                // Add your logic here for when $data['estrategia']['seteado'] is true
-              }
+                foreach ($meses as $key => $mes) {
+                  if (!$data['estrategia']['seteado']) { ?>
+                    <td class="contable" id="<?= $idPrefixes['plan'] . $key ?>">0</td>
+                  <?php } else { ?>
+                    <td>
+                      <span class="planificado" id="<?= $idPrefixes['plan'] . $key ?>">Plan</span>
+                      <span id="<?= $idPrefixes['real'] . $key ?>" class="real">Real</span>
+                    </td>
+                  <?php }
+                }
               ?>
             </tr>
-          <?php } ?>
+          <?php }
+              ?>
+            </tr>
 
           </tbody>
 
