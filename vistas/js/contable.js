@@ -168,32 +168,32 @@ let calcularAnimalesContable = ()=>{
         
         let kgVentas = Number($(this).parent().next().next().next().children().val())
 
-        let precio = Number($(this).parent().next().next().next().next().children().val())
+        let precioIngreso = Number($(this).parent().next().next().next().next().children().first().val())
+        let precioVenta = Number($(this).parent().next().next().next().next().children().eq(1).val())
 
-        let aPagar = $(this).parent().next().next().next().next().next().children().val()
+        let aPagarIngreso = $(this).parent().next().next().next().next().next().children().first().val()
+        let aPagarVenta = $(this).parent().next().next().next().next().next().children().eq(1).val()
 
-        month = Number(realMonth) + Number(aPagar)
+        
+        const updateContable = (selector, total) => {
+            if ($(selector).html() == '' || $(selector).html() == '0') {
+            $(selector).html($(`<span style="color:green">${total.toLocaleString('de-DE')}</span>`));
+            } else {
+            let prevNumber = Number($(selector + ' span').text().replace(/\./g, ''));
+            $(selector).html($(`<span style="color:green">${(prevNumber + total).toLocaleString('de-DE')}</span>`));
+            }
+        };
 
-        let cantidad = ingresos
-        let kilos = kgIngreso
-
-        if(ventas != 0){
-            tipo = 'venta'
-            cantidad = ventas
-            kilos = kgVentas
+        if (ingresos != 0) {
+            let month = Number(realMonth) + Number(aPagarIngreso);
+            let total = (ingresos * kgIngreso) * precioIngreso;
+            updateContable(`#ingresoPlanContable${month}`, month, total);
         }
 
-        let total = (cantidad * kilos) * precio
-
-        if($(`#${tipo}PlanContable${month}`).html() == '' || $(`#${tipo}PlanContable${month}`).html() == '0'){
-            
-            $(`#${tipo}PlanContable${month}`).html($(`<span style="color:green">${total.toLocaleString('de-DE')}</span>`))
-            
-        } else {
-            
-            let prevNumber = Number($(`#${tipo}PlanContable${month} span`).text().replace(/\./g, ''))
-            $(`#${tipo}PlanContable${month}`).html($(`<span style="color:green">${(prevNumber + total).toLocaleString('de-DE')}</span>`))
-
+        if (ventas != 0) {
+            let month = Number(realMonth) + Number(aPagarVenta);
+            let total = (ventas * kgVenta) * precioVenta;
+            updateContable(`#ventaPlanContable${month}`, month, total);
         }
 
     })

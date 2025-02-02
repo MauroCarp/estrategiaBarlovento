@@ -435,65 +435,18 @@
           <input type="hidden" name="stockAnimales">
           <input type="hidden" name="stockKgProm">
 
-          <input type="hidden" name="ingreso1">
-          <input type="hidden" name="kgIngreso1">
-          <input type="hidden" name="venta1">
-          <input type="hidden" name="kgVenta1">
-
-          <input type="hidden" name="ingreso2">
-          <input type="hidden" name="kgIngreso2">
-          <input type="hidden" name="venta2">
-          <input type="hidden" name="kgVenta2">
-
-          <input type="hidden" name="ingreso3">
-          <input type="hidden" name="kgIngreso3">
-          <input type="hidden" name="venta3">
-          <input type="hidden" name="kgVenta3">
-
-          <input type="hidden" name="ingreso4">
-          <input type="hidden" name="kgIngreso4">
-          <input type="hidden" name="venta4">
-          <input type="hidden" name="kgVenta4">
-
-          <input type="hidden" name="ingreso5">
-          <input type="hidden" name="kgIngreso5">
-          <input type="hidden" name="venta5">
-          <input type="hidden" name="kgVenta5">
-
-          <input type="hidden" name="ingreso6">
-          <input type="hidden" name="kgIngreso6">
-          <input type="hidden" name="venta6">
-          <input type="hidden" name="kgVenta6">
-
-          <input type="hidden" name="ingreso7">
-          <input type="hidden" name="kgIngreso7">
-          <input type="hidden" name="venta7">
-          <input type="hidden" name="kgVenta7">
-
-          <input type="hidden" name="ingreso8">
-          <input type="hidden" name="kgIngreso8">
-          <input type="hidden" name="venta8">
-          <input type="hidden" name="kgVenta8">
-
-          <input type="hidden" name="ingreso9">
-          <input type="hidden" name="kgIngreso9">
-          <input type="hidden" name="venta9">
-          <input type="hidden" name="kgVenta9">
-
-          <input type="hidden" name="ingreso10">
-          <input type="hidden" name="kgIngreso10">
-          <input type="hidden" name="venta10">
-          <input type="hidden" name="kgVenta10">
-
-          <input type="hidden" name="ingreso11">
-          <input type="hidden" name="kgIngreso11">
-          <input type="hidden" name="venta11">
-          <input type="hidden" name="kgVenta11">
-                
-          <input type="hidden" name="ingreso12">
-          <input type="hidden" name="kgIngreso12">
-          <input type="hidden" name="venta12">
-          <input type="hidden" name="kgVenta12">
+          <?php
+          for ($i = 1; $i <= 12; $i++) {
+            echo '<input type="hidden" name="ingreso' . $i . '">';
+            echo '<input type="hidden" name="kgIngreso' . $i . '">';
+            echo '<input type="hidden" name="venta' . $i . '">';
+            echo '<input type="hidden" name="kgVenta' . $i . '">';
+            echo '<input type="hidden" name="precioKgIngreso' . $i . '">';
+            echo '<input type="hidden" name="precioKgVenta' . $i . '">';
+            echo '<input type="hidden" name="aPagarIngreso' . $i . '">';
+            echo '<input type="hidden" name="aPagarVenta' . $i . '">';
+          }
+          ?>
 
         </form>
 
@@ -863,6 +816,10 @@ let calculateStockAndTotals = () => {
         $(`input[name='kgIngreso${index}']`).val($(`#kgIngreso${index}`).val())
         $(`input[name='venta${index}']`).val(venta)
         $(`input[name='kgVenta${index}']`).val($(`#kgVenta${index}`).val())
+        $(`input[name='precioKgIngreso${index}']`).val($(`#precioKgIngreso${index}`).val())
+        $(`input[name='precioKgVenta${index}']`).val($(`#precioKgVenta${index}`).val())
+        $(`input[name='aPagarIngreso${index}']`).val($(`#aPagarIngreso${index}`).val())
+        $(`input[name='aPagarVenta${index}']`).val($(`#aPagarVenta${index}`).val())
     
         $('#totalStock').val(stock)
         $('#totalIngreso').val(ingresoTotal)
