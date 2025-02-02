@@ -368,8 +368,7 @@ $('.table').on('click','.verDieta',function(){
     $('#composicionDieta').show(200)
 
     let idDieta = $(this).attr('idDieta')
-
-
+    
     $.ajax({
         method:'post',
         url:'ajax/estrategia.ajax.php',
