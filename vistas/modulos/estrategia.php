@@ -491,7 +491,6 @@ let calcularAnimalesContableSeteado = ()=>{
       let cantidad = ingresos
       let kilos = kgIngreso
 
-      console.log(ingresos,ventas)
       if(ventas != 0){
           tipo = 'venta'
           cantidad = ventas
@@ -516,7 +515,6 @@ let calcularAnimalesContableSeteado = ()=>{
 
       };
 
-      console.log(`#${tipo}PlanContable${month}`)
       updateContable(`#${tipo}PlanContable${month}`, total);
       updateContable(`#${tipo}RealContable${month}`, total);
 
@@ -637,12 +635,14 @@ let calcularPesoPromedio = (dataEstrategia = false,tipo = 'plan')=>{
 
       let idDieta = $('#dieta').val()
 
+      console.log(dataEstrategia)
       $.ajax({
         method:'POST',
         url:'ajax/estrategia.ajax.php',
         data:{accion:'verDieta',idDieta},
         success:function(resp){
 
+          console.log(resp)
           let respuesta = JSON.parse(resp)
 
           let objMonths = {1:5,2:6,3:7,4:8,5:9,6:10,7:11,8:12,9:1,10:2,11:3,12:4}
@@ -673,7 +673,8 @@ let calcularPesoPromedio = (dataEstrategia = false,tipo = 'plan')=>{
       
     }, 1000);
 
-  } else {
+  } 
+  else {
     
     setTimeout(() => {
 
@@ -943,10 +944,11 @@ let calculateStockAndTotals = () => {
   
       } 
   
+      
     }
-  
-    calcularPesoPromedio()
 
+    calcularPesoPromedio()
+    
     resolve()
   })
 
@@ -1126,6 +1128,7 @@ if(seteado){
       
       calcularAnimalesContableSeteado()
      
+      console.log(dataEstrategia)
       setTimeout(() => {
 
         let isReal = $('#stockReal1').html()
