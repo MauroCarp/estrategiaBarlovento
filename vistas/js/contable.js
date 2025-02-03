@@ -26,25 +26,10 @@ let calcularInsumosContable = ()=>{
 
         if($(`#insumo${idInsumo}${month}Contable`).html() == '' || $(`#insumo${idInsumo}${month}Contable`).html() == '0'){
 
-            if(cantInsumo * precio != 0){
-
-                console.log('ACA ESTOY')
-                console.log(realMonth)
-                console.log(month)
-
-            }
-
             $(`#insumo${idInsumo}${month}Contable`).html(cantInsumo * precio)
 
         } else {
 
-            if(cantInsumo * precio != 0){
-
-                console.log('ACA ESTOY repitiendo')
-                console.log(realMonth)
-                console.log(month)
-
-            }
             let prevNumber = Number($(`#insumo${idInsumo}${month}Contable`).html())
             
             $(`#insumo${idInsumo}${month}Contable`).html(prevNumber + (cantInsumo * precio))
@@ -71,8 +56,6 @@ let calcularInsumosContable = ()=>{
         }
 
     })
-
-    console.log(objInsumoCosto)
     
 
 }
@@ -97,25 +80,10 @@ let calcularInsumosContableSeteado = ()=>{
 
         if($(`#insumo${idInsumo}${month}Contable`).html() == '' || $(`#insumo${idInsumo}${month}Contable`).html() == '0'){
 
-            if(cantInsumo * precio != 0){
-
-                console.log('ACA ESTOY')
-                console.log(realMonth)
-                console.log(month)
-
-            }
-
             $(`#insumo${idInsumo}${month}Contable`).html(cantInsumo * precio)
 
         } else {
 
-            if(cantInsumo * precio != 0){
-
-                console.log('ACA ESTOY repitiendo')
-                console.log(realMonth)
-                console.log(month)
-
-            }
             let prevNumber = Number($(`#insumo${idInsumo}${month}Contable`).html())
             
             $(`#insumo${idInsumo}${month}Contable`).html(prevNumber + (cantInsumo * precio))
@@ -142,8 +110,6 @@ let calcularInsumosContableSeteado = ()=>{
         }
 
     })
-
-    console.log(objInsumoCosto)
     
 
 }
@@ -156,8 +122,6 @@ let calcularAnimalesContable = ()=>{
 
     $('.ingreso').each(function(){
 
-        let tipo = 'ingreso'
-
         let realMonth = $(this).attr('id').replace(`ingreso`,'')
         
         let ingresos = Number($(this).val())
@@ -166,15 +130,14 @@ let calcularAnimalesContable = ()=>{
         
         let ventas = Number($(this).parent().next().next().children().val())
         
-        let kgVentas = Number($(this).parent().next().next().next().children().val())
+        let kgVenta = Number($(this).parent().next().next().next().children().val())
 
-        let precioIngreso = Number($(this).parent().next().next().next().next().children().first().val())
-        let precioVenta = Number($(this).parent().next().next().next().next().children().eq(1).val())
+        let precioIngreso = Number($(this).parent().next().next().next().next().children().children().first().val())
+        let precioVenta = Number($(this).parent().next().next().next().next().children().children().eq(1).val())
 
-        let aPagarIngreso = $(this).parent().next().next().next().next().next().children().first().val()
-        let aPagarVenta = $(this).parent().next().next().next().next().next().children().eq(1).val()
+        let aPagarIngreso = $(this).parent().next().next().next().next().next().children().children().first().val()
+        let aPagarVenta = $(this).parent().next().next().next().next().next().children().children().eq(1).val()
 
-        
         const updateContable = (selector, total) => {
             if ($(selector).html() == '' || $(selector).html() == '0') {
             $(selector).html($(`<span style="color:green">${total.toLocaleString('de-DE')}</span>`));
@@ -185,15 +148,19 @@ let calcularAnimalesContable = ()=>{
         };
 
         if (ingresos != 0) {
+
             let month = Number(realMonth) + Number(aPagarIngreso);
+            
             let total = (ingresos * kgIngreso) * precioIngreso;
-            updateContable(`#ingresoPlanContable${month}`, month, total);
+
+            updateContable(`#ingresoPlanContable${month}`, total);
+
         }
 
         if (ventas != 0) {
             let month = Number(realMonth) + Number(aPagarVenta);
             let total = (ventas * kgVenta) * precioVenta;
-            updateContable(`#ventaPlanContable${month}`, month, total);
+            updateContable(`#ventaPlanContable${month}`, total);
         }
 
     })

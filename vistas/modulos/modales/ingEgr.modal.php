@@ -2,7 +2,7 @@
   
   <div class="modal-dialog">
 
-    <div class="modal-content" style="width:1100px;margin-left:-150px">
+    <div class="modal-content" style="width:1000px;margin-left:-150px">
 
       <form role="form" method="post" enctype="multipart/form-data" id="formCarga">
 
@@ -30,18 +30,19 @@
 
               <thead>
                 <tr>
-                  <th style="width:200px"></th>
+                  <th style="width:100px"></th>
                   <th style="width:100px">Ingreso</th>
                   <th style="width:100px">Kg Ingreso</th>
                   <th style="width:100px">Venta</th>
                   <th style="width:100px">Kg Venta</th>
                   <th>$ Kg</th>
                   <th>A Pagar</th>
-                  <th style="width:50px">Stock</th>
-                  <th style="width:50px">Dif.</th>
+                  <th style="width:100px">Stock</th>
+                  <th style="width:100px">Dif.</th>
                 </tr>
                 <tr>
-                  <th colspan='4'><th>
+                  <th style="width:100px"><th>
+                  <th colspan='2'><th>
                   <th><span style="float:left">Ing</span><span style="float:right">Egr</span></th>
                   <th><span style="float:left">Ing</span><span style="float:right">Egr</span></th>
                   <th colspan='2' style="width:100px"></th>

@@ -119,7 +119,7 @@
 
                 <label>&nbsp;</label>
 
-                <button type="button" class="btn btn-primary btn-block" id="nuevaCampania" data-toggle="modal" data-target="#modalNuevaCampaniaEstrategia">Nueva Campa&ntilde;a</button>
+                <button type="button" class="btn btn-primary btn-block" id="nuevaCampania" data-toggle="modal" data-target="#modalNuevaCampaniaEstrategia">Nueva</button>
 
               </div>
 
@@ -596,7 +596,8 @@ let calcularPesoPromedio = (dataEstrategia = false,tipo = 'plan',debug = false)=
  
       }
 
-      let idDieta = (typeof dataEstrategia === "number") ? dataEstrategia : dataEstrategia.idDieta 
+      let idDieta = (typeof dataEstrategia === "number") ? dataEstrategia : (dataEstrategia === false) ? Number($('#dieta').val()) : dataEstrategia.idDieta 
+
 
       $.ajax({
         method:'POST',
@@ -605,7 +606,7 @@ let calcularPesoPromedio = (dataEstrategia = false,tipo = 'plan',debug = false)=
         success:function(resp){
 
           let respuesta = JSON.parse(resp)
-
+          
           let objMonths = {1:5,2:6,3:7,4:8,5:9,6:10,7:11,8:12,9:1,10:2,11:3,12:4}
 
           for (const key in respuesta) {
@@ -911,6 +912,7 @@ let calculateStockAndTotals = () => {
         
     }
 
+    console.log(idDieta)
     calcularPesoPromedio(idDieta)
     
     resolve()
