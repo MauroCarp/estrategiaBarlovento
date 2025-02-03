@@ -920,7 +920,7 @@ let calculateStockAndTotals = () => {
 let seteado = '<?=$data['estrategia']['seteado']?>'
 
 let data = '<?=json_encode($data)?>'
-console.log(seteado)
+
 if(seteado){
 
   let campania = '<?=$data['estrategia']['campania']?>'
@@ -1067,34 +1067,43 @@ if(seteado){
               let spanPlanificado = document.createElement('SPAN');
               spanPlanificado.setAttribute('class', 'planificado');
 
+
               let spanReal = document.createElement('SPAN');
               spanReal.setAttribute('class', 'real');
-              spanReal.setAttribute('id', `insumo${insumosNameId[key]}_${index + 1}`);
 
               let precioInsumoReal = []
               let aPagarInsumoReal = []
-              // let precioInsumoPlan = 0
+
+              if(columnHeader == 'Necesario'){
+                spanPlanificado.setAttribute('id', `insumoNecesarioPlan${insumosNameId[key]}_${index + 1}`);
+                spanReal.setAttribute('id', `insumoNecesarioReal${insumosNameId[key]}_${index + 1}`);
+              }
 
               if(columnHeader == 'Ingreso'){
 
+                spanPlanificado.setAttribute('id', `insumoPlan${insumosNameId[key]}_${index + 1}`);
+                spanReal.setAttribute('id', `insumoReal${insumosNameId[key]}_${index + 1}`);
                 spanPlanificado.innerText = element;
-                spanReal.innerHTML = (cerealesReal != null) ? (cerealesReal[index + 1] != undefined) ? ' | ' + cerealesReal[index + 1][insumosNameId[key]] : '' : '';
+                spanReal.innerText = (cerealesReal != null) ? (cerealesReal[index + 1] != undefined) ? ' | ' + cerealesReal[index + 1][insumosNameId[key]] : '' : '';
+
 
               }
                 
               if(columnHeader == 'Precio'){
-
+                spanPlanificado.setAttribute('id', `insumoPrecioPlan${insumosNameId[key]}_${index + 1}`);
+                spanReal.setAttribute('id', `insumoPrecioReal${insumosNameId[key]}_${index + 1}`);
                 // spanPlanificado.innerText = precioInsumoPlan[index + 1][insumosNameId[key]];
                 spanPlanificado.innerText = 0;
-                spanReal.innerHTML = (precioInsumoReal != null) ? (precioInsumoReal[index + 1] != undefined) ? ' | ' + precioInsumoReal[index + 1][insumosNameId[key]] : '' : '';
+                spanReal.innerText = (precioInsumoReal != null) ? (precioInsumoReal[index + 1] != undefined) ? ' | ' + precioInsumoReal[index + 1][insumosNameId[key]] : '' : '';
 
               }
                 
               if(columnHeader == 'APagar'){
-
+                spanPlanificado.setAttribute('id', `insumoAPagarPlan${insumosNameId[key]}_${index + 1}`);
+                spanReal.setAttribute('id', `insumoAPagarReal${insumosNameId[key]}_${index + 1}`);
                 // spanPlanificado.innerText = aPagarInsumoPlan[index + 1][insumosNameId[key]];
                 spanPlanificado.innerText = 0;
-                spanReal.innerHTML = (aPagarInsumoReal != null) ? (aPagarInsumoReal[index + 1] != undefined) ? ' | ' + aPagarInsumoReal[index + 1][insumosNameId[key]] : '' : '';
+                spanReal.innerText = (aPagarInsumoReal != null) ? (aPagarInsumoReal[index + 1] != undefined) ? ' | ' + aPagarInsumoReal[index + 1][insumosNameId[key]] : '' : '';
 
               }
                 
@@ -1116,10 +1125,13 @@ if(seteado){
           let spanReal = spanPlanificado.cloneNode(true)
   
           spanPlanificado.setAttribute('class', 'planificado');
+          spanPlanificado.setAttribute('id', `insumo${insumosNameId[key]}PlanContable_${index + 1}`);
+          
           spanReal.setAttribute('class', 'real');
+          spanReal.setAttribute('id', `insumo${insumosNameId[key]}RealContable_${index + 1}`);
   
-          spanPlanificado.innerText = element;
-          spanReal.innerText = (insumosReal[insumosNameId[key]][index] != undefined) ? ` | ${insumosReal[insumosNameId[key]][index]}` : ' | '
+          // spanPlanificado.innerText = element;
+          // spanReal.innerText = (insumosReal[insumosNameId[key]][index] != undefined) ? ` | ${insumosReal[insumosNameId[key]][index]}` : ' | '
           tdSPan.append(spanPlanificado,spanReal);
           trContable.append(tdSPan);
                 
@@ -1133,40 +1145,6 @@ if(seteado){
           
       } 
 
-      // for (const insumo of insumosReal) {
-        
-      //   let trContable = document.createElement('TR');
-
-      //   let tdKey = document.createElement('TD');
-      //   tdKey.innerText = insumosNameId[insumo]
-
-      //   trContable.append(tdKey)
-
-      //   insumo.forEach(element => {
-          
-      //     let tdSPan = document.createElement('TD');
-      //     let spanPlanificado = document.createElement('SPAN');
-      //     let spanReal = spanPlanificado.cloneNode(true)
-  
-      //     spanPlanificado.setAttribute('class', 'planificado');
-      //     spanReal.setAttribute('class', 'real');
-  
-      //     spanPlanificado.innerText = element;
-      //     spanReal.innerText = `| ${cerealesReal[insumosNameId[key]][index]}`;
-      //     tdSPan.append(spanPlanificado,spanReal);
-      //     trContable.append(tdSPan);
-  
-          
-      //   });
-        
-      //   $('#tbodyContable').prepend(trContable);
-
-      // }
-
-
-
-
-      
       calcularAnimalesContableSeteado()
      
       setTimeout(() => {

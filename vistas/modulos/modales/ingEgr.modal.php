@@ -31,20 +31,20 @@
               <thead>
                 <tr>
                   <th></th>
-                  <th>Ingreso</th>
-                  <th>Kg Ingreso</th>
-                  <th>Venta</th>
-                  <th>Kg Venta</th>
+                  <th style="width:100px">Ingreso</th>
+                  <th style="width:100px">Kg Ingreso</th>
+                  <th style="width:100px">Venta</th>
+                  <th style="width:100px">Kg Venta</th>
                   <th>$ Kg</th>
                   <th>A Pagar</th>
-                  <th>Stock</th>
-                  <th>Dif.</th>
+                  <th style="width:50px">Stock</th>
+                  <th style="width:50px">Dif.</th>
                 </tr>
                 <tr>
                   <th colspan='4'><th>
                   <th><span style="float:left">Ing</span><span style="float:right">Egr</span></th>
                   <th><span style="float:left">Ing</span><span style="float:right">Egr</span></th>
-                  <th colspan='2'></th>
+                  <th colspan='2' style="width:100px"></th>
                 </tr>
               </thead>
 
