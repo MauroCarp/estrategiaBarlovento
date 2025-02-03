@@ -2,10 +2,19 @@ $('#modalEstrategiaIngresoInsumos').on('hidden.bs.modal', function () {
 
     calcularInsumosContable();
     console.log('cerrado')
+
     $('.compraInsumos').each(function(){
+
         let id = $(this).attr('id')
 
+        let index = id.replace('insumoIngreso','')
+
+
         $(`input[name=${id}]`).val($(this).val())
+        $(`input[name=insumoPrecio${index}]`).val($(`#insumoPrecio${index}`).val())
+        $(`input[name=insumoAPagar${index}]`).val($(`#insumoAPagar${index}`).val())
+
+
     })
 
 });

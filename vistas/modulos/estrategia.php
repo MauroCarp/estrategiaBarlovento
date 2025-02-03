@@ -915,7 +915,6 @@ let calculateStockAndTotals = () => {
         
     }
 
-    console.log(idDieta)
     calcularPesoPromedio(idDieta)
     
     resolve()

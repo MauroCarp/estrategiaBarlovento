@@ -17,7 +17,7 @@ $('#dieta').on('change',function(){
 
     let dieta = $(this).find("option:selected").text();
     
-    // $('#inputsInsumos').html('')
+    $('#inputsInsumos').html('')
 
     $('.dietaSeleccionada').each(function(){
         
@@ -124,8 +124,19 @@ $('#dieta').on('change',function(){
 
                             let inputHidden = document.createElement('INPUT');
                             inputHidden.setAttribute('type', 'hidden');
-                            inputHidden.setAttribute('name', `insumoIngreso${idInsumo}${i}`);
-                            $('#inputsInsumos').append(inputHidden)
+                            inputHiddenIngreso = inputHidden.cloneNode(true);
+                            inputHiddenIngreso.setAttribute('name', `insumoIngreso${idInsumo}${i}`);
+                            
+                            inputHiddenPrecio = inputHidden.cloneNode(true);
+                            inputHiddenAPagar = inputHidden.cloneNode(true);
+                            inputHiddenPrecio.setAttribute('name', `insumoPrecio${idInsumo}${i}`);
+                            inputHiddenAPagar.setAttribute('name', `insumoAPagar${idInsumo}${i}`);
+
+
+                            $('#inputsInsumos').append(inputHiddenIngreso,inputHiddenPrecio,inputHiddenAPagar)
+
+
+                            
                             
                             let trInsumo = document.createElement('TR');
                             let tdMonth = document.createElement('TD');
