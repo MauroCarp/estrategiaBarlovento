@@ -966,151 +966,206 @@ if(seteado){
       let cerealesPlan = JSON.parse(dataEstrategia.cerealesPlan)
       let cerealesReal = (dataEstrategia.cerealesReal != null) ? JSON.parse(dataEstrategia.cerealesReal) : null
 
+      // CREO Y FORMATEO LOS DATOS DE CEREALES REAL
+      let insumosReal = {}
+
+      for (const month in cerealesReal) {
+
+        for (const insumo in cerealesReal[month]) {
+
+          if (!(insumo in insumosReal)) {
+
+            insumosReal[insumo] = [];
+
+          }
+
+          insumosReal[insumo].push(cerealesReal[month][insumo]);
+
+        }
+              
+      }
+
       index = 0
       let month = 1
 
+      
       for (const key in insumosNameId) {
 
-          $('#trStock').append($(`<th>${key}</th>`))
+        let trContable = document.createElement('TR');
+        let tdKey = document.createElement('TD');
+        tdKey.innerText = key
+        trContable.append(tdKey)
 
-          $('#trStockInicial').append($(`<td><input class="form-control stockInicial" type="number" min="0" value="${stockInsumos[index][insumosNameId[key]]}" readOnly></td>`))
+        $('#trStock').append($(`<th>${key}</th>`))
 
-          $('#insumosReal').append($(`<div class="col-sm-4">
+        $('#trStockInicial').append($(`<td><input class="form-control stockInicial" type="number" min="0" value="${stockInsumos[index][insumosNameId[key]]}" readOnly></td>`))
 
-                                        <div class="form-group">
-                                          <label>Ingreso ${key}</label>
-                                          <input type="number" min="0" class="form-control real" name="insumoReal${insumosNameId[key]}" value="0">
-                                        </div>
+        $('#insumosReal').append($(`<div class="col-sm-4">
 
-                                      </div>`))
+                                      <div class="form-group">
+                                        <label>Ingreso ${key}</label>
+                                        <input type="number" min="0" class="form-control real" name="insumoReal${insumosNameId[key]}" value="0">
+                                      </div>
 
-          $('#dietaReal').append($(`<div class="col-sm-4">
+                                    </div>`))
 
-                                        <div class="form-group">
-                                          <label>% ${key}</label>
-                                          <input type="number" min="0" class="form-control real dietaReal" onchange="validarPorcentajesDieta()" name="dietaReal${insumosNameId[key]}" value="0">
-                                        </div>
+        $('#dietaReal').append($(`<div class="col-sm-4">
 
-                                      </div>`))
+                                      <div class="form-group">
+                                        <label>% ${key}</label>
+                                        <input type="number" min="0" class="form-control real dietaReal" onchange="validarPorcentajesDieta()" name="dietaReal${insumosNameId[key]}" value="0">
+                                      </div>
+
+                                    </div>`))
 
 
-          let isActive = (index == 0) ? 'active' : '';
-          let isClassActive = (index == 0) ? 'fade in active' : '';
+        let isActive = (index == 0) ? 'active' : '';
+        let isClassActive = (index == 0) ? 'fade in active' : '';
 
-          let tabInsumo = $(`<li class="${isActive}"><a href="#insumo${index}" data-toggle="pill">${key}</a></li>`);
-          $('#tabsInsumos').append(tabInsumo);
+        let tabInsumo = $(`<li class="${isActive}"><a href="#insumo${index}" data-toggle="pill">${key}</a></li>`);
+        $('#tabsInsumos').append(tabInsumo);
 
-          let divTab = document.createElement('DIV');
-          divTab.setAttribute('id', `insumo${index}`);
-          divTab.setAttribute('class', `tab-pane ${isClassActive}`);
+        let divTab = document.createElement('DIV');
+        divTab.setAttribute('id', `insumo${index}`);
+        divTab.setAttribute('class', `tab-pane ${isClassActive}`);
 
-          let h3Insumo = document.createElement('H3');
-          h3Insumo.innerText = key;
-          divTab.append(h3Insumo);
+        let h3Insumo = document.createElement('H3');
+        h3Insumo.innerText = key;
+        divTab.append(h3Insumo);
 
-          let tableInsumo = document.createElement('TABLE');
-          tableInsumo.setAttribute('class', 'table table-bordered insumosTable');
+        let tableInsumo = document.createElement('TABLE');
+        tableInsumo.setAttribute('class', 'table table-bordered insumosTable');
 
-          let thead = document.createElement('THEAD');
-          let tr = document.createElement('TR');
-          let th = document.createElement('TH');
-          let thNecesario = th.cloneNode(true);
-          let thIngreso = th.cloneNode(true);
-          let thPrecio = th.cloneNode(true);
-          let thAPagar = th.cloneNode(true);
-          thNecesario.innerText = 'Necesario';
-          thIngreso.innerText = 'Ingreso';
-          thPrecio.innerText = 'Precio';
-          thAPagar.innerText = 'A Pagar';
-          tr.append(th, thNecesario, thIngreso, thPrecio, thAPagar);
-          thead.append(tr);
-          tableInsumo.append(thead);
+        let thead = document.createElement('THEAD');
+        let tr = document.createElement('TR');
+        let th = document.createElement('TH');
+        let thNecesario = th.cloneNode(true);
+        let thIngreso = th.cloneNode(true);
+        let thPrecio = th.cloneNode(true);
+        let thAPagar = th.cloneNode(true);
+        thNecesario.innerText = 'Necesario';
+        thIngreso.innerText = 'Ingreso';
+        thPrecio.innerText = 'Precio';
+        thAPagar.innerText = 'A Pagar';
+        tr.append(th, thNecesario, thIngreso, thPrecio, thAPagar);
+        thead.append(tr);
+        tableInsumo.append(thead);
+        
+        
+        cerealesPlan[insumosNameId[key]].forEach((element,index) => {
           
-          let trContable = document.createElement('TR');
-          let tdKey = document.createElement('TD');
-          tdKey.innerText = key;
-          trContable.append(tdKey);
-          console.log(cerealesReal)
-          cerealesPlan[insumosNameId[key]].forEach((element,index) => {
- 
-            console.log(cerealesReal[index + 1][insumosNameId[key]])
-            
-            let trInsumo = document.createElement('TR');
-            let tdMonth = document.createElement('TD');
-            tdMonth.setAttribute('style', 'font-weight:bold;padding:10px');
-            tdMonth.innerText = months[index];
-            trInsumo.append(tdMonth);
+          let trInsumo = document.createElement('TR');
+          let tdMonth = document.createElement('TD');
+          tdMonth.setAttribute('style', 'font-weight:bold;padding:10px');
+          tdMonth.innerText = months[index];
+          trInsumo.append(tdMonth);
 
-            for (let j = 0; j < 4; j++) {
-                let columnHeader = ['Necesario', 'Ingreso', 'Precio', 'APagar'][j];
-                let td = document.createElement('TD');
+          for (let j = 0; j < 4; j++) {
+              let columnHeader = ['Necesario', 'Ingreso', 'Precio', 'APagar'][j];
+              let td = document.createElement('TD');
 
-                let spanPlanificado = document.createElement('SPAN');
-                spanPlanificado.setAttribute('class', 'planificado');
+              let spanPlanificado = document.createElement('SPAN');
+              spanPlanificado.setAttribute('class', 'planificado');
 
-                let spanReal = document.createElement('SPAN');
-                spanReal.setAttribute('class', 'real');
-                spanReal.setAttribute('id', `insumo${insumosNameId[key]}_${index + 1}`);
+              let spanReal = document.createElement('SPAN');
+              spanReal.setAttribute('class', 'real');
+              spanReal.setAttribute('id', `insumo${insumosNameId[key]}_${index + 1}`);
 
-                let precioInsumoReal = []
-                let aPagarInsumoReal = []
-                // let precioInsumoPlan = 0
+              let precioInsumoReal = []
+              let aPagarInsumoReal = []
+              // let precioInsumoPlan = 0
 
-                if(columnHeader == 'Ingreso'){
+              if(columnHeader == 'Ingreso'){
 
-                  spanPlanificado.innerText = element;
-                  spanReal.innerHTML = (cerealesReal != null) ? (cerealesReal[index + 1] != undefined) ? ' | ' + cerealesReal[index + 1][insumosNameId[key]] : '' : '';
+                spanPlanificado.innerText = element;
+                spanReal.innerHTML = (cerealesReal != null) ? (cerealesReal[index + 1] != undefined) ? ' | ' + cerealesReal[index + 1][insumosNameId[key]] : '' : '';
 
-                }
-                  
-                if(columnHeader == 'Precio'){
+              }
+                
+              if(columnHeader == 'Precio'){
 
-                  // spanPlanificado.innerText = precioInsumoPlan[index + 1][insumosNameId[key]];
-                  spanPlanificado.innerText = 0;
-                  spanReal.innerHTML = (precioInsumoReal != null) ? (precioInsumoReal[index + 1] != undefined) ? ' | ' + precioInsumoReal[index + 1][insumosNameId[key]] : '' : '';
+                // spanPlanificado.innerText = precioInsumoPlan[index + 1][insumosNameId[key]];
+                spanPlanificado.innerText = 0;
+                spanReal.innerHTML = (precioInsumoReal != null) ? (precioInsumoReal[index + 1] != undefined) ? ' | ' + precioInsumoReal[index + 1][insumosNameId[key]] : '' : '';
 
-                }
-                  
-                if(columnHeader == 'APagar'){
+              }
+                
+              if(columnHeader == 'APagar'){
 
-                  // spanPlanificado.innerText = aPagarInsumoPlan[index + 1][insumosNameId[key]];
-                  spanPlanificado.innerText = 0;
-                  spanReal.innerHTML = (aPagarInsumoReal != null) ? (aPagarInsumoReal[index + 1] != undefined) ? ' | ' + aPagarInsumoReal[index + 1][insumosNameId[key]] : '' : '';
+                // spanPlanificado.innerText = aPagarInsumoPlan[index + 1][insumosNameId[key]];
+                spanPlanificado.innerText = 0;
+                spanReal.innerHTML = (aPagarInsumoReal != null) ? (aPagarInsumoReal[index + 1] != undefined) ? ' | ' + aPagarInsumoReal[index + 1][insumosNameId[key]] : '' : '';
 
-                }
-                  
-                  
+              }
+                
+                
 
-                td.append(spanPlanificado, spanReal);
-                trInsumo.append(td);
-            }
+              td.append(spanPlanificado, spanReal);
+              trInsumo.append(td);
+          }
 
-            tableInsumo.append(trInsumo);
+          tableInsumo.append(trInsumo);
 
-            divTab.append(tableInsumo);
-            $('#tab-insumos').append(divTab);
+          divTab.append(tableInsumo);
+          $('#tab-insumos').append(divTab);
 
-            
+          // CARGO LOS SPAN DE PLAN Y REAL EN EL CONTABLE
 
-            let td = document.createElement('TD');
-            let spanPlanificado = document.createElement('SPAN');
-            let spanReal = spanPlanificado.cloneNode(true)
+          let tdSPan = document.createElement('TD');
+          let spanPlanificado = document.createElement('SPAN');
+          let spanReal = spanPlanificado.cloneNode(true)
+  
+          spanPlanificado.setAttribute('class', 'planificado');
+          spanReal.setAttribute('class', 'real');
+  
+          spanPlanificado.innerText = element;
+          spanReal.innerText = (insumosReal[insumosNameId[key]][index] != undefined) ? ` | ${insumosReal[insumosNameId[key]][index]}` : ' | '
+          tdSPan.append(spanPlanificado,spanReal);
+          trContable.append(tdSPan);
+                
+          $('#tbodyContable').prepend(trContable);
 
-            spanPlanificado.setAttribute('class', 'planificado');
-            spanReal.setAttribute('class', 'real');
 
-            spanPlanificado.innerText = element;
-            // spanReal.innerText = `| ${cerealesReal[insumosNameId[key]][index]}`;
-            td.append(spanPlanificado,spanReal);
-            trContable.append(td);
+                
+        });
 
-            $('#tbodyContable').prepend(trContable);
-                  
-          });
-
-          index++
-
+        index++
+          
       } 
+
+      // for (const insumo of insumosReal) {
+        
+      //   let trContable = document.createElement('TR');
+
+      //   let tdKey = document.createElement('TD');
+      //   tdKey.innerText = insumosNameId[insumo]
+
+      //   trContable.append(tdKey)
+
+      //   insumo.forEach(element => {
+          
+      //     let tdSPan = document.createElement('TD');
+      //     let spanPlanificado = document.createElement('SPAN');
+      //     let spanReal = spanPlanificado.cloneNode(true)
+  
+      //     spanPlanificado.setAttribute('class', 'planificado');
+      //     spanReal.setAttribute('class', 'real');
+  
+      //     spanPlanificado.innerText = element;
+      //     spanReal.innerText = `| ${cerealesReal[insumosNameId[key]][index]}`;
+      //     tdSPan.append(spanPlanificado,spanReal);
+      //     trContable.append(tdSPan);
+  
+          
+      //   });
+        
+      //   $('#tbodyContable').prepend(trContable);
+
+      // }
+
+
+
+
       
       calcularAnimalesContableSeteado()
      
