@@ -50,7 +50,9 @@
                   <?php }
                 }
               ?>
-              
+
+              <td id="total<?=$label?>" style="font-weight:bold"></td>
+
             </tr>
           <?php }
               ?>

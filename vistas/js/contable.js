@@ -10,6 +10,8 @@ let calcularInsumosContable = ()=>{
 
     $('.contableInsumo').html('0')
 
+    let total = {}
+
     $('.compraInsumos').each(function(){
 
         let idInsumo = $(this).attr('id-insumo');
@@ -18,8 +20,15 @@ let calcularInsumosContable = ()=>{
         let aPagar = $(this).parent().next().next().children().val();
         let cantInsumo = Number($(this).val());
 
+        if (!total[idInsumo]) {
+            total[idInsumo] = 0;
+        }
+        total[idInsumo] += cantInsumo * precio;
+
         if (cantInsumo !== 0) {
-            let month = Number(realMonth) + Number(aPagar);
+
+            let month = (Number(realMonth) + Number(aPagar) - 1) % 12 + 1;
+
 
             if ($(`#insumo${idInsumo}${month}Contable`).html() == '' || $(`#insumo${idInsumo}${month}Contable`).html() == '0') {
             $(`#insumo${idInsumo}${month}Contable`).html($(`<span style="color:red">${(cantInsumo * precio).toLocaleString('de-DE')}</span>`));
@@ -30,13 +39,15 @@ let calcularInsumosContable = ()=>{
         }
 
     })
+
+    for (const idInsumo in total) {
+       $(`#totalInsumo${idInsumo}`).text(total[idInsumo].toLocaleString('de-DE'));
+    }
     
 
 }
 
 let calcularInsumosContableSeteado = ()=>{
-
-    let totales = {}
 
     $('.compraInsumos').each(function(){
 
@@ -50,12 +61,7 @@ let calcularInsumosContableSeteado = ()=>{
 
         let cantInsumo = Number($(this).val())
 
-        month = Number(realMonth) + Number(aPagar)
-
-        let totalPrev = Number($(`totalInsumo${idInsumo}`).html())
-
-        console.log(totalPrev + (cantInsumo * precio))
-        $(`#totalInsumo${idInsumo}`).html(totalPrev + (cantInsumo * precio))
+        let month = (Number(realMonth) + Number(aPagar) - 1) % 12 + 1;
 
         if($(`#insumo${idInsumo}${month}Contable`).html() == '' || $(`#insumo${idInsumo}${month}Contable`).html() == '0'){
 
@@ -76,6 +82,7 @@ let calcularInsumosContableSeteado = ()=>{
 
 let calcularAnimalesContable = ()=>{
 
+    let totales = {}
 
     $('.contable').html('0')
 
@@ -97,30 +104,52 @@ let calcularAnimalesContable = ()=>{
         let aPagarIngreso = $(this).parent().next().next().next().next().next().children().children().first().val()
         let aPagarVenta = $(this).parent().next().next().next().next().next().children().children().eq(1).val()
 
-        const updateContable = (selector, total) => {
+        const updateContable = (selector, total,color = 'green') => {
             if ($(selector).html() == '' || $(selector).html() == '0') {
-            $(selector).html($(`<span style="color:green">${total.toLocaleString('de-DE')}</span>`));
+            $(selector).html($(`<span style="color:${color}">${total.toLocaleString('de-DE')}</span>`));
             } else {
             let prevNumber = Number($(selector + ' span').text().replace(/\./g, ''));
-            $(selector).html($(`<span style="color:green">${(prevNumber + total).toLocaleString('de-DE')}</span>`));
+            $(selector).html($(`<span style="color:${color}">${(prevNumber + total).toLocaleString('de-DE')}</span>`));
             }
         };
 
+
         if (ingresos != 0) {
 
-            let month = Number(realMonth) + Number(aPagarIngreso);
+            let month = (Number(realMonth) + Number(aPagarIngreso) - 1) % 12 + 1;
             
             let total = (ingresos * kgIngreso) * precioIngreso;
 
-            updateContable(`#ingresoPlanContable${month}`, total);
+            updateContable(`#ingresoPlanContable${month}`, total,'red');
+
+            if(!totales['Ingresos']){
+                totales['Ingresos'] = 0
+            }
+
+            totales['Ingresos'] += total
 
         }
 
         if (ventas != 0) {
-            let month = Number(realMonth) + Number(aPagarVenta);
+
+            let month = (Number(realMonth) + Number(aPagarVenta) - 1) % 12 + 1;
+
             let total = (ventas * kgVenta) * precioVenta;
+
             updateContable(`#ventaPlanContable${month}`, total);
+
+            if(!totales['Egresos']){
+                totales['Egresos'] = 0
+            }
+            
+            totales['Egresos'] += total
+
         }
+
+
+        for (const tipo in totales) {
+            $(`#total${tipo}`).text(totales[tipo].toLocaleString('de-DE'));
+         }
 
     })
 
