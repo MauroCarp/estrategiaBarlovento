@@ -127,7 +127,7 @@
 
           </div>
 
-          <table class="table table-bordered tablaEstrategia">
+          <table class="table table-bordered tablaEstrategia" id="tablaEstrategia">
 
             <thead>
 
@@ -410,7 +410,10 @@
             echo '<input type="hidden" name="aPagarVenta' . $i . '">';
           }
           ?>
+          
+          <div id="inputsInsumos">
 
+          </div>
         </form>
 
       </div>
@@ -799,8 +802,8 @@ let calculateStockAndTotals = () => {
   
         $('#avgKgIngreso').val((ingresoTotal > 0) ? (kgIngresoTotal / ingresoTotal).toFixed(2) : 0)
         $('#avgKgVenta').val((ventaTotal > 0) ? (kgVentaTotal / ventaTotal).toFixed(2) : 0)
-    
-      }  
+        
+      } 
 
     } else {
   

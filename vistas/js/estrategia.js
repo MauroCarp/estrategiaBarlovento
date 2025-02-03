@@ -17,6 +17,8 @@ $('#dieta').on('change',function(){
 
     let dieta = $(this).find("option:selected").text();
     
+    // $('#inputsInsumos').html('')
+
     $('.dietaSeleccionada').each(function(){
         
         if(dieta != 'Seleccionar Dieta')
@@ -120,7 +122,11 @@ $('#dieta').on('change',function(){
 
                         while (true) {
 
-
+                            let inputHidden = document.createElement('INPUT');
+                            inputHidden.setAttribute('type', 'hidden');
+                            inputHidden.setAttribute('name', `insumoIngreso${idInsumo}${i}`);
+                            $('#inputsInsumos').append(inputHidden)
+                            
                             let trInsumo = document.createElement('TR');
                             let tdMonth = document.createElement('TD');
                             tdMonth.setAttribute('style','font-weight:bold;padding:10px')
@@ -146,7 +152,7 @@ $('#dieta').on('change',function(){
                                     let inputInsumo = input.cloneNode(true);
 
                                     inputInsumo.setAttribute('id', `insumo${columnHeader}${idInsumo}${i}`);
-                                    inputInsumo.setAttribute('name', `insumo${columnHeader}${idInsumo}[]`);
+                                    // inputInsumo.setAttribute('name', `insumo${columnHeader}${idInsumo}[]`);
         
                                     if(columnHeader == 'Ingreso')
                                         inputInsumo.classList.add('compraInsumos')
@@ -164,7 +170,7 @@ $('#dieta').on('change',function(){
 
                             tableInsumo.append(trInsumo);
 
-
+                            
 
                             if (i === 12) {
                                 i = 1;  // Reinicia el índice a 1 después de llegar a 12

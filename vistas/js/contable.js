@@ -1,5 +1,13 @@
 $('#modalEstrategiaIngresoInsumos').on('hidden.bs.modal', function () {
+
     calcularInsumosContable();
+    console.log('cerrado')
+    $('.compraInsumos').each(function(){
+        let id = $(this).attr('id')
+
+        $(`input[name=${id}]`).val($(this).val())
+    })
+
 });
 
 $('#modalEstrategiaIngEgr').on('hidden.bs.modal', function () {
