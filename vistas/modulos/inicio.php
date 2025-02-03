@@ -23,44 +23,23 @@ $meses = array(1=>'May',2=>'Jun',3=>'Jul',4=>'Ago',5=>'Sep',6=>'Oct',7=>'Nov',8=
 
 ?>
   
-<!-- <style>
+<style>
+    .celda-doble {
+    display: flex; /* Utilizamos flexbox para dividir la celda */
+    text-align: center;
+    }
 
-  .v-tabs {
-      display: -ms-flexbox !important;
-      display: flex !important;
-      .nav-tabs > li {
-          display: block;
-          float: none;
-          &,
-          &.active {
-              > a {
-                  &,
-                  &:hover,
-                  &:focus {
-                      border-radius: 0;
-                  }
-              }
-          }
-          &.active > a,
-          & > a:focus,
-          & > a:hover {
-              z-index: 1;
-              position: relative;
-          }
-      }
-      .tab-content {
-          flex: 1;
-      }
-  }
+    .celda-izquierda {
+    flex: 1; /* Ocupa la mitad del espacio */
+    border-right: 1px solid black; /* Borde para simular la división */
+    padding: 5px;
+    }
 
-  .vertical-text {
-      writing-mode: vertical-rl; /* Establece el modo de escritura vertical */
-      text-orientation: upright; /* Asegura que el texto se visualice verticalmente */
-      white-space: nowrap; /* Evita que el texto se divida en varias líneas */
-      background-color:white;
-  }
-
-</style> -->
+    .celda-derecha {
+    flex: 1; /* Ocupa la mitad del espacio */
+    padding: 5px;
+    }
+</style>
 
 <div class="content-wrapper">
 

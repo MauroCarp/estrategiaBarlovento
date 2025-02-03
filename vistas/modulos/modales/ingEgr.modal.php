@@ -122,16 +122,29 @@
                       <td><span class="planificado kgIngreso" id="kgIngreso<?= $index ?>"><?=$kgIngresosPlan[$index] ?></span><span id="kgIngresoReal<?= $index ?>" class="real"><?=(isset($kgIngresosReal[$index])) ? ' | ' . $kgIngresosReal[$index] : '' ?></span></td>
                       <td><span class="ingEgr planificado venta" id="venta<?= $index ?>"><?=$egresosPlan[$index] ?></span><span id="ventaReal<?= $index ?>" class="real"><?=(isset($egresosReal[$index])) ? ' | ' . $egresosReal[$index] : '' ?></span></td>
                       <td><span class="planificado kgVenta" id="kgVenta<?= $index ?>"><?=$kgEgresosPlan[$index] ?></span><span id="kgVentaReal<?= $index ?>" class="real"><?=(isset($kgEgresosReal[$index])) ? ' | ' . $kgEgresosReal[$index] : '' ?></span></td>
-                      <td><span class="planificado precioKg" id="precioKg<?= $index ?>">0</span><span id="precioKgReal<?= $index ?>" class="real"><?=(isset($kgEgresosReal[$index])) ? ' | ' . $kgEgresosReal[$index] : '' ?></span></td>
+                      <td class="celda-doble">  
+                          <div class="celda-izquierda">
+                            <span class="planificado precioKgIngreso" id="precioKgIngreso<?= $index ?>" style="float:left">0</span>
+                            <span id="precioKgIngresoReal<?= $index ?>" class="real" style="float:right"><?=(isset($kgEgresosReal[$index])) ? ' | ' . $kgEgresosReal[$index] : '' ?></span>
+                          </div>
+                          <div class="celda-derecha">
+                            <span class="planificado precioKgVenta" id="precioKgVenta<?= $index ?>" style="float:left">0</span>
+                            <span id="precioKgVentaReal<?= $index ?>" class="real" style="float:right
+                            "><?=(isset($kgEgresosReal[$index])) ? ' | ' . $kgEgresosReal[$index] : '' ?></span>
+                          </div>
+                      </td>
                       <td>
-                      <tr>
-                        <td>
-                          <span class="planificado aPagar" id="aPagarIngreso<?= $index ?>">0</span><span id="aPagarIngresoReal<?= $index ?>" class="real"><?=(isset($kgEgresosReal[$index])) ? ' | ' . $kgEgresosReal[$index] : '' ?></span>
-                        </td>
-                        <td>
-                          <span class="planificado aPagar" id="aPagarVenta<?= $index ?>">0</span><span id="aPagarVentaReal<?= $index ?>" class="real"><?=(isset($kgEgresosReal[$index])) ? ' | ' . $kgEgresosReal[$index] : '' ?></span>
-                        </td>
-                      </tr>
+                        <div class="celda-doble">
+
+                          <div class="celda-izquierda">
+                            <span class="planificado aPagar" id="aPagarIngreso<?= $index ?>" style="float:left">0</span><span id="aPagarIngresoReal<?= $index ?>" class="real" style="float:right"><?=(isset($kgEgresosReal[$index])) ? ' | ' . $kgEgresosReal[$index] : '' ?></span>
+                          </div>
+                          <div class="celda-derecha">
+                            <span class="planificado aPagar" id="aPagarVenta<?= $index ?>" style="float:left">0</span><span id="aPagarVentaReal<?= $index ?>" class="real" style="float:right"><?=(isset($kgEgresosReal[$index])) ? ' | ' . $kgEgresosReal[$index] : '' ?></span>
+                          </div>
+                          
+                        </div>
+                      </td>
                       <td><span class="stock planificado" id="stockPlanIngEgr<?= $index?>">Plan</span><span id="stockRealIngEgr<?= $index?>" class="real"></span></td>
                       <td class="real" id="stockDif<?= $index?>"></td>
                   </tr>
