@@ -208,6 +208,11 @@ $('#dieta').on('change',function(){
                             }
                         }
 
+                        let tdTotal = document.createElement('TD');
+                        tdTotal.setAttribute('id',`totalInsumo${idInsumo}`)
+                        tdTotal.innerText = 0
+                        tdTotal.setAttribute('style','font-weight:bold')
+                        trContable.append(tdTotal)
                         tbodyContable.prepend(trContable);
 
                         if (j === 4) {
@@ -215,6 +220,7 @@ $('#dieta').on('change',function(){
                         }
                     }
                     
+
 
                 });
 

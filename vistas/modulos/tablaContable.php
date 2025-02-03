@@ -21,6 +21,9 @@
 
               <?php } ?> 
 
+              <th style="width:100px;">TOTAL</th>
+
+
             </tr>
 
           </thead>
@@ -29,9 +32,7 @@
           <?php
           $rows = [
             'Ingresos' => ['plan' => 'ingresoPlanContable', 'real' => 'ingresoRealContable'],
-            'Kg Prom Ing' => ['plan' => 'kgPromIngresoPlanContable', 'real' => 'kgPromIngresoRealContable'],
             'Egresos' => ['plan' => 'ventaPlanContable', 'real' => 'ventaRealContable'],
-            'Kg Prom Egr' => ['plan' => 'kgVentaPlanContable', 'real' => 'kgVentaRealContable']
           ];
 
           foreach ($rows as $label => $idPrefixes) { ?>
@@ -49,6 +50,7 @@
                   <?php }
                 }
               ?>
+              
             </tr>
           <?php }
               ?>

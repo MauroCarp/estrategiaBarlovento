@@ -36,7 +36,7 @@ let calcularInsumosContable = ()=>{
 
 let calcularInsumosContableSeteado = ()=>{
 
-    let objInsumoCosto = {}
+    let totales = {}
 
     $('.compraInsumos').each(function(){
 
@@ -52,6 +52,11 @@ let calcularInsumosContableSeteado = ()=>{
 
         month = Number(realMonth) + Number(aPagar)
 
+        let totalPrev = Number($(`totalInsumo${idInsumo}`).html())
+
+        console.log(totalPrev + (cantInsumo * precio))
+        $(`#totalInsumo${idInsumo}`).html(totalPrev + (cantInsumo * precio))
+
         if($(`#insumo${idInsumo}${month}Contable`).html() == '' || $(`#insumo${idInsumo}${month}Contable`).html() == '0'){
 
             $(`#insumo${idInsumo}${month}Contable`).html(cantInsumo * precio)
@@ -61,25 +66,6 @@ let calcularInsumosContableSeteado = ()=>{
             let prevNumber = Number($(`#insumo${idInsumo}${month}Contable`).html())
             
             $(`#insumo${idInsumo}${month}Contable`).html(prevNumber + (cantInsumo * precio))
-
-        }
-
-        if (!(idInsumo in objInsumoCosto)) {
-
-            objInsumoCosto[idInsumo] = {};
-            objInsumoCosto[idInsumo][month] = {};
-            objInsumoCosto[idInsumo][month]['cantInsumo'] = $(this).val();
-            objInsumoCosto[idInsumo][month]['precio'] = precio;
-            objInsumoCosto[idInsumo][month]['aPagar'] = aPagar;
-
-        }else{
-
-            if (!(month in objInsumoCosto[idInsumo]))
-                objInsumoCosto[idInsumo][month] = {};
-
-            objInsumoCosto[idInsumo][month]['cantInsumo'] = $(this).val();
-            objInsumoCosto[idInsumo][month]['precio'] = precio;
-            objInsumoCosto[idInsumo][month]['aPagar'] = aPagar;
 
         }
 
