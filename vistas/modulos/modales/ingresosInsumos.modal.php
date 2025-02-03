@@ -2,7 +2,7 @@
   
   <div class="modal-dialog">
 
-    <div class="modal-content" style="width:1000px; margin-left:-150px;">
+    <div class="modal-content" style="width:850px; margin-left:-150px;">
 
       <form role="form" method="post" enctype="multipart/form-data" id="formCarga">
 
@@ -62,13 +62,4 @@
   </div>
 
 </div>
-
-<?php
-
-// $cargarArchivo = new ControladorEstrategia();
-
-// $cargarArchivo->ctrCargarArchivo();
-
-
-?>
 

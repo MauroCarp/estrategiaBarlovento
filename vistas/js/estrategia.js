@@ -132,17 +132,18 @@ $('#dieta').on('change',function(){
 
                                 let columnHeader = ['Necesario', 'Ingreso', 'Precio', 'APagar'][j];
                                 let td = document.createElement('TD'); 
+                                td.setAttribute('style','width:150px')
 
                                 if(columnHeader == 'Necesario'){
 
                                     td.setAttribute('class','form-control input-sm')
                                     td.setAttribute('id', `insumo${columnHeader}${idInsumo}${i}`);
-                                    td.setAttribute('style','font-weight:bold;margin:5px')
+                                    td.setAttribute('style','font-weight:bold;margin:5px;width:100px')
+
 
                                 }else{
 
                                     let inputInsumo = input.cloneNode(true);
-                                    // inputInsumo.setAttribute('onchange','calcularContable()')
 
                                     inputInsumo.setAttribute('id', `insumo${columnHeader}${idInsumo}${i}`);
                                     inputInsumo.setAttribute('name', `insumo${columnHeader}${idInsumo}[]`);
