@@ -136,49 +136,68 @@ class ControladorEstrategia{
 
 		// var_dump($_POST);
 		// die;
-
 		if(isset($_POST['btnSetear'])){
 		
 			$ingresos = array();
 			$kgIngresos = array();
+			$precioIngresos = array();
+			$aPagarIngresos = array();
 			$ventas = array();
 			$kgVentas = array();
-			$compraInsumos = array();
+			$precioVentas = array();
+			$aPagarVentas = array();
+			$insumos = array();
 
 		
 			foreach ($_POST as $key => $value) {
 
-				if(strpos($key,'insumo') === 0 && !strpos($key,'stockInsumo')){
+				if(strpos($key,'insumoIngreso') === 0){
 
-					$compraInsumos[str_replace('insumo','',$key)] = $value;		
+					$toFormat = str_replace('insumoIngreso','',$key);
+					$month = substr($toFormat, 0, 2);
+					$idInsumo = substr($toFormat, 2);
+
+					$insumos[$idInsumo][$month] = $value;		
 
 				}
 
 				if(strpos($key,'ingreso') === 0 && strpos($key,'kg') !== 0){
-
 					$ingresos[str_replace('ingreso','',$key)] = $value;		
-
 				}
 
 				if(strpos($key,'kgIngreso') === 0){
-
 					$kgIngresos[str_replace('kgIngreso','',$key)] = $value;		
-
 				}
 
 				if(strpos($key,'venta') === 0 && strpos($key,'kg') !== 0){
-
 					$ventas[str_replace('venta','',$key)] = $value;		
-
 				}
 
 				if(strpos($key,'kgVenta') === 0){
-
 					$kgVentas[str_replace('kgVenta','',$key)] = $value;		
-
 				}
+
+				if(strpos($key,'precioKgIngreso') === 0){
+					$precioIngresos[str_replace('precioKgIngreso','',$key)] = $value;		
+				}
+
+				if(strpos($key,'precioKgVenta') === 0){
+					$precioVentas[str_replace('precioKgVenta','',$key)] = $value;		
+				}
+
+				if(strpos($key,'aPagarIngreso') === 0){
+					$aPagarIngresos[str_replace('aPagarIngreso','',$key)] = $value;		
+				}
+
+				if(strpos($key,'aPagarVenta') === 0){
+					$aPagarVentas[str_replace('aPagarVenta','',$key)] = $value;		
+				}
+
+
 			}
 
+			var_dump($ingresos,$kgIngresos,$precioIngresos,$aPagarIngresos,$ventas,$kgVentas,$precioVentas,$aPagarVentas,$insumos);
+			die;
 			
 			$data = array('stockInsumos'=>$_POST['stockInsumos'],
 						  'stockAnimales'=>$_POST['stockAnimales'],
