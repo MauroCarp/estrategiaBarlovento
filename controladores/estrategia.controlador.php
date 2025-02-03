@@ -154,10 +154,30 @@ class ControladorEstrategia{
 				if(strpos($key,'insumoIngreso') === 0){
 
 					$toFormat = str_replace('insumoIngreso','',$key);
-					$month = substr($toFormat, 0, 2);
-					$idInsumo = substr($toFormat, 2);
+					$idInsumo = substr($toFormat, 0, 2);
+					$month = substr($toFormat, 2);
 
-					$insumos[$idInsumo][$month] = $value;		
+					$insumos[$idInsumo][$month]['cantidad'] = $value;		
+
+				}
+
+				if(strpos($key,'insumoPrecio') === 0){
+
+					$toFormat = str_replace('insumoPrecio','',$key);
+					$idInsumo = substr($toFormat, 0, 2);
+					$month = substr($toFormat, 2);
+
+					$insumos[$idInsumo][$month]['precio'] = $value;		
+
+				}
+
+				if(strpos($key,'insumoAPagar') === 0){
+
+					$toFormat = str_replace('insumoAPagar','',$key);
+					$idInsumo = substr($toFormat, 0, 2);
+					$month = substr($toFormat, 2);
+
+					$insumos[$idInsumo][$month]['aPagar'] = $value;		
 
 				}
 
@@ -196,9 +216,6 @@ class ControladorEstrategia{
 
 			}
 
-			var_dump($ingresos,$kgIngresos,$precioIngresos,$aPagarIngresos,$ventas,$kgVentas,$precioVentas,$aPagarVentas,$insumos);
-			die;
-			
 			$data = array('stockInsumos'=>$_POST['stockInsumos'],
 						  'stockAnimales'=>$_POST['stockAnimales'],
 						  'stockKgProm'=>$_POST['stockKgProm'],
@@ -209,11 +226,19 @@ class ControladorEstrategia{
 
 			$idEstrategia = ControladorEstrategia::ctrSetearCampania($data);
 
-			$dataAnimales = array('idEstrategia'=>$idEstrategia['id'],'ingresos'=>$ingresos,'kgIngresos'=>$kgIngresos,'ventas'=>$ventas,'kgVentas'=>$kgVentas);
+			$dataAnimales = array('idEstrategia'=>$idEstrategia['id'],
+								  'ingresos'=>$ingresos,
+								  'kgIngresos'=>$kgIngresos,
+								  'precioKgIngresos'=>$precioIngresos,
+								  'aPagarIngresos'=>$aPagarIngresos,
+								  'ventas'=>$ventas,
+								  'kgVentas'=>$kgVentas,
+	                   			  'precioKgVentas'=>$precioVentas,
+								  'aPagarVentas'=>$aPagarVentas);
 			
 			$setearAnimales = ControladorEstrategia::ctrSetearAnimales($dataAnimales);
 			
-			$dataInsumos = array('idEstrategia'=>$idEstrategia['id'],'insumos'=>$compraInsumos);
+			$dataInsumos = array('idEstrategia'=>$idEstrategia['id'],'insumos'=>$insumos);
 	
 			$setearInsumos = ControladorEstrategia::ctrSetearInsumos($dataInsumos);
 		

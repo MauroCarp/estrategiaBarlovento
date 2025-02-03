@@ -158,11 +158,13 @@ class ModeloEstrategia{
 	static public function mdlSetearAnimales($tabla,$data){
 
 
-		$stmt = Conexion::conectarEstrategia()->prepare("INSERT INTO $tabla(ingresosPlan, kgIngresosPlan, egresosPlan, kgEgresosPlan, idEstrategia) VALUES(:ingresosPlan, :kgIngresosPlan, :egresosPlan, :kgEgresosPlan,:idEstrategia)");
+		$stmt = Conexion::conectarEstrategia()->prepare("INSERT INTO $tabla(ingresosPlan, kgIngresosPlan,precioKgIngresosPlan,aPagarIngresosPlan, egresosPlan, kgEgresosPlan,preciokgEgresosPlan,aPagarEgresosPlan, idEstrategia) VALUES(:ingresosPlan, :kgIngresosPlan, :precioKgIngresosPlan, :aPagarIngresosPlan, :egresosPlan, :kgEgresosPlan,:preciokgEgresosPlan,:aPagarEgresosPlan,:idEstrategia)");
 
 
 		$stmt -> bindParam(":ingresosPlan", json_encode($data['ingresos']), PDO::PARAM_STR);
 		$stmt -> bindParam(":kgIngresosPlan", json_encode($data['kgIngresos']), PDO::PARAM_STR);
+		$stmt -> bindParam(":preciokgIngresosPlan", json_encode($data['kgIngresos']), PDO::PARAM_STR);
+		$stmt -> bindParam(":aPagarIngresosPlan", json_encode($data['kgIngresos']), PDO::PARAM_STR);
 		$stmt -> bindParam(":egresosPlan", json_encode($data['ventas']), PDO::PARAM_STR);
 		$stmt -> bindParam(":kgEgresosPlan", json_encode($data['kgVentas']), PDO::PARAM_STR);
 		$stmt -> bindParam(":idEstrategia", $data['idEstrategia'], PDO::PARAM_STR);
