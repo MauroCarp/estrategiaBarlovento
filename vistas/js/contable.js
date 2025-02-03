@@ -8,51 +8,25 @@ $('#modalEstrategiaIngEgr').on('hidden.bs.modal', function () {
 
 let calcularInsumosContable = ()=>{
 
-    let objInsumoCosto = {}
+    $('.contableInsumo').html('0')
 
     $('.compraInsumos').each(function(){
 
-        let idInsumo = $(this).attr('id-insumo')
+        let idInsumo = $(this).attr('id-insumo');
+        let realMonth = $(this).attr('id').replace(`insumoIngreso${idInsumo}`, '');
+        let precio = Number($(this).parent().next().children().val());
+        let aPagar = $(this).parent().next().next().children().val();
+        let cantInsumo = Number($(this).val());
 
-        let realMonth = $(this).attr('id').replace(`insumoIngreso${idInsumo}`,'')
+        if (cantInsumo !== 0) {
+            let month = Number(realMonth) + Number(aPagar);
 
-        let precio = Number($(this).parent().next().children().val())
-        
-        let aPagar = $(this).parent().next().next().children().val()
-
-        let cantInsumo = Number($(this).val())
-
-        month = Number(realMonth) + Number(aPagar)
-
-        if($(`#insumo${idInsumo}${month}Contable`).html() == '' || $(`#insumo${idInsumo}${month}Contable`).html() == '0'){
-
-            $(`#insumo${idInsumo}${month}Contable`).html(cantInsumo * precio)
-
-        } else {
-
-            let prevNumber = Number($(`#insumo${idInsumo}${month}Contable`).html())
-            
-            $(`#insumo${idInsumo}${month}Contable`).html(prevNumber + (cantInsumo * precio))
-
-        }
-
-        if (!(idInsumo in objInsumoCosto)) {
-
-            objInsumoCosto[idInsumo] = {};
-            objInsumoCosto[idInsumo][month] = {};
-            objInsumoCosto[idInsumo][month]['cantInsumo'] = $(this).val();
-            objInsumoCosto[idInsumo][month]['precio'] = precio;
-            objInsumoCosto[idInsumo][month]['aPagar'] = aPagar;
-
-        }else{
-
-            if (!(month in objInsumoCosto[idInsumo]))
-                objInsumoCosto[idInsumo][month] = {};
-
-            objInsumoCosto[idInsumo][month]['cantInsumo'] = $(this).val();
-            objInsumoCosto[idInsumo][month]['precio'] = precio;
-            objInsumoCosto[idInsumo][month]['aPagar'] = aPagar;
-
+            if ($(`#insumo${idInsumo}${month}Contable`).html() == '' || $(`#insumo${idInsumo}${month}Contable`).html() == '0') {
+            $(`#insumo${idInsumo}${month}Contable`).html($(`<span style="color:red">${(cantInsumo * precio).toLocaleString('de-DE')}</span>`));
+            } else {
+            let prevNumber = Number($(`#insumo${idInsumo}${month}Contable`).text().replace(/\./g, ''));
+            $(`#insumo${idInsumo}${month}Contable`).html($(`<span style="color:red">${(prevNumber + (cantInsumo * precio)).toLocaleString('de-DE')}</span>`));
+            }
         }
 
     })
@@ -116,7 +90,6 @@ let calcularInsumosContableSeteado = ()=>{
 
 let calcularAnimalesContable = ()=>{
 
-    let objAnimalesCosto = {}
 
     $('.contable').html('0')
 
