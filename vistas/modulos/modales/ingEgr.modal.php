@@ -30,7 +30,7 @@
 
               <thead>
                 <tr>
-                  <th></th>
+                  <th style="width:200px"></th>
                   <th style="width:100px">Ingreso</th>
                   <th style="width:100px">Kg Ingreso</th>
                   <th style="width:100px">Venta</th>

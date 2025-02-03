@@ -134,6 +134,9 @@ class ControladorEstrategia{
 
 	static public function ctrSetearEstrategia(){
 
+		// var_dump($_POST);
+		// die;
+
 		if(isset($_POST['btnSetear'])){
 		
 			$ingresos = array();

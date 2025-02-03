@@ -729,7 +729,8 @@ let calcularPesoPromedio = (dataEstrategia = false,tipo = 'plan',debug = false)=
 
 let calculateStockAndTotals = () => {
 
-  return  new Promise((resolve)=>{
+  return  new Promise((resolve,reject)=>{
+
 
     let stock = parseFloat($('#stockAnimales').val())
     let stockKgProm = parseFloat($('#stockKgProm').val())
@@ -740,9 +741,12 @@ let calculateStockAndTotals = () => {
     let kgVentaTotal = 0
   
     let seteado = '<?=$data['estrategia']['seteado']?>'
-  
+    let idDieta = Number('<?=$data['estrategia']['idDieta']?>')
+    
     if(!seteado){
-  
+
+      idDieta = Number($('#dieta').val())
+
       for (let index = 1; index <= 12; index++) {
     
         let ingreso = parseFloat($(`#ingreso${index}`).val())
@@ -796,7 +800,7 @@ let calculateStockAndTotals = () => {
         $('#avgKgVenta').val((ventaTotal > 0) ? (kgVentaTotal / ventaTotal).toFixed(2) : 0)
     
       }  
-  
+
     } else {
   
         let stockReal = parseFloat($('#stockAnimales').val())
@@ -904,11 +908,8 @@ let calculateStockAndTotals = () => {
   
   
       } 
-  
-      
+        
     }
-
-    let idDieta = Number('<?=$data['estrategia']['idDieta']?>')
 
     calcularPesoPromedio(idDieta)
     
