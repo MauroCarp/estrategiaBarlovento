@@ -281,43 +281,18 @@
                 ?>
 
               </tr>
-
               <tr>
-
                 <td>Cabezas</td>
-                <td><span class="planificado" id="stockPlan1"></span><span class="real" id="stockReal1"></span></td>
-                <td><span class="planificado" id="stockPlan2"></span><span class="real" id="stockReal2"></span></td>
-                <td><span class="planificado" id="stockPlan3"></span><span class="real" id="stockReal3"></span></td>
-                <td><span class="planificado" id="stockPlan4"></span><span class="real" id="stockReal4"></span></td>
-                <td><span class="planificado" id="stockPlan5"></span><span class="real" id="stockReal5"></span></td>
-                <td><span class="planificado" id="stockPlan6"></span><span class="real" id="stockReal6"></span></td>
-                <td><span class="planificado" id="stockPlan7"></span><span class="real" id="stockReal7"></span></td>
-                <td><span class="planificado" id="stockPlan8"></span><span class="real" id="stockReal8"></span></td>
-                <td><span class="planificado" id="stockPlan9"></span><span class="real" id="stockReal9"></span></td>
-                <td><span class="planificado" id="stockPlan10"></span><span class="real" id="stockReal10"></span></td>
-                <td><span class="planificado" id="stockPlan11"></span><span class="real" id="stockReal11"></span></td>
-                <td><span class="planificado" id="stockPlan12"></span><span class="real" id="stockReal12"></span></td>
-
-
-
+                <?php for ($i = 1; $i <= 12; $i++) { ?>
+                  <td><span class="planificado" id="stockPlan<?=$i?>"></span><span class="real" id="stockReal<?=$i?>"></span></td>
+                <?php } ?>
               </tr>
-              
+
               <tr>
-
                 <td>Kg Prom.</td>
-                <td><span class="planificado kgPromPlan" id="kgPromPlan1"></span><span class="real kgPromReal" id="kgPromReal1"></span></td>
-                <td><span class="planificado kgPromPlan" id="kgPromPlan2"></span><span class="real kgPromReal" id="kgPromReal2"></span></td>
-                <td><span class="planificado kgPromPlan" id="kgPromPlan3"></span><span class="real kgPromReal" id="kgPromReal3"></span></td>
-                <td><span class="planificado kgPromPlan" id="kgPromPlan4"></span><span class="real kgPromReal" id="kgPromReal4"></span></td>
-                <td><span class="planificado kgPromPlan" id="kgPromPlan5"></span><span class="real kgPromReal" id="kgPromReal5"></span></td>
-                <td><span class="planificado kgPromPlan" id="kgPromPlan6"></span><span class="real kgPromReal" id="kgPromReal6"></span></td>
-                <td><span class="planificado kgPromPlan" id="kgPromPlan7"></span><span class="real kgPromReal" id="kgPromReal7"></span></td>
-                <td><span class="planificado kgPromPlan" id="kgPromPlan8"></span><span class="real kgPromReal" id="kgPromReal8"></span></td>
-                <td><span class="planificado kgPromPlan" id="kgPromPlan9"></span><span class="real kgPromReal" id="kgPromReal9"></span></td>
-                <td><span class="planificado kgPromPlan" id="kgPromPlan10"></span><span class="real kgPromReal" id="kgPromReal10"></span></td>
-                <td><span class="planificado kgPromPlan" id="kgPromPlan11"></span><span class="real kgPromReal" id="kgPromReal11"></span></td>
-                <td><span class="planificado kgPromPlan" id="kgPromPlan12"></span><span class="real kgPromReal" id="kgPromReal12"></span></td>
-
+                <?php for ($i = 1; $i <= 12; $i++) { ?>
+                  <td><span class="planificado kgPromPlan" id="kgPromPlan<?=$i?>"></span><span class="real kgPromReal" id="kgPromReal<?=$i?>"></span></td>
+                <?php } ?>
               </tr>
 
               <tr>
@@ -378,23 +353,11 @@
                 } ?> 
 
               </tr>
-
               <tr>
-
                 <td>Cons. MS</td>
-                <td><span class="planificado" id="consumoMSPlan1"></span><span class="real" id="consumoMSReal1"></span></td>
-                <td><span class="planificado" id="consumoMSPlan2"></span><span class="real" id="consumoMSReal2"></span></td>
-                <td><span class="planificado" id="consumoMSPlan3"></span><span class="real" id="consumoMSReal3"></span></td>
-                <td><span class="planificado" id="consumoMSPlan4"></span><span class="real" id="consumoMSReal4"></span></td>
-                <td><span class="planificado" id="consumoMSPlan5"></span><span class="real" id="consumoMSReal5"></span></td>
-                <td><span class="planificado" id="consumoMSPlan6"></span><span class="real" id="consumoMSReal6"></span></td>
-                <td><span class="planificado" id="consumoMSPlan7"></span><span class="real" id="consumoMSReal7"></span></td>
-                <td><span class="planificado" id="consumoMSPlan8"></span><span class="real" id="consumoMSReal8"></span></td>
-                <td><span class="planificado" id="consumoMSPlan9"></span><span class="real" id="consumoMSReal9"></span></td>
-                <td><span class="planificado" id="consumoMSPlan10"></span><span class="real" id="consumoMSPReal0"></span></td>
-                <td><span class="planificado" id="consumoMSPlan11"></span><span class="real" id="consumoMSPReal1"></span></td>
-                <td><span class="planificado" id="consumoMSPlan12"></span><span class="real" id="consumoMSPReal2"></span></td>
-
+                <?php for ($i = 1; $i <= 12; $i++) { ?>
+                  <td><span class="planificado" id="consumoMSPlan<?=$i?>"></span><span class="real" id="consumoMSReal<?=$i?>"></span></td>
+                <?php } ?>
               </tr>
 
               <!--  DIETA ---->
@@ -957,7 +920,7 @@ let calculateStockAndTotals = () => {
 let seteado = '<?=$data['estrategia']['seteado']?>'
 
 let data = '<?=json_encode($data)?>'
-
+console.log(seteado)
 if(seteado){
 
   let campania = '<?=$data['estrategia']['campania']?>'
@@ -1063,7 +1026,14 @@ if(seteado){
           thead.append(tr);
           tableInsumo.append(thead);
           
+          let trContable = document.createElement('TR');
+          let tdKey = document.createElement('TD');
+          tdKey.innerText = key;
+          trContable.append(tdKey);
+          console.log(cerealesReal)
           cerealesPlan[insumosNameId[key]].forEach((element,index) => {
+ 
+            console.log(cerealesReal[index + 1][insumosNameId[key]])
             
             let trInsumo = document.createElement('TR');
             let tdMonth = document.createElement('TD');
@@ -1119,6 +1089,22 @@ if(seteado){
 
             divTab.append(tableInsumo);
             $('#tab-insumos').append(divTab);
+
+            
+
+            let td = document.createElement('TD');
+            let spanPlanificado = document.createElement('SPAN');
+            let spanReal = spanPlanificado.cloneNode(true)
+
+            spanPlanificado.setAttribute('class', 'planificado');
+            spanReal.setAttribute('class', 'real');
+
+            spanPlanificado.innerText = element;
+            // spanReal.innerText = `| ${cerealesReal[insumosNameId[key]][index]}`;
+            td.append(spanPlanificado,spanReal);
+            trContable.append(td);
+
+            $('#tbodyContable').prepend(trContable);
                   
           });
 
