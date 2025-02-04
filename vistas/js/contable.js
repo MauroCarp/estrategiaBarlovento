@@ -19,6 +19,25 @@ $('#modalEstrategiaIngresoInsumos').on('hidden.bs.modal', function () {
 
 });
 
+$('#modalEstrategiaEstructura').on('hidden.bs.modal', function () {
+
+    // calcularInsumosContable();
+
+    $('.estructura').each(function(){
+
+        let id = $(this).attr('id')
+        
+        let idExplode = id.split('_')
+        console.log(idExplode)
+        
+        $(`input[name=${id}]`).val($(this).val())
+        $(`input[name=${idExplode[0]}_aPagar_${idExplode[2]}]`).val($(`#${idExplode[0]}_aPagar_${idExplode[2]}`).val())
+
+
+    })
+
+});
+
 $('#modalEstrategiaIngEgr').on('hidden.bs.modal', function () {
     calcularAnimalesContable();
 });

@@ -420,6 +420,14 @@
             echo '<input type="hidden" name="precioKgVenta' . $i . '">';
             echo '<input type="hidden" name="aPagarIngreso' . $i . '">';
             echo '<input type="hidden" name="aPagarVenta' . $i . '">';
+            echo '<input type="hidden" name="estructuraDirecto_importe_' . $i . '">';
+            echo '<input type="hidden" name="estructuraDirecto_aPagar_' . $i . '">';
+            echo '<input type="hidden" name="estructuraIndirecto_importe_' . $i . '">';
+            echo '<input type="hidden" name="estructuraIndirecto_aPagar_' . $i . '">';
+            echo '<input type="hidden" name="gastosVarios_importe_' . $i . '">';
+            echo '<input type="hidden" name="gastosVarios_aPagar_' . $i . '">';
+            echo '<input type="hidden" name="ingresosExtraordinarios_importe_' . $i . '">';
+            echo '<input type="hidden" name="ingresosExtraordinarios_aPagar_' . $i . '">';
           }
           ?>
           
