@@ -82,6 +82,7 @@ $meses = array(1=>'May',2=>'Jun',3=>'Jul',4=>'Ago',5=>'Sep',6=>'Oct',7=>'Nov',8=
 
 include 'vistas/modulos/modales/ingEgr.modal.php';
 include 'vistas/modulos/modales/ingresosInsumos.modal.php';
+include 'vistas/modulos/modales/ingresosEstructura.modal.php';
 include 'vistas/modulos/modales/stock.modal.php';
 include 'vistas/modulos/modales/graficoSaldoStock.modal.php';
 include 'vistas/modulos/modales/cargaCampania.modal.php';

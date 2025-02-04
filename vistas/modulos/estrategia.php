@@ -16,7 +16,7 @@
 
               ?>
 
-              <div class="col-md-1"> 
+              <div class="col-md-2"> 
       
                 <div class="form-group">
 
@@ -36,7 +36,7 @@
               
             <?php } ?>
                   
-            <div class="col-md-2"> 
+            <div class="col-md-1"> 
 
               <div class="form-group">
 
@@ -61,7 +61,7 @@
                 
               </div>
 
-              <div class="col-md-2"> 
+              <div class="col-md-1"> 
 
                 <div class="form-group">
 
@@ -73,9 +73,21 @@
                 
               </div>
 
+              <div class="col-md-1"> 
+
+                <div class="form-group">
+
+                  <label>&nbsp;</label>
+
+                  <button class="btn btn-primary btn-block" type="button" id="btnEstructura" data-toggle="modal" data-target="#modalEstrategiaEstructura">Estructura</button>
+
+                </div>
+                
+              </div>
+
             <?php if(!$data['estrategia']['seteado']){ ?>
 
-              <div class="col-md-2"> 
+              <div class="col-md-1"> 
 
                 <div class="form-group">
 
