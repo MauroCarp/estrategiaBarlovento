@@ -1,3 +1,143 @@
+let setearStockInsumos = ()=>{
+
+
+    let stockInsumos = []
+     
+    $('.stockInsumosModal').each(function(){
+
+        let idInsumo = $(this).attr('idInsumo')
+
+        stockInsumos.push(`{"${idInsumo}":${$(this).val()}}`)
+    })
+
+    $('input[name="stockInsumos"]').val(`[${stockInsumos}]`)
+
+}
+
+let generarOptionInsumos = (idSelect)=>{
+
+    $.ajax({
+
+        method:'post',
+        url:'ajax/estrategia.ajax.php',
+        data:{accion:'getInsumos'},
+        success:function(resp){
+
+            resp = JSON.parse(resp)
+
+            let options = [{id:'',text:'Seleccionar Insumo'}]
+
+            resp.forEach(element => {
+                options.push({id:element.id,text:element.insumo})
+            });
+
+            $(`#${idSelect}`).select2({
+                width:'100%',
+                data:options
+            })
+
+        }
+
+    })
+}
+
+let sumarPorcentajes = ()=>{
+
+    let total = 0
+
+    $('.porcentajeInsumo').each(function(){
+
+        if($(this).val() != '')
+            total += parseFloat($(this).val())
+
+    })
+
+    if(total > 100){
+        
+        new swal({
+            icon: "error",
+            title: "La compocision de la dieta supera el 100%",
+            showConfirmButton: true,
+            confirmButtonText: "Cerrar"
+            })
+
+        $('#btnNuevaDieta').attr('disabled','disabled')
+
+    } else {
+
+        $('#btnNuevaDieta').removeAttr('disabled')
+
+    }
+
+    $('#totalPorcentaje').html(total)
+
+    return total
+
+}
+
+let calcularStockReal = ()=>{
+
+    let stockInicial = $('#stockAnimales').val()
+
+    let stock = Number(stockInicial)
+
+    let i = 1;
+
+    while (true) {
+
+        // let ing = ($(`#ingReal${i}`).html() != '') ?'per' : 0
+        let ing = ($(`#ingReal${i}`).html() != '') ? Number($(`#ingReal${i}`).html().replace('|','').replace(/\s+/g,'')) : 0
+        let egr = ($(`#egrReal${i}`).html() != '') ? Number($(`#egrReal${i}`).html().replace('|','').replace(/\s+/g,'')) : 0
+
+        stock += ing
+        stock -= egr
+
+        if($(`#ingReal${i}`).html() != ''){
+
+            $(`#stockReal${i}`).html(` | ${stock}`)
+            if(stock < Number($(`#stockPlanIngEgr${i}`).html())) $(`#stockReal${i}`).css('color','red')
+
+        }
+        
+        i++
+
+    }
+}
+
+const validarPorcentajesDieta = ()=>{
+    
+    let total = 0
+
+    $('.dietaReal').each(function(){
+
+        let valor = $(this).val() 
+        total += Number(valor)
+
+    })
+
+    if(total < 100){
+        $('#btnCargaReal').attr('disabled','disabled')
+
+        $('#alertaDietaReal').remove()
+
+        $('#cargaRealModal').append($('<small id="alertaDietaReal"><b style="color:red">El total de la dieta no puede ser menor a 100%</small>'))
+
+    } else if(total > 100) {
+
+        $('#btnCargaReal').attr('disabled','disabled')
+
+        $('#alertaDietaReal').remove()
+
+        $('#cargaRealModal').append($('<small id="alertaDietaReal"><b style="color:red">El total de la dieta no puede ser mayor a 100%</small>'))
+
+    } else {
+
+        $('#btnCargaReal').removeAttr('disabled')
+
+        $('#alertaDietaReal').remove()
+
+    }
+}
 
 $('.stockInicial').each(function(){
 
@@ -316,23 +456,6 @@ $('#stockAnimales').on('change',function(){
 
 })
 
-
-let setearStockInsumos = ()=>{
-
-
-    let stockInsumos = []
-     
-    $('.stockInsumosModal').each(function(){
-
-        let idInsumo = $(this).attr('idInsumo')
-
-        stockInsumos.push(`{"${idInsumo}":${$(this).val()}}`)
-    })
-
-    $('input[name="stockInsumos"]').val(`[${stockInsumos}]`)
-
-}
-
 let insumoIndex = 1
 
 $('#btnAgregarInsumo').on('click',function(){
@@ -360,33 +483,6 @@ $('#btnAgregarInsumo').on('click',function(){
 
     insumoIndex++
 })
-
-let generarOptionInsumos = (idSelect)=>{
-
-    $.ajax({
-
-        method:'post',
-        url:'ajax/estrategia.ajax.php',
-        data:{accion:'getInsumos'},
-        success:function(resp){
-
-            resp = JSON.parse(resp)
-
-            let options = [{id:'',text:'Seleccionar Insumo'}]
-
-            resp.forEach(element => {
-                options.push({id:element.id,text:element.insumo})
-            });
-
-            $(`#${idSelect}`).select2({
-                width:'100%',
-                data:options
-            })
-
-        }
-
-    })
-}
 
 $('.table').on('click','.verDieta',function(){
 
@@ -461,41 +557,6 @@ $('.table').on('click','.eliminarDieta',function(){
     })
 
 })
-
-
-let sumarPorcentajes = ()=>{
-
-    let total = 0
-
-    $('.porcentajeInsumo').each(function(){
-
-        if($(this).val() != '')
-            total += parseFloat($(this).val())
-
-    })
-
-    if(total > 100){
-        
-        new swal({
-            icon: "error",
-            title: "La compocision de la dieta supera el 100%",
-            showConfirmButton: true,
-            confirmButtonText: "Cerrar"
-            })
-
-        $('#btnNuevaDieta').attr('disabled','disabled')
-
-    } else {
-
-        $('#btnNuevaDieta').removeAttr('disabled')
-
-    }
-
-    $('#totalPorcentaje').html(total)
-
-    return total
-
-}
  
 $('#campania').on('change',function(){
 
@@ -536,34 +597,6 @@ $('.ingEgr').each(function(){
 
 })
 
-let calcularStockReal = ()=>{
-
-    let stockInicial = $('#stockAnimales').val()
-
-    let stock = Number(stockInicial)
-
-    let i = 1;
-
-    while (true) {
-
-        // let ing = ($(`#ingReal${i}`).html() != '') ?'per' : 0
-        let ing = ($(`#ingReal${i}`).html() != '') ? Number($(`#ingReal${i}`).html().replace('|','').replace(/\s+/g,'')) : 0
-        let egr = ($(`#egrReal${i}`).html() != '') ? Number($(`#egrReal${i}`).html().replace('|','').replace(/\s+/g,'')) : 0
-
-        stock += ing
-        stock -= egr
-
-        if($(`#ingReal${i}`).html() != ''){
-
-            $(`#stockReal${i}`).html(` | ${stock}`)
-            if(stock < Number($(`#stockPlanIngEgr${i}`).html())) $(`#stockReal${i}`).css('color','red')
-
-        }
-        
-        i++
-
-    }
-}
 
 $('#graficosTab').on('click',function(){
 
@@ -658,39 +691,5 @@ if (event.key === 'F1') {
 });
 
 
-const validarPorcentajesDieta = ()=>{
-    
-    let total = 0
-
-    $('.dietaReal').each(function(){
-
-        let valor = $(this).val() 
-        total += Number(valor)
-
-    })
-
-    if(total < 100){
-        $('#btnCargaReal').attr('disabled','disabled')
-
-        $('#alertaDietaReal').remove()
-
-        $('#cargaRealModal').append($('<small id="alertaDietaReal"><b style="color:red">El total de la dieta no puede ser menor a 100%</small>'))
-
-    } else if(total > 100) {
-
-        $('#btnCargaReal').attr('disabled','disabled')
-
-        $('#alertaDietaReal').remove()
-
-        $('#cargaRealModal').append($('<small id="alertaDietaReal"><b style="color:red">El total de la dieta no puede ser mayor a 100%</small>'))
-
-    } else {
-
-        $('#btnCargaReal').removeAttr('disabled')
-
-        $('#alertaDietaReal').remove()
-
-    }
-}
 
 

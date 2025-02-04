@@ -922,6 +922,30 @@ let calculateStockAndTotals = () => {
 
 }
 
+let cambiarColorApagar = (el) => {
+
+  let value = el.val()
+
+  if(value == 'B'){
+
+    el.css('color','blue')
+
+  } else if(value == 'C') {
+
+    el.css('color','rgb(227,216,0)')
+
+  } else if(value == 'D'){
+    
+    el.css('color','red')
+    
+  } else {
+
+    el.css('color','green')
+
+  }
+
+}
+
 let seteado = '<?=$data['estrategia']['seteado']?>'
 
 let data = '<?=json_encode($data)?>'

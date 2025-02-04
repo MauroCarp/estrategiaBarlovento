@@ -72,10 +72,20 @@
                         <input class="form-control precioKgVenta" type="number" id="precioKgVenta<?= $index ?>" min="0" value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>>
                       </div>
                     </td>
-                    <td>
+                    <td style="padding:0">
                       <div style="display: flex; flex-direction: row;">
-                        <input class="form-control aPagarIngreso" type="number" id="aPagarIngreso<?= $index ?>" min="0" max="24" value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>>
-                        <input class="form-control aPagarVenta" type="number" id="aPagarVenta<?= $index ?>" min="0" max="24" value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>>
+                        <select class="form-control aPagarIngreso aPagar" onChange="cambiarColorApagar($(this))" id="aPagarIngreso<?= $index?>" style="font-weight:bold;color:green" >
+                          <option value="A" style="font-weight:bold;color:green">A</option>
+                          <option value="B" style="font-weight:bold;color:blue">B</option>
+                          <option value="C" style="font-weight:bold;color:rgb(227,216,0)">C</option>
+                          <option value="D" style="font-weight:bold;color:red">D</option>
+                        </select>
+                        <select class="form-control aPagarVenta aPagar" onChange="cambiarColorApagar($(this))" id="aPagarVenta<?= $index?>" style="font-weight:bold;color:green">
+                          <option value="A" style="font-weight:bold;color:green">A</option>
+                          <option value="B" style="font-weight:bold;color:blue">B</option>
+                          <option value="C" style="font-weight:bold;color:rgb(227,216,0)">C</option>
+                          <option value="D" style="font-weight:bold;color:red">D</option>
+                        </select>
                       </div>
                     </td>
                     <td><input class="form-control stock" type="text" id="stock<?= $index ?>" value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?> readOnly></td>
@@ -187,7 +197,10 @@
         <div class="modal-footer">
 
           <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Salir</button>
-
+          <small><span style="color:green"><b>A</b></span> - 30 d&iacute;as | </small>
+          <small><span style="color:blue"><b>B</b> - </span>30/60 d&iacute;as | </small>
+          <small><span style="color:rgb(227,216,0)"><b>C</b></span> - 60 d&iacute;as | </small>
+          <small><span style="color:red"><b>D</b></span> - 90 d&iacute;as</small>
         </div>
 
       </form>
