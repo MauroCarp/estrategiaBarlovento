@@ -2,7 +2,7 @@
   
   <div class="modal-dialog">
 
-    <div class="modal-content" style="width:600px; margin-left:-150px;">
+    <div class="modal-content" style="width:600px; margin-left:-100px;">
 
       <form role="form" method="post" enctype="multipart/form-data" id="formCarga">
 
@@ -26,7 +26,7 @@
 
           <div class="box-body">
 
-            <div class="col-sm-3">
+            <div class="col-sm-3" style="padding-left:0;">
               <!-- Lista de pestañas -->
               <ul class="nav nav-insumos nav-pills nav-stacked" id="tabsEstructura">
               

@@ -139,7 +139,7 @@
 
           </div>
 
-          <table class="table table-bordered tablaEstrategia" id="tablaEstrategia">
+          <table class="table table-bordered table-hover table-striped tablaEstrategia" id="tablaEstrategia">
 
             <thead>
 
