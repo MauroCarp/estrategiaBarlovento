@@ -36,10 +36,12 @@ $('#modalEstrategiaEstructura').on('hidden.bs.modal', function () {
 
     })
 
+
 });
 
 $('#modalEstrategiaIngEgr').on('hidden.bs.modal', function () {
     calcularAnimalesContable();
+    calcularFlujoDeFondoMensual();
 });
 
 let calcularInsumosContable = ()=>{
@@ -257,63 +259,45 @@ let calcularEstructuraContable = ()=>{
 
 }
 
-function calcularFlujoDeFondoMensual() {
-    // Obtener la tabla
-    let tabla = document.getElementById('tablaContable');
-    let filas = tabla.getElementsByTagName('tr');
+let calcularFlujoDeFondoMensual = ()=>{ 
 
-    // Variables para almacenar las filas específicas
-    let filaIngresosPorVentas;
-    let filaFlujoDeFondoMensual;
+    let totalesFlujo = {}
+    $('.flujo').each(function(){
 
-    // Buscar las filas específicas
-    for (let i = 0; i < filas.length; i++) {
-        let primeraCelda = filas[i].getElementsByTagName('td')[0];
-        if (primeraCelda) {
-            if (primeraCelda.innerText === 'Ingresos por Ventas') {
-                filaIngresosPorVentas = filas[i];
-            } else if (primeraCelda.innerText === 'Flujo de Fondo Mensual') {
-                filaFlujoDeFondoMensual = filas[i];
+        let value = Number($(this).text().replace(/\./g, ''))
+        console.log(value)
+        let month = $(this).attr('month-data')
+
+        let id = $(this).attr('id')
+
+        if (id.includes('ventaPlanContable')) {
+            if (!totalesFlujo['positivo']) {
+                totalesFlujo['positivo'] = {};
             }
-        }
-    }
 
-    // Asegurarse de que ambas filas se encontraron
-    if (!filaIngresosPorVentas || !filaFlujoDeFondoMensual) {
-        console.error('No se encontraron las filas necesarias.');
-        return;
-    }
-
-    // Obtener las celdas de la fila de 'Ingresos por Ventas' y 'Flujo de Fondo Mensual'
-    let celdasIngresosPorVentas = filaIngresosPorVentas.getElementsByTagName('td');
-    let celdasFlujoDeFondoMensual = filaFlujoDeFondoMensual.getElementsByTagName('td');
-
-    // Recorrer cada columna (empezando desde la segunda celda)
-    for (let col = 1; col < celdasFlujoDeFondoMensual.length; col++) {
-        let suma = 0;
-
-        // Recorrer las filas hacia arriba desde 'Flujo de Fondo Mensual' hasta 'Ingresos por Ventas'
-        for (let fila = filaFlujoDeFondoMensual.rowIndex - 1; fila > filaIngresosPorVentas.rowIndex; fila--) {
-            let celda = filas[fila].getElementsByTagName('td')[col];
-            if (celda) {
-                let valor = parseFloat(celda.innerText.replace(/\./g, '').replace(',', '.'));
-                if (!isNaN(valor)) {
-                    suma += valor;
-                }
+            if (!totalesFlujo['positivo'][month]) {
+                totalesFlujo['positivo'][month] = 0;
             }
+
+            totalesFlujo['positivo'][month] += value;
+            
+        } else {
+
+            if (!totalesFlujo['negativo']) {
+                totalesFlujo['negativo'] = {};
+            }
+
+            if (!totalesFlujo['negativo'][month]) {
+                totalesFlujo['negativo'][month] = 0;
+            }
+
+            totalesFlujo['negativo'][month] += value;
+
         }
+    })
 
-        // Obtener el valor de 'Ingresos por Ventas' para esta columna
-        let valorIngresosPorVentas = parseFloat(celdasIngresosPorVentas[col].innerText.replace(/\./g, '').replace(',', '.'));
-        if (isNaN(valorIngresosPorVentas)) {
-            valorIngresosPorVentas = 0;
-        }
+    console.log(totalesFlujo)
 
-        // Calcular el flujo de fondo mensual
-        let flujoDeFondoMensual = valorIngresosPorVentas - suma;
-
-        // Colocar el resultado en la celda correspondiente de 'Flujo de Fondo Mensual'
-        celdasFlujoDeFondoMensual[col].innerText = flujoDeFondoMensual.toLocaleString('de-DE');
-    }
 }
+
 

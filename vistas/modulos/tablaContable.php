@@ -50,6 +50,11 @@
 
                   if (!$data['estrategia']['seteado']) { 
 
+                    $class = '';
+
+                    if($indexPrefixes == 0 || $indexPrefixes == 1)
+                      $class = 'flujo';
+
                     if($indexPrefixes == 2 || $indexPrefixes == 3){
                       $preFixes = 'Flujo';
                     } else if ($indexPrefixes == 4 || $indexPrefixes == 5 || $indexPrefixes == 6 || $indexPrefixes == 7 || $indexPrefixes == 8) {
@@ -59,10 +64,10 @@
                     }
                   ?>
                     
-                    <td class="contable<?=$preFixes?>" id="<?= $idPrefixes['plan'] . $key ?>">0</td>
+                    <td class="contable<?=$preFixes?> <?=$class?>" month-data="<?=$key?>" id="<?= $idPrefixes['plan'] . $key ?>">0</td>
 
                   <?php } else { ?>
-                    <td>
+                    <td month-data="<?=$key?>">
                       <span class="planificado" id="<?= $idPrefixes['plan'] . $key ?>">Plan</span>
                       <span id="<?= $idPrefixes['real'] . $key ?>" class="real">Real</span>
                     </td>
