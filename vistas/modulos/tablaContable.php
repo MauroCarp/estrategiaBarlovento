@@ -6,7 +6,7 @@
     <div class="card">
 
       <div class="card-body">
-      <table class="table table-bordered table-striped table-hover tablaContable">
+      <table class="table table-bordered table-striped table-hover tablaContable" id="tablaContable">
 
           <thead>
 
@@ -41,13 +41,26 @@
             'Flujo Neto' => ['plan' => 'flujoNetoContable', 'real' => 'flujoNetoRealContable'],
           ];
 
+          $indexPrefixes = 0;
           foreach ($rows as $label => $idPrefixes) { ?>
             <tr>
               <td style="padding-top:2px;padding-bottom:2px;font-weight:600;line-height:1em"><?= $label ?></td>
               <?php
                 foreach ($meses as $key => $mes) {
-                  if (!$data['estrategia']['seteado']) { ?>
-                    <td class="contable" id="<?= $idPrefixes['plan'] . $key ?>">0</td>
+
+                  if (!$data['estrategia']['seteado']) { 
+
+                    if($indexPrefixes == 2 || $indexPrefixes == 3){
+                      $preFixes = 'Flujo';
+                    } else if ($indexPrefixes == 4 || $indexPrefixes == 5 || $indexPrefixes == 6 || $indexPrefixes == 7 || $indexPrefixes == 8) {
+                      $preFixes = 'Estructura';
+                    } else {
+                      $preFixes = '';     
+                    }
+                  ?>
+                    
+                    <td class="contable<?=$preFixes?>" id="<?= $idPrefixes['plan'] . $key ?>">0</td>
+
                   <?php } else { ?>
                     <td>
                       <span class="planificado" id="<?= $idPrefixes['plan'] . $key ?>">Plan</span>
@@ -60,8 +73,7 @@
               <td id="total<?=$label?>" style="font-weight:bold"></td>
 
             </tr>
-          <?php }
-              ?>
+          <?php $indexPrefixes++; } ?>
             </tr>
 
           </tbody>
