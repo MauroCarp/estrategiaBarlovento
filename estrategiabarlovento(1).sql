@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 03-02-2025 a las 20:18:29
+-- Tiempo de generación: 05-02-2025 a las 13:36:13
 -- Versión del servidor: 8.0.31
 -- Versión de PHP: 7.4.33
 
@@ -249,7 +249,7 @@ INSERT INTO `usuarios` (`id`, `nombre`, `usuario`, `password`, `empresa`, `perfi
 (20, 'JorgeC', 'JorgeC', '$2a$07$asxx54ahjppf45sd87a5aueTpu8KZyE2ZYTI56lDwzTsqqGSSvjvy', '', 'Administrador', NULL, 1, '2024-12-23 08:53:43', '2022-06-13 19:10:41'),
 (22, 'Mauro', 'Mauro1', '$2a$07$asxx54ahjppf45sd87a5aumz05tbqncvnFta0EzQw5j/y0auoL1y6', 'Jorge Ferrario', 'Operario', NULL, NULL, NULL, '2022-06-14 08:13:58'),
 (23, 'Mauro', 'Tecnico', '$2a$07$asxx54ahjppf45sd87a5auCqRfN5riaXMbI325TFZ6KOpzYf9E84i', 'Barlovento', 'Administrador', NULL, 1, '2024-11-22 12:23:21', '2022-09-28 20:43:37'),
-(24, 'Tecnico', 'tecnicoEstrategia', '$2a$07$asxx54ahjppf45sd87a5auCqRfN5riaXMbI325TFZ6KOpzYf9E84i', 'Estrategia', 'Administrador', NULL, 1, '2025-02-03 14:22:42', '2024-05-22 02:51:19'),
+(24, 'Tecnico', 'tecnicoEstrategia', '$2a$07$asxx54ahjppf45sd87a5auCqRfN5riaXMbI325TFZ6KOpzYf9E84i', 'Estrategia', 'Administrador', NULL, 1, '2025-02-04 23:04:53', '2024-05-22 02:51:19'),
 (25, 'Jorge', 'JorgePlan', '$2a$07$asxx54ahjppf45sd87a5auCseuQDrLZZ7ic0MltFw4qsxZXNnhb/K', 'Estrategia', 'Administrador', NULL, 1, '2024-12-23 18:12:15', '2024-10-18 17:27:37'),
 (26, 'Ornela', 'OrnelaPlan', '$2a$07$asxx54ahjppf45sd87a5auF964pzcuwj/zySN7jCfGu.f443ilD02', 'Estrategia', 'Administrador', NULL, 1, '2024-11-20 13:09:13', '2024-10-18 19:39:46');
 COMMIT;
