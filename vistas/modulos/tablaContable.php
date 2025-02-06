@@ -44,7 +44,7 @@
           $indexPrefixes = 0;
           foreach ($rows as $label => $idPrefixes) { ?>
             <tr>
-              <td style="padding-top:2px;padding-bottom:2px;font-weight:600;line-height:1em"><?= $label ?></td>
+              <td style="padding-top:2px;padding-bottom:2px;font-weight:600;line-height:1em;vertical-align:middle;"><?= $label ?></td>
               <?php
                 foreach ($meses as $key => $mes) {
 

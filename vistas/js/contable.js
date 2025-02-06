@@ -259,29 +259,59 @@ let calcularEstructuraContable = ()=>{
 
     for (let index = 1; index <= 12; index++) {
 
-        let importeDirecto = $(`#estructuraDirecto_importe_${index}`).val()
+        let importeDirecto = Number($(`#estructuraDirecto_importe_${index}`).val())
         let aPagarDirecto = $(`#estructuraDirecto_aPagar_${index}`).val()
-        let importeIndirecto = $(`#estructuraIndirecto_importe_${index}`).val()
+        let importeIndirecto = Number($(`#estructuraIndirecto_importe_${index}`).val())
         let aPagarIndirecto = $(`#estructuraIndirecto_aPagar_${index}`).val()
-        let importeGastos = $(`#gastosVarios_importe_${index}`).val()
+        let importeGastos = Number($(`#gastosVarios_importe_${index}`).val())
         let aPagarGastos = $(`#gastosVarios_aPagar_${index}`).val()
-        let importeIngresos = $(`#ingresosExtraordinarios_importe_${index}`).val()
+        let importeIngresos = Number($(`#ingresosExtraordinarios_importe_${index}`).val())
         let aPagarIngresos = $(`#ingresosExtraordinarios_aPagar_${index}`).val()
 
-        if(importeDirecto != 0)
+        if(importeDirecto != 0){
+            if(!totales['EstructuraDirecta'])
+                totales['EstructuraDirecta'] = 0
+
+            totales['EstructuraDirecta'] += importeDirecto
+
             processPayment(importeDirecto,aPagarDirecto, 'estructuraDirecta', index);
-        if(importeIndirecto != 0)
+        }
+
+        if(importeIndirecto != 0){
+
+            if(!totales['EstructuraIndirecta'])
+                totales['EstructuraIndirecta'] = 0
+
+            totales['EstructuraIndirecta'] += importeIndirecto
+
             processPayment(importeIndirecto,aPagarIndirecto, 'estructuraIndirecta', index);
-        if(importeGastos != 0)
+        }
+
+        if(importeGastos != 0){
+
+            if(!totales['GastosVarios'])
+                totales['GastosVarios'] = 0
+
+            totales['GastosVarios'] += importeGastos
+
             processPayment(importeGastos,aPagarGastos, 'gastosVarios', index);
-        if(importeIngresos != 0)
+        }
+
+        if(importeIngresos != 0){
+
+            if(!totales['IngresosExtraordinarios'])
+                totales['IngresosExtraordinarios'] = 0
+
+            totales['IngresosExtraordinarios'] += importeIngresos
+
             processPayment(importeIngresos,aPagarIngresos, 'ingresosExtra', index,'green');
+        }
     }
 
-
-    // for (const tipo in totales) {
-    //     $(`#total${tipo}`).text(totales[tipo].toLocaleString('de-DE'));
-    // }  
+    
+    for (const tipo in totales) {
+        $(`#total${tipo}`).text(totales[tipo].toLocaleString('de-DE'));
+    }  
 
 }
 
