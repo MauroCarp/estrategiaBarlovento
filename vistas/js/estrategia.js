@@ -241,12 +241,13 @@ $('#dieta').on('change',function(){
                         let thNecesario = th.cloneNode(true)
                         let thIngreso = th.cloneNode(true)
                         let thPrecio = th.cloneNode(true)
-                        let thAPagar = th.cloneNode(true)  
+                        // let thAPagar = th.cloneNode(true)  
                         thNecesario.innerText = 'Necesario' 
                         thIngreso.innerText = 'Ingreso'
                         thPrecio.innerText = 'Precio'   
-                        thAPagar.innerText = 'A Pagar'   
-                        tr.append(th,thNecesario,thIngreso,thPrecio,thAPagar)
+                        // thAPagar.innerText = 'A Pagar'   
+                        // tr.append(th,thNecesario,thIngreso,thPrecio,thAPagar)
+                        tr.append(th,thNecesario,thIngreso,thPrecio)
                         thead.append(tr)    
                         tableInsumo.append(thead)
 
@@ -268,15 +269,13 @@ $('#dieta').on('change',function(){
                             inputHiddenIngreso.setAttribute('name', `insumoIngreso${idInsumo}${i}`);
                             
                             inputHiddenPrecio = inputHidden.cloneNode(true);
-                            inputHiddenAPagar = inputHidden.cloneNode(true);
+                            // inputHiddenAPagar = inputHidden.cloneNode(true);
                             inputHiddenPrecio.setAttribute('name', `insumoPrecio${idInsumo}${i}`);
-                            inputHiddenAPagar.setAttribute('name', `insumoAPagar${idInsumo}${i}`);
+                            // inputHiddenAPagar.setAttribute('name', `insumoAPagar${idInsumo}${i}`);
 
 
-                            $('#inputsInsumos').append(inputHiddenIngreso,inputHiddenPrecio,inputHiddenAPagar)
-
-
-                            
+                            // $('#inputsInsumos').append(inputHiddenIngreso,inputHiddenPrecio,inputHiddenAPagar)
+                            $('#inputsInsumos').append(inputHiddenIngreso,inputHiddenPrecio)
                             
                             let trInsumo = document.createElement('TR');
                             let tdMonth = document.createElement('TD');
@@ -285,9 +284,10 @@ $('#dieta').on('change',function(){
                             tdMonth.innerText = months[i];
                             trInsumo.append(tdMonth);
 
-                            for (let j = 0; j < 4; j++) {
+                            for (let j = 0; j < 3; j++) {
 
-                                let columnHeader = ['Necesario', 'Ingreso', 'Precio', 'APagar'][j];
+                                // let columnHeader = ['Necesario', 'Ingreso', 'Precio', 'APagar'][j];
+                                let columnHeader = ['Necesario', 'Ingreso', 'Precio'][j];
                                 let td = document.createElement('TD'); 
                                 td.setAttribute('style','width:150px')
 
@@ -308,8 +308,8 @@ $('#dieta').on('change',function(){
                                     if(columnHeader == 'Ingreso')
                                         inputInsumo.classList.add('compraInsumos')
                                     
-                                    if(columnHeader == 'APagar')
-                                        inputInsumo.setAttribute('max','24')   
+                                    // if(columnHeader == 'APagar')
+                                    //     inputInsumo.setAttribute('max','24')   
 
                                     td.append(inputInsumo);
 

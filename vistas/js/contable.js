@@ -64,7 +64,7 @@ let calcularInsumosContable = ()=>{
         let idInsumo = $(this).attr('id-insumo');
         let realMonth = $(this).attr('id').replace(`insumoIngreso${idInsumo}`, '');
         let precio = Number($(this).parent().next().children().val());
-        let aPagar = $(this).parent().next().next().children().val();
+        // let aPagar = $(this).parent().next().next().children().val();
         let cantInsumo = Number($(this).val());
 
         if (!total[idInsumo]) {
@@ -74,7 +74,8 @@ let calcularInsumosContable = ()=>{
 
         if (cantInsumo !== 0) {
 
-            let month = (Number(realMonth) + Number(aPagar) - 1) % 12 + 1;
+            // let month = (Number(realMonth) + Number(aPagar) - 1) % 12 + 1;
+            let month = realMonth
 
 
             if ($(`#insumo${idInsumo}${month}Contable`).html() == '' || $(`#insumo${idInsumo}${month}Contable`).html() == '0') {

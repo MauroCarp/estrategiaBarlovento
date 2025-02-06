@@ -1095,8 +1095,8 @@ if(seteado){
         thNecesario.innerText = 'Necesario';
         thIngreso.innerText = 'Ingreso';
         thPrecio.innerText = 'Precio';
-        thAPagar.innerText = 'A Pagar';
-        tr.append(th, thNecesario, thIngreso, thPrecio, thAPagar);
+        // thAPagar.innerText = 'A Pagar';
+        tr.append(th, thNecesario, thIngreso, thPrecio);
         thead.append(tr);
         tableInsumo.append(thead);
         
@@ -1109,8 +1109,8 @@ if(seteado){
           tdMonth.innerText = months[index];
           trInsumo.append(tdMonth);
 
-          for (let j = 0; j < 4; j++) {
-              let columnHeader = ['Necesario', 'Ingreso', 'Precio', 'APagar'][j];
+          for (let j = 0; j < 3; j++) {
+              let columnHeader = ['Necesario', 'Ingreso', 'Precio'][j];
               let td = document.createElement('TD');
 
               let spanPlanificado = document.createElement('SPAN');
@@ -1147,14 +1147,14 @@ if(seteado){
 
               }
                 
-              if(columnHeader == 'APagar'){
-                spanPlanificado.setAttribute('id', `insumoAPagarPlan${insumosNameId[key]}_${index + 1}`);
-                spanReal.setAttribute('id', `insumoAPagarReal${insumosNameId[key]}_${index + 1}`);
-                // spanPlanificado.innerText = aPagarInsumoPlan[index + 1][insumosNameId[key]];
-                spanPlanificado.innerText = 0;
-                spanReal.innerText = (aPagarInsumoReal != null) ? (aPagarInsumoReal[index + 1] != undefined) ? ' | ' + aPagarInsumoReal[index + 1][insumosNameId[key]] : '' : '';
+              // if(columnHeader == 'APagar'){
+              //   spanPlanificado.setAttribute('id', `insumoAPagarPlan${insumosNameId[key]}_${index + 1}`);
+              //   spanReal.setAttribute('id', `insumoAPagarReal${insumosNameId[key]}_${index + 1}`);
+              //   // spanPlanificado.innerText = aPagarInsumoPlan[index + 1][insumosNameId[key]];
+              //   spanPlanificado.innerText = 0;
+              //   spanReal.innerText = (aPagarInsumoReal != null) ? (aPagarInsumoReal[index + 1] != undefined) ? ' | ' + aPagarInsumoReal[index + 1][insumosNameId[key]] : '' : '';
 
-              }
+              // }
                 
                 
 
