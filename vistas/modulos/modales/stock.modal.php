@@ -49,7 +49,14 @@
 
                                   <td><input class="form-control stockInicial" type="number" id="stockAnimales" value="<?=($data['estrategia']['seteado']) ? $data['stockAnimales'] : '0'?>" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>></td>
 
-                                  <td><input class="form-control stockInicial" type="number" id="stockKgProm" value="<?=($data['estrategia']['seteado']) ? $data['estrategia']['stockKgProm'] : '0'?>" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>></td>
+                                  <td><input 
+                                            class="form-control stockInicial" 
+                                            type="number" 
+                                            onchange="calculateStockAndTotals();$(`input[name='stockAnimales']`).val($(this).val())"
+                                            id="stockKgProm" 
+                                            value="<?=($data['estrategia']['seteado']) ? $data['estrategia']['stockKgProm'] : '0'?>" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>
+                                      />
+                                  </td>
 
                               </tr>
 
