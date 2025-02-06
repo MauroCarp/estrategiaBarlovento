@@ -366,23 +366,23 @@ let calcularFlujoNeto = ()=>{
         if(!totalesNeto[index]['negativo'])
             totalesNeto[index]['negativo'] = 0 
 
-        totalNeto[index]['positivo'] += ingresos
-        totalNeto[index]['negativo'] += directa
-        totalNeto[index]['negativo'] += indirecta
-        totalNeto[index]['negativo'] += gastos
+        totalesNeto[index]['positivo'] += ingresos
+        totalesNeto[index]['negativo'] += directa
+        totalesNeto[index]['negativo'] += indirecta
+        totalesNeto[index]['negativo'] += gastos
 
-        totalNeto[index]['flujoMensual'] = flujoMensual
+        totalesNeto[index]['flujoMensual'] = flujoMensual
 
     }
 
-    for (const month in totalNeto) {
+    for (const month in totalesNeto) {
 
-        let resultado = (Number(totalNeto[month]['positivo']) - Number(totalNeto[month]['negativo'])) + totalNeto[month]['flujoMensual']
+        let resultado = (Number(totalesNeto[month]['positivo']) - Number(totalesNeto[month]['negativo'])) + totalesNeto[month]['flujoMensual']
 
         let color = (resultado < 0) ? 'red' : 'green'
 
-       $(`flujoNetoContable${month}`).text(resultado)
-       $(`flujoNetoContable${month}`).css('color',color)
+       $(`#flujoNetoContable${month}`).text(resultado.toLocaleString('de-DE'))
+       $(`#flujoNetoContable${month}`).css('color',color)
 
     }
 }
