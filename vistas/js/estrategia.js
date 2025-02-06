@@ -353,7 +353,7 @@ $('#dieta').on('change',function(){
                             let td = document.createElement('TD');
                             td.innerText = '0';
                             td.setAttribute('class', `contableInsumo flujo`);
-                            td.setAttribute('month-data', j);
+                            td.setAttribute('month-data', (k + 1));
                             td.setAttribute('id', `insumo${idInsumo}${j}Contable`);
                             trContable.append(td);
 

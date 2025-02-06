@@ -18,6 +18,8 @@ $('#modalEstrategiaIngresoInsumos').on('hidden.bs.modal', function () {
 
     calcularFlujoDeFondoMensual()
 
+    calcularFlujoNeto()
+
 });
 
 $('#modalEstrategiaEstructura').on('hidden.bs.modal', function () {
@@ -36,12 +38,19 @@ $('#modalEstrategiaEstructura').on('hidden.bs.modal', function () {
 
     })
 
+    calcularFlujoNeto()
+
 
 });
 
 $('#modalEstrategiaIngEgr').on('hidden.bs.modal', function () {
+
     calcularAnimalesContable();
+
     calcularFlujoDeFondoMensual();
+
+    calcularFlujoNeto()
+
 });
 
 let calcularInsumosContable = ()=>{
@@ -142,7 +151,8 @@ let calcularAnimalesContable = ()=>{
         let aPagarIngreso = $(this).parent().next().next().next().next().next().children().children().first().val()
         let aPagarVenta = $(this).parent().next().next().next().next().next().children().children().eq(1).val()
 
-        const updateContable = (selector, total,color = 'green') => {
+        
+        const updateContable = (selector, total,color) => {
             if ($(selector).html() == '' || $(selector).html() == '0') {
             $(selector).html($(`<span style="color:${color}">${total.toLocaleString('de-DE')}</span>`));
             } else {
@@ -151,14 +161,32 @@ let calcularAnimalesContable = ()=>{
             }
         };
 
+        const processPayment = (importe, aPagar, prefix, index,color = 'red') => {
+            let month;
+            if (aPagar === 'A') {
+                month = ((index + 1) - 1) % 12 + 1;
+    
+                updateContable(`#${prefix}Contable${month}`, Number(importe), color);
+            } else if (aPagar === 'B') {
+                month1 = ((index + 1) - 1) % 12 + 1;
+                month2 = ((index + 2) - 1) % 12 + 1;
+    
+                updateContable(`#${prefix}Contable${month1}`, Number(importe / 2), color);
+                updateContable(`#${prefix}Contable${month2}`, Number(importe / 2), color);
+            } else if (aPagar === 'C') {
+                month = ((index + 2) - 1) % 12 + 1;
+                updateContable(`#${prefix}Contable${month}`, Number(importe), color);
+            } else if (aPagar === 'D') {
+                month = ((index + 3) - 1) % 12 + 1;
+                updateContable(`#${prefix}Contable${month}`, Number(importe), color);
+            }
+        };
 
         if (ingresos != 0) {
 
-            let month = (Number(realMonth) + Number(aPagarIngreso) - 1) % 12 + 1;
-            
             let total = (ingresos * kgIngreso) * precioIngreso;
 
-            updateContable(`#ingresoPlanContable${month}`, total,'red');
+            processPayment(total,aPagarIngreso, 'ingresoPlan', Number(realMonth));          
 
             if(!totales['Ingresos']){
                 totales['Ingresos'] = 0
@@ -170,11 +198,9 @@ let calcularAnimalesContable = ()=>{
 
         if (ventas != 0) {
 
-            let month = (Number(realMonth) + Number(aPagarVenta) - 1) % 12 + 1;
-
             let total = (ventas * kgVenta) * precioVenta;
 
-            updateContable(`#ventaPlanContable${month}`, total);
+            processPayment(total,aPagarVenta, 'ventaPlan', Number(realMonth),'green');          
 
             if(!totales['Egresos']){
                 totales['Egresos'] = 0
@@ -262,6 +288,7 @@ let calcularEstructuraContable = ()=>{
 let calcularFlujoDeFondoMensual = ()=>{ 
 
     let totalesFlujo = {}
+
     $('.flujo').each(function(){
 
         let value = Number($(this).text().replace(/\./g, ''))
@@ -271,33 +298,93 @@ let calcularFlujoDeFondoMensual = ()=>{
         let id = $(this).attr('id')
 
         if (id.includes('ventaPlanContable')) {
-            if (!totalesFlujo['positivo']) {
-                totalesFlujo['positivo'] = {};
+            if (!totalesFlujo[month]) {
+                totalesFlujo[month] = {};
             }
 
-            if (!totalesFlujo['positivo'][month]) {
-                totalesFlujo['positivo'][month] = 0;
+            if (!totalesFlujo[month]['positivo']) {
+                totalesFlujo[month]['positivo'] = 0;
             }
 
-            totalesFlujo['positivo'][month] += value;
+            totalesFlujo[month]['positivo'] += value;
             
         } else {
 
-            if (!totalesFlujo['negativo']) {
-                totalesFlujo['negativo'] = {};
+            if (!totalesFlujo[month]) {
+                totalesFlujo[month] = {};
             }
 
-            if (!totalesFlujo['negativo'][month]) {
-                totalesFlujo['negativo'][month] = 0;
+            if (!totalesFlujo[month]['negativo']) {
+                totalesFlujo[month]['negativo'] = 0;
             }
 
-            totalesFlujo['negativo'][month] += value;
+            totalesFlujo[month]['negativo'] += value;
 
         }
     })
 
+    let totalAccum = 0
+
+    for (const key in totalesFlujo) {
+
+        let resultado = totalesFlujo[key].positivo - totalesFlujo[key].negativo;
+        totalAccum += resultado
+
+        let color = (resultado < 0) ? 'red' : 'green'
+        
+        $(`#flujoMensualContable${key}`).text(resultado.toLocaleString('de-DE'))
+        $(`#flujoMensualContable${key}`).css('color',color)
+
+        color = (totalAccum < 0) ? 'red' : 'green'
+        $(`#flujoMensualAcumContable${key}`).text(totalAccum.toLocaleString('de-DE'))
+        $(`#flujoMensualAcumContable${key}`).css('color',color)
+        
+    }
+    
     console.log(totalesFlujo)
 
+}
+
+let calcularFlujoNeto = ()=>{
+
+    let totalesNeto = {}
+
+    for (let index = 1; index <= 12; index++) {
+
+        let directa = Number($(`#estructuraDirectaContable${index}`).text().replace(/\./g, ''))
+        let indirecta = Number($(`#estructuraIndirectaContable${index}`).text().replace(/\./g, ''))
+        let gastos = Number($(`#gastosVariosContable${index}`).text().replace(/\./g, ''))
+        let ingresos = Number($(`#ingresosExtraContable${index}`).text().replace(/\./g, ''))
+        let flujoMensual = Number($(`#flujoMensualContable${index}`).text().replace(/\./g, ''))
+
+        if(!totalesNeto[index])
+            totalesNeto[index] = {}
+
+        if(!totalesNeto[index]['positivo'])
+            totalesNeto[index]['positivo'] = 0 
+
+        if(!totalesNeto[index]['negativo'])
+            totalesNeto[index]['negativo'] = 0 
+
+        totalNeto[index]['positivo'] += ingresos
+        totalNeto[index]['negativo'] += directa
+        totalNeto[index]['negativo'] += indirecta
+        totalNeto[index]['negativo'] += gastos
+
+        totalNeto[index]['flujoMensual'] = flujoMensual
+
+    }
+
+    for (const month in totalNeto) {
+
+        let resultado = (Number(totalNeto[month]['positivo']) - Number(totalNeto[month]['negativo'])) + totalNeto[month]['flujoMensual']
+
+        let color = (resultado < 0) ? 'red' : 'green'
+
+       $(`flujoNetoContable${month}`).text(resultado)
+       $(`flujoNetoContable${month}`).css('color',color)
+
+    }
 }
 
 

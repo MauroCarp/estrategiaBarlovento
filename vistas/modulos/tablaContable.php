@@ -30,15 +30,15 @@
           <tbody id="tbodyContable">
           <?php
           $rows = [
-            'Egresos por Compras' => ['plan' => 'ingresoPlanContable', 'real' => 'ingresoRealContable'],
-            'Ingresos por Ventas' => ['plan' => 'ventaPlanContable', 'real' => 'ventaRealContable'],
-            'Flujo de Fondo Mensual' => ['plan' => 'flujoMensualContable', 'real' => 'flujoMensualRealContable'],
-            'Flujo de Fondo Mensual Acum.' => ['plan' => 'flujoMensualAcumContable', 'real' => 'flujoMensualAcumRealContable'],
-            'Estructura Directa' => ['plan' => 'estructuraDirectaContable', 'real' => 'estructuraDirectaRealContable'],
-            'Estructura Indirecta' => ['plan' => 'estructuraIndirectaContable', 'real' => 'estructuraIndirectaRealContable'],
-            'Gastos Varios' => ['plan' => 'gastosVariosContable', 'real' => 'gastosVariosRealContable'],
-            'Ingresos Extraordinarios' => ['plan' => 'ingresosExtraContable', 'real' => 'ingresosExtraRealContable'],
-            'Flujo Neto' => ['plan' => 'flujoNetoContable', 'real' => 'flujoNetoRealContable'],
+            'Egresos por Compras' => ['plan' => 'ingresoPlanContable', 'real' => 'ingresoRealContable','class'=>'Ingresos'],
+            'Ingresos por Ventas' => ['plan' => 'ventaPlanContable', 'real' => 'ventaRealContable','class'=>'Egresos'],
+            'Flujo de Fondo Mensual' => ['plan' => 'flujoMensualContable', 'real' => 'flujoMensualRealContable','class'=>''],
+            'Flujo de Fondo Mensual Acum.' => ['plan' => 'flujoMensualAcumContable', 'real' => 'flujoMensualAcumRealContable','class'=>''],
+            'Estructura Directa' => ['plan' => 'estructuraDirectaContable', 'real' => 'estructuraDirectaRealContable','class'=>'EstructuraDirecta'],
+            'Estructura Indirecta' => ['plan' => 'estructuraIndirectaContable', 'real' => 'estructuraIndirectaRealContable','class'=>'EstructuraIndirecta'],
+            'Gastos Varios' => ['plan' => 'gastosVariosContable', 'real' => 'gastosVariosRealContable','class'=>'GastosVarios'],
+            'Ingresos Extraordinarios' => ['plan' => 'ingresosExtraContable', 'real' => 'ingresosExtraRealContable','class'=>'IngresosExtraordinarios'],
+            'Flujo Neto' => ['plan' => 'flujoNetoContable', 'real' => 'flujoNetoRealContable','class'=>''],
           ];
 
           $indexPrefixes = 0;
@@ -75,7 +75,7 @@
                 }
               ?>
 
-              <td id="total<?=$label?>" style="font-weight:bold"></td>
+              <td id="total<?=$idPrefixes['class']?>" style="font-weight:bold"></td>
 
             </tr>
           <?php $indexPrefixes++; } ?>
