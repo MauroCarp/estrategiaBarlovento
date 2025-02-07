@@ -855,7 +855,6 @@ let calculateStockAndTotals = () => {
         if(isNaN(ventaReal) || ventaReal == '') ventaReal = 0
   
   
-        console.log(ingresoReal)
         stock += ingreso
         stockReal += ingresoReal
   
@@ -921,7 +920,6 @@ let calculateStockAndTotals = () => {
 
         $('#avgKgVenta').html((kgVentaTotal / ventaTotal).toFixed(2))
 
-        console.log(stockReal)
         if(!isNaN(stockReal)){
   
           setTimeout(() => {
