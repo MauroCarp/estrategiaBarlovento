@@ -827,17 +827,25 @@ let calculateStockAndTotals = () => {
 
     } else {
   
-        let stockReal = parseFloat($('#stockAnimales').val())
   
         let ingresoTotalReal = 0
         let kgIngresoTotalReal = 0
         let ventaTotalReal = 0
         let kgVentaTotalReal = 0
-  
+        let stockReal = 0
+
       for (let index = 1; index <= 12; index++) {
         
         let ingreso = parseFloat($(`#ingreso${index}`).html())
         let ingresoReal = parseFloat($(`#ingresoReal${index}`).html().replace('| ',''))
+
+        if(!isNaN(ingresoReal)){
+
+          if(index == 1)
+            stockReal = parseFloat($('#stockAnimales').val())
+          
+        }
+
         let stockValido = ingresoReal
   
         if(isNaN(ingresoReal) || ingresoReal == '') ingresoReal = 0
@@ -847,6 +855,7 @@ let calculateStockAndTotals = () => {
         if(isNaN(ventaReal) || ventaReal == '') ventaReal = 0
   
   
+        console.log(ingresoReal)
         stock += ingreso
         stockReal += ingresoReal
   
@@ -870,6 +879,7 @@ let calculateStockAndTotals = () => {
           $(`#stockDif${index}`).html(`<span style="color:${posNeg}">${diff}</span>`)
 
           $(`#stockReal${index}`).html(` | ${stockReal}`)
+
           if(stockReal < Number($(`#stockPlanIngEgr${index}`).html())) $(`#stockReal${index}`).css('color','red')
   
   
@@ -911,6 +921,7 @@ let calculateStockAndTotals = () => {
 
         $('#avgKgVenta').html((kgVentaTotal / ventaTotal).toFixed(2))
 
+        console.log(stockReal)
         if(!isNaN(stockReal)){
   
           setTimeout(() => {
