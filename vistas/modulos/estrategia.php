@@ -1010,6 +1010,7 @@ if(seteado){
       let index = 0
 
       let insumosName =  Object.keys(dataEstrategia.compraInsumos)
+      console.log(insumosName)
 
       let insumosNameId = {}
 
@@ -1046,7 +1047,7 @@ if(seteado){
       index = 0
       let month = 1
 
-      
+        console.log(insumosNameId)
       for (const key in insumosNameId) {
 
         let trContable = document.createElement('TR');
@@ -1080,6 +1081,7 @@ if(seteado){
         let isActive = (index == 0) ? 'active' : '';
         let isClassActive = (index == 0) ? 'fade in active' : '';
 
+        console.log(key)
         let tabInsumo = $(`<li class="${isActive}"><a href="#insumo${index}" data-toggle="pill">${key}</a></li>`);
         $('#tabsInsumos').append(tabInsumo);
 
@@ -1109,6 +1111,7 @@ if(seteado){
         thead.append(tr);
         tableInsumo.append(thead);
         
+
         Object.values(cerealesPlan[insumosNameId[key]]).forEach((element,index) => {
 
           let trInsumo = document.createElement('TR');
