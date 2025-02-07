@@ -138,7 +138,7 @@ const validarPorcentajesDieta = ()=>{
 
     }
 }
-
+  
 $('.stockInicial').each(function(){
 
     
@@ -690,6 +690,7 @@ if (event.key === 'F1') {
 }
 
 });
+
 
 
 

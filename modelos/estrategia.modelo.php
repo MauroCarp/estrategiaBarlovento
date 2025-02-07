@@ -158,16 +158,19 @@ class ModeloEstrategia{
 	static public function mdlSetearAnimales($tabla,$data){
 
 
-		$stmt = Conexion::conectarEstrategia()->prepare("INSERT INTO $tabla(ingresosPlan, kgIngresosPlan,precioKgIngresosPlan,aPagarIngresosPlan, egresosPlan, kgEgresosPlan,preciokgEgresosPlan,aPagarEgresosPlan, idEstrategia) VALUES(:ingresosPlan, :kgIngresosPlan, :precioKgIngresosPlan, :aPagarIngresosPlan, :egresosPlan, :kgEgresosPlan,:preciokgEgresosPlan,:aPagarEgresosPlan,:idEstrategia)");
+		$stmt = Conexion::conectarEstrategia()->prepare("INSERT INTO $tabla(ingresosPlan, kgIngresosPlan,precioKgIngresosPlan,aPagarIngresosPlan, egresosPlan, kgEgresosPlan,preciokgEgresosPlan,aPagarEgresosPlan, idEstrategia) VALUES(:ingresosPlan, :kgIngresosPlan, :precioKgIngresosPlan,:aPagarIngresosPlan, :egresosPlan, :kgEgresosPlan,:preciokgEgresosPlan,:aPagarEgresosPlan,:idEstrategia)");
 
 
 		$stmt -> bindParam(":ingresosPlan", json_encode($data['ingresos']), PDO::PARAM_STR);
 		$stmt -> bindParam(":kgIngresosPlan", json_encode($data['kgIngresos']), PDO::PARAM_STR);
-		$stmt -> bindParam(":preciokgIngresosPlan", json_encode($data['kgIngresos']), PDO::PARAM_STR);
-		$stmt -> bindParam(":aPagarIngresosPlan", json_encode($data['kgIngresos']), PDO::PARAM_STR);
+		$stmt -> bindParam(":precioKgIngresosPlan", json_encode($data['precioKgIngresos']), PDO::PARAM_STR);
+		$stmt -> bindParam(":aPagarIngresosPlan", json_encode($data['aPagarIngresos']), PDO::PARAM_STR);
 		$stmt -> bindParam(":egresosPlan", json_encode($data['ventas']), PDO::PARAM_STR);
 		$stmt -> bindParam(":kgEgresosPlan", json_encode($data['kgVentas']), PDO::PARAM_STR);
+		$stmt -> bindParam(":preciokgEgresosPlan", json_encode($data['precioKgVentas']), PDO::PARAM_STR);
+		$stmt -> bindParam(":aPagarEgresosPlan", json_encode($data['aPagarVentas']), PDO::PARAM_STR);
 		$stmt -> bindParam(":idEstrategia", $data['idEstrategia'], PDO::PARAM_STR);
+
 				
 		if($stmt -> execute()){
 		
@@ -185,9 +188,10 @@ class ModeloEstrategia{
 	static public function mdlSetearInsumos($tabla,$data){
 
 
-		$stmt = Conexion::conectarEstrategia()->prepare("INSERT INTO $tabla(cerealesPlan, idEstrategia) VALUES(:cerealesPlan,:idEstrategia)");
+		$stmt = Conexion::conectarEstrategia()->prepare("INSERT INTO $tabla(cerealesPlan,precioPlan,idEstrategia) VALUES(:cerealesPlan,:precioPlan,:idEstrategia)");
 
-		$stmt -> bindParam(":cerealesPlan",json_encode($data['insumos']),PDO::PARAM_STR);
+		$stmt -> bindParam(":cerealesPlan",json_encode($data['cantidad']),PDO::PARAM_STR);
+		$stmt -> bindParam(":precioPlan",json_encode($data['precio']),PDO::PARAM_STR);
 		$stmt -> bindParam(":idEstrategia",$data['idEstrategia'], PDO::PARAM_STR);
 
 		if($stmt -> execute()){
@@ -197,6 +201,41 @@ class ModeloEstrategia{
 		}else{
 
 			return $stmt->errorInfo();
+		
+		};
+
+
+	}
+
+	static public function mdlSetearEstructura($tabla,$data){
+
+
+		$stmt = Conexion::conectarEstrategia()->prepare("INSERT INTO $tabla(idEstrategia,directaImportePlan,indirectaImportePlan,gastosImportePlan,ingresosImportePlan,directaApagarPlan,indirectaApagarPlan,gastosApagarPlan,ingresosApagarPlan) VALUES(:idEstrategia,:directaImportePlan,:indirectaImportePlan,:gastosImportePlan,:ingresosImportePlan,:directaApagarPlan,:indirectaApagarPlan,:gastosApagarPlan,:ingresosApagarPlan)");
+
+		$stmt -> bindParam(":idEstrategia",$data['idEstrategia'], PDO::PARAM_STR);
+		$stmt -> bindParam(":directaImportePlan",json_encode($data['estructuraDirecto_importe']),PDO::PARAM_STR);
+		$stmt -> bindParam(":indirectaImportePlan",json_encode($data['estructuraIndirecto_importe']),PDO::PARAM_STR);
+		$stmt -> bindParam(":gastosImportePlan",json_encode($data['gastosVarios_importe']),PDO::PARAM_STR);
+		$stmt -> bindParam(":ingresosImportePlan",json_encode($data['ingresosExtraordinarios_importe']),PDO::PARAM_STR);
+		$stmt -> bindParam(":directaApagarPlan",json_encode($data['estructuraDirecto_aPagar']),PDO::PARAM_STR);
+		$stmt -> bindParam(":indirectaApagarPlan",json_encode($data['estructuraIndirecto_aPagar']),PDO::PARAM_STR);
+		$stmt -> bindParam(":gastosApagarPlan",json_encode($data['gastosVarios_aPagar']),PDO::PARAM_STR);
+		$stmt -> bindParam(":ingresosApagarPlan",json_encode($data['ingresosExtraordinarios_aPagar']),PDO::PARAM_STR);
+
+		if($stmt -> execute()){
+		
+			return 'ok';
+		
+		}else{
+
+			return $stmt->errorInfo();
+		
+		
+		
+		
+		
+		
+		
 		
 		};
 
