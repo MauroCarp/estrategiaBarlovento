@@ -71,7 +71,6 @@ class ControladorEstrategia{
 
 		$respuesta = ModeloEstrategia::mdlMostrarEstrategia($tabla,$campania);
 
-		
 		$insumos = ControladorEstrategia::ctrMostrarInsumos();
 		
 		if(!is_null($respuesta['cerealesPlan']) && $respuesta['cerealesPlan']){	
@@ -124,8 +123,6 @@ class ControladorEstrategia{
 
 		}
 
-		
-		
 		$campanias = ModeloEstrategia::mdlMostrarEstrategia($tabla,'campanias');
 
 		return array('estrategia'=>$respuesta,'campanias'=>$campanias);

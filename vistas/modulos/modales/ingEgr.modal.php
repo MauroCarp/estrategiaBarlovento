@@ -120,11 +120,14 @@
                 ];
                 
                 $kgIngresosPlan = json_decode($data['estrategia']['kgIngresosPlan'],true);
+                $precioKgIngresoPlan = json_decode($data['estrategia']['precioKgIngresosPlan'],true);
+                $aPagarIngresoPlan = json_decode($data['estrategia']['aPagarIngresosPlan'],true);
                 $kgEgresosPlan = json_decode($data['estrategia']['kgEgresosPlan'],true);
+                $precioKgEgresoPlan = json_decode($data['estrategia']['precioKgEgresosPlan'],true);
+                $aPagarEgresoPlan = json_decode($data['estrategia']['aPagarEgresosPlan'],true);
                 $kgIngresosReal = json_decode($data['estrategia']['kgIngresosReal'],true);
                 $kgEgresosReal = json_decode($data['estrategia']['kgVentasReal'],true);
                 $egresosReal = json_decode($data['estrategia']['ventasReal'],true);
-
 
                 foreach ($months as $index => $month): ?>
                   <tr class="monthRow">
@@ -135,23 +138,31 @@
                       <td><span class="planificado kgVenta" id="kgVenta<?= $index ?>"><?=$kgEgresosPlan[$index] ?></span><span id="kgVentaReal<?= $index ?>" class="real"><?=(isset($kgEgresosReal[$index])) ? ' | ' . $kgEgresosReal[$index] : '' ?></span></td>
                       <td class="celda-doble">  
                           <div class="celda-izquierda">
-                            <span class="planificado precioKgIngreso" id="precioKgIngreso<?= $index ?>" style="float:left">0</span>
-                            <span id="precioKgIngresoReal<?= $index ?>" class="real" style="float:right"><?=(isset($kgEgresosReal[$index])) ? ' | ' . $kgEgresosReal[$index] : '' ?></span>
+                            <span class="planificado precioKgIngreso" id="precioKgIngreso<?= $index ?>" style="float:left"><?=$precioKgIngresoPlan[$index]?></span>
+                            <span id="precioKgIngresoReal<?= $index ?>" class="real" style="float:right"><?=(isset($precioKgIngresoReal[$index])) ? ' | ' . $precioKgIngresoReal[$index] : '' ?></span>
                           </div>
                           <div class="celda-derecha">
-                            <span class="planificado precioKgVenta" id="precioKgVenta<?= $index ?>" style="float:left">0</span>
+                            <span class="planificado precioKgVenta" id="precioKgVenta<?= $index ?>" style="float:left"><?=$precioKgEgresoPlan[$index]?></span>
                             <span id="precioKgVentaReal<?= $index ?>" class="real" style="float:right
-                            "><?=(isset($kgEgresosReal[$index])) ? ' | ' . $kgEgresosReal[$index] : '' ?></span>
+                            "><?=(isset($precioKgEgresoReal[$index])) ? ' | ' . $precioKgEgresoReal[$index] : '' ?></span>
                           </div>
                       </td>
                       <td>
                         <div class="celda-doble">
 
                           <div class="celda-izquierda">
-                            <span class="planificado aPagar" id="aPagarIngreso<?= $index ?>" style="float:left">0</span><span id="aPagarIngresoReal<?= $index ?>" class="real" style="float:right"><?=(isset($kgEgresosReal[$index])) ? ' | ' . $kgEgresosReal[$index] : '' ?></span>
+                            <span class="planificado aPagar" id="aPagarIngreso<?= $index ?>" style="float:left;font-weight:bold;color:<?=($aPagarIngresoPlan[$index] == 'A') ? 
+                              'green' 
+                              : 
+                              (($aPagarIngresoPlan[$index] == 'B') ? 'blue' : (($aPagarIngresoPlan[$index] == 'D') ? 'red' : 'rgb(277,215,0)'))?>"><?=$aPagarIngresoPlan[$index]?></span>
+                            <span id="aPagarIngresoReal<?= $index ?>" class="real" style="float:right"><?=(isset($aPagarIngresoReal[$index])) ? ' | ' . $aPagarIngresoReal[$index] : '' ?></span>
                           </div>
                           <div class="celda-derecha">
-                            <span class="planificado aPagar" id="aPagarVenta<?= $index ?>" style="float:left">0</span><span id="aPagarVentaReal<?= $index ?>" class="real" style="float:right"><?=(isset($kgEgresosReal[$index])) ? ' | ' . $kgEgresosReal[$index] : '' ?></span>
+                            <span class="planificado aPagar" id="aPagarVenta<?= $index ?>" style="float:left;font-weight:bold;color:<?=($aPagarEgresoPlan[$index] == 'A') ? 
+                              'green'
+                              : 
+                              (($aPagarEgresoPlan[$index] == 'B') ? 'blue' : (($aPagarEgresoPlan[$index] == 'D') ? 'red' : 'rgb(277,215,0)'))?>"><?=$aPagarEgresoPlan[$index]?></span>
+                              <span id="aPagarVentaReal<?= $index ?>" class="real" style="float:right"><?=(isset($aPagarEgresoReal[$index])) ? ' | ' . $aPagarEgresoReal[$index] : '' ?></span>
                           </div>
                           
                         </div>
