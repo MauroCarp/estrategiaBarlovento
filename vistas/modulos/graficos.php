@@ -880,11 +880,12 @@ let calcularConsumos = async ()=>{
 
             compraInsumos = JSON.parse(compraInsumos)
 
-            let dataCompraInsumos = JSON.parse(JSON.stringify(compraInsumos))
-
+            // let dataCompraInsumos = JSON.parse(JSON.stringify(compraInsumos))
+            let dataCompraInsumos = compraInsumos
+ 
             for (const key in compraInsumos) {
                 
-                dataCompraInsumos[key][0] = Number(dataCompraInsumos[key][0]) + Number(stockInicialInsumos[key])  
+                dataCompraInsumos[key][1] = Number(dataCompraInsumos[key][1]) + Number(stockInicialInsumos[key])  
 
             }
 
@@ -896,7 +897,7 @@ let calcularConsumos = async ()=>{
 
             for (const key in compraInsumosReal) {
                 
-                dataCompraInsumosReal[key][0] = Number(dataCompraInsumosReal[key][0]) + Number(stockInicialInsumos[key])  
+                dataCompraInsumosReal[key][1] = Number(dataCompraInsumosReal[key][1]) + Number(stockInicialInsumos[key])  
 
             }
 
@@ -909,6 +910,7 @@ let calcularConsumos = async ()=>{
                             'real':{}
                         }
 
+                        console.log(consumoDeInsumos['planificado'])
 
             for (const insumo in dataCompraInsumos) {
                 
@@ -920,33 +922,41 @@ let calcularConsumos = async ()=>{
                         saldo.planificado[mes] = {}
 
 
-                        if(mes == 0){
-
+                        if(mes == 1){
+                            console.log('entro aca 1')
                             stock.planificado[mes][insumo] = Number(stockInicialInsumos[insumo]) + Number(dataCompraInsumos[insumo][mes])
-                            saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes][insumo]['consumoTotal'])
+                            saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes - 1][insumo]['consumoTotal'])
 
                         } else {
+                            console.log('entro aca 2')
+                            console.log(mes)
 
                             stock.planificado[mes][insumo] = Number(saldo.planificado[mes - 1][insumo]) + Number(dataCompraInsumos[insumo][mes])
-                            saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes][insumo]['consumoTotal'])
+                            saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes - 1][insumo]['consumoTotal'])
 
                         }
 
                     } else {
 
-                        if(mes == 0){
+                        if(mes == 1){
+                            console.log('entro aca 3')
+                            console.log(mes)
+                         
 
                             stock.planificado[mes][insumo] = Number(stockInicialInsumos[insumo]) + Number(dataCompraInsumos[insumo][mes])
-                            saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes][insumo]['consumoTotal'])
+                            saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes - 1][insumo]['consumoTotal'])
 
                         } else {
+                            console.log('entro aca 4')
+                            console.log(mes)
 
                             stock.planificado[mes][insumo] = Number(saldo.planificado[mes - 1][insumo]) + Number(dataCompraInsumos[insumo][mes])
-                            saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes][insumo]['consumoTotal'])
+                            saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes - 1][insumo]['consumoTotal'])
 
                         }
 
                     }
+
                 }
 
             }

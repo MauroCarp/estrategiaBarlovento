@@ -1109,9 +1109,8 @@ if(seteado){
         thead.append(tr);
         tableInsumo.append(thead);
         
-        
-        cerealesPlan[insumosNameId[key]].forEach((element,index) => {
-          
+        Object.values(cerealesPlan[insumosNameId[key]]).forEach((element,index) => {
+
           let trInsumo = document.createElement('TR');
           let tdMonth = document.createElement('TD');
           tdMonth.setAttribute('style', 'font-weight:bold;padding:10px');
