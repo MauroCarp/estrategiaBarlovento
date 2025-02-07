@@ -997,6 +997,10 @@ if(seteado){
             4:'Septiembre', 5:'Octubre', 6:'Noviembre', 7:'Diciembre',
             8:'Enero', 9:'Febrero', 10:'Marzo', 11:'Abril'
         };
+      
+      let correccionMeses = {
+        5:1,6:2,7:3,8:4,9:5,10:6,11:7,12:8,1:9,2:10,3:11,4:12
+        };
 
       dataEstrategia = data.estrategia
       // CARGO STOCK ANIMALES
@@ -1010,7 +1014,6 @@ if(seteado){
       let index = 0
 
       let insumosName =  Object.keys(dataEstrategia.compraInsumos)
-      console.log(insumosName)
 
       let insumosNameId = {}
 
@@ -1024,6 +1027,9 @@ if(seteado){
 
       let cerealesPlan = JSON.parse(dataEstrategia.cerealesPlan)
       let cerealesReal = (dataEstrategia.cerealesReal != null) ? JSON.parse(dataEstrategia.cerealesReal) : null
+
+      let precioInsumoPlan = JSON.parse(dataEstrategia.precioPlan)
+      let precioInsumoReal = (dataEstrategia.precioReeal != null) ? JSON.parse(dataEstrategia.cerealesReal) : null
 
       // CREO Y FORMATEO LOS DATOS DE CEREALES REAL
       let insumosReal = {}
@@ -1047,7 +1053,6 @@ if(seteado){
       index = 0
       let month = 1
 
-        console.log(insumosNameId)
       for (const key in insumosNameId) {
 
         let trContable = document.createElement('TR');
@@ -1081,7 +1086,6 @@ if(seteado){
         let isActive = (index == 0) ? 'active' : '';
         let isClassActive = (index == 0) ? 'fade in active' : '';
 
-        console.log(key)
         let tabInsumo = $(`<li class="${isActive}"><a href="#insumo${index}" data-toggle="pill">${key}</a></li>`);
         $('#tabsInsumos').append(tabInsumo);
 
@@ -1112,14 +1116,35 @@ if(seteado){
         tableInsumo.append(thead);
         
 
-        Object.values(cerealesPlan[insumosNameId[key]]).forEach((element,index) => {
+        let correccionCerealesPlan = {}
+        let correccionPrecioInsumoPlan = {}
+
+        for (const key in cerealesPlan) {
+
+          correccionCerealesPlan[key] = {}
+          correccionPrecioInsumoPlan[key] = {}
+
+          Object.values(cerealesPlan[key]).forEach((el,index)=>{
+
+            let month = correccionMeses[index + 1]
+
+            correccionCerealesPlan[key][month] = el
+            correccionPrecioInsumoPlan[key][month] = precioInsumoPlan[key][index + 1]
+
+          })
+          
+        }
+
+        Object.values(correccionCerealesPlan[insumosNameId[key]]).forEach((element,index) => {
+
+          let monthIndex = [index + 1];
 
           let trInsumo = document.createElement('TR');
           let tdMonth = document.createElement('TD');
           tdMonth.setAttribute('style', 'font-weight:bold;padding:10px');
           tdMonth.innerText = months[index];
           trInsumo.append(tdMonth);
-
+            
           for (let j = 0; j < 3; j++) {
               let columnHeader = ['Necesario', 'Ingreso', 'Precio'][j];
               let td = document.createElement('TD');
@@ -1135,26 +1160,25 @@ if(seteado){
               let aPagarInsumoReal = []
 
               if(columnHeader == 'Necesario'){
-                spanPlanificado.setAttribute('id', `insumoNecesarioPlan${insumosNameId[key]}_${index + 1}`);
-                spanReal.setAttribute('id', `insumoNecesarioReal${insumosNameId[key]}_${index + 1}`);
+                spanPlanificado.setAttribute('id', `insumoNecesarioPlan${insumosNameId[key]}_${monthIndex}`);
+                spanReal.setAttribute('id', `insumoNecesarioReal${insumosNameId[key]}_${monthIndex}`);
               }
 
               if(columnHeader == 'Ingreso'){
 
-                spanPlanificado.setAttribute('id', `insumoPlan${insumosNameId[key]}_${index + 1}`);
-                spanReal.setAttribute('id', `insumoReal${insumosNameId[key]}_${index + 1}`);
+                spanPlanificado.setAttribute('id', `insumoPlan${insumosNameId[key]}_${monthIndex}`);
+                spanReal.setAttribute('id', `insumoReal${insumosNameId[key]}_${monthIndex}`);
                 spanPlanificado.innerText = element;
-                spanReal.innerText = (cerealesReal != null) ? (cerealesReal[index + 1] != undefined) ? ' | ' + cerealesReal[index + 1][insumosNameId[key]] : '' : '';
+                spanReal.innerText = (cerealesReal != null) ? (cerealesReal[monthIndex] != undefined) ? ' | ' + cerealesReal[monthIndex][insumosNameId[key]] : '' : '';
 
 
               }
                 
               if(columnHeader == 'Precio'){
-                spanPlanificado.setAttribute('id', `insumoPrecioPlan${insumosNameId[key]}_${index + 1}`);
-                spanReal.setAttribute('id', `insumoPrecioReal${insumosNameId[key]}_${index + 1}`);
-                // spanPlanificado.innerText = precioInsumoPlan[index + 1][insumosNameId[key]];
-                spanPlanificado.innerText = 0;
-                spanReal.innerText = (precioInsumoReal != null) ? (precioInsumoReal[index + 1] != undefined) ? ' | ' + precioInsumoReal[index + 1][insumosNameId[key]] : '' : '';
+                spanPlanificado.setAttribute('id', `insumoPrecioPlan${insumosNameId[key]}_${monthIndex}`);
+                spanReal.setAttribute('id', `insumoPrecioReal${insumosNameId[key]}_${monthIndex}`);
+                spanPlanificado.innerText = correccionPrecioInsumoPlan[insumosNameId[key]][monthIndex];
+                spanReal.innerText = (precioInsumoReal != null) ? (precioInsumoReal[insumosNameId[key]] != undefined) ? ' | ' + precioInsumoRealinsumosNameId[key][monthIndex] : '' : '';
 
               }
                 
@@ -1185,10 +1209,10 @@ if(seteado){
           let spanReal = spanPlanificado.cloneNode(true)
   
           spanPlanificado.setAttribute('class', 'planificado');
-          spanPlanificado.setAttribute('id', `insumo${insumosNameId[key]}PlanContable_${index + 1}`);
+          spanPlanificado.setAttribute('id', `insumo${insumosNameId[key]}PlanContable_${monthIndex}`);
           
           spanReal.setAttribute('class', 'real');
-          spanReal.setAttribute('id', `insumo${insumosNameId[key]}RealContable_${index + 1}`);
+          spanReal.setAttribute('id', `insumo${insumosNameId[key]}RealContable_${monthIndex}`);
   
           // spanPlanificado.innerText = element;
           // spanReal.innerText = (insumosReal[insumosNameId[key]][index] != undefined) ? ` | ${insumosReal[insumosNameId[key]][index]}` : ' | '

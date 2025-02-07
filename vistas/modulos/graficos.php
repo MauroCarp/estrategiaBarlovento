@@ -910,8 +910,6 @@ let calcularConsumos = async ()=>{
                             'real':{}
                         }
 
-                        console.log(consumoDeInsumos['planificado'])
-
             for (const insumo in dataCompraInsumos) {
                 
                 for (const mes in dataCompraInsumos[insumo]) {
@@ -923,13 +921,11 @@ let calcularConsumos = async ()=>{
 
 
                         if(mes == 1){
-                            console.log('entro aca 1')
+
                             stock.planificado[mes][insumo] = Number(stockInicialInsumos[insumo]) + Number(dataCompraInsumos[insumo][mes])
                             saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes - 1][insumo]['consumoTotal'])
 
                         } else {
-                            console.log('entro aca 2')
-                            console.log(mes)
 
                             stock.planificado[mes][insumo] = Number(saldo.planificado[mes - 1][insumo]) + Number(dataCompraInsumos[insumo][mes])
                             saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes - 1][insumo]['consumoTotal'])
@@ -939,16 +935,11 @@ let calcularConsumos = async ()=>{
                     } else {
 
                         if(mes == 1){
-                            console.log('entro aca 3')
-                            console.log(mes)
-                         
 
                             stock.planificado[mes][insumo] = Number(stockInicialInsumos[insumo]) + Number(dataCompraInsumos[insumo][mes])
                             saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes - 1][insumo]['consumoTotal'])
 
                         } else {
-                            console.log('entro aca 4')
-                            console.log(mes)
 
                             stock.planificado[mes][insumo] = Number(saldo.planificado[mes - 1][insumo]) + Number(dataCompraInsumos[insumo][mes])
                             saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes - 1][insumo]['consumoTotal'])
