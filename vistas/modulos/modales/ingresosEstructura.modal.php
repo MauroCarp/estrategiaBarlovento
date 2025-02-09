@@ -50,6 +50,17 @@
                 ];
                 $estructuraIndex = ['estructuraDirecto', 'estructuraIndirecto', 'gastosVarios', 'ingresosExtraordinarios'];
 
+                $estructuraIds = ['directa','indirecta','gastos','ingresos'];
+
+                $estructuraDirecta = json_decode($data['estrategia']['directaImportePlan'],true);
+                $estructuraIndirecta = json_decode($data['estrategia']['indirectaImportePlan'],true);
+                $estructuraGastos = json_decode($data['estrategia']['gastosImportePlan'],true);
+                $estructuraIngresos = json_decode($data['estrategia']['ingresosImportePlan'],true);
+                $estructuraDirectaAP = json_decode($data['estrategia']['directaApagarPlan'],true);
+                $estructuraIndirectaAP = json_decode($data['estrategia']['indirectaApagarPlan'],true);
+                $estructuraGastosAP = json_decode($data['estrategia']['gastosApagarPlan'],true);
+                $estructuraIngresosAP = json_decode($data['estrategia']['ingresosApagarPlan'],true);
+
                 foreach ($estructuraIndex as $index => $estructura): ?>
                     
                     <div class="tab-pane <?=($index == 0) ? 'active' : ''?>" id="<?=$estructura?>">
@@ -64,7 +75,10 @@
 
                             <tbody>
                                 
-                            <?php foreach ($months as $i => $month): ?>
+                            <?php foreach ($months as $i => $month): 
+                              
+                              if(!$data['estrategia']['seteado']){ ?>                                
+
                                 <tr class="monthRow">
                                     <td><?= $month ?></td>
                                     <td><input class="form-control sm-input estructura" type="number" id="<?=$estructura?>_importe_<?= $i ?>" value="0"></td>
@@ -77,7 +91,47 @@
                                         </select>
                                     </td>
                                 </tr>
-                            <?php endforeach; ?> 
+                             
+                              <?php } else { 
+                                $importe = 0;
+                                $aPagar = '';
+                                $importeReal = 0;
+                                $aPagarReal = '';
+
+                                if ($estructuraIds[$index] == 'directa'){
+                                  $importe = $estructuraDirecta[$i];
+                                  $aPagar = $estructuraDirectaAP[$i];
+                                } else if($estructuraIds[$index] == 'indirecta'){
+                                  $importe = $estructuraIndirecta[$i];
+                                  $aPagar = $estructuraIndirectaAP[$i];
+                                } else if($estructuraIds[$index] == 'gastos'){
+                                  $importe = $estructuraGastos[$i];
+                                  $aPagar = $estructuraGastosAP[$i];
+                                } else { 
+                                  $importe = $estructuraIngresos[$i];
+                                  $aPagar = $estructuraIngresosAP[$i];
+                                }
+                              
+                                ?>
+                              
+                                <tr class="monthRow">
+                                    <td><?= $month ?></td>
+                                    <td>
+                                      <span class="planificado" id="<?=$estructuraIds[$index]?>Importe<?=$i?>"><?=number_format($importe, 0, ',', '.')?></span>
+                                      <span id="<?=$estructuraIds[$index]?>ImporteReal<?=$i?>" class="real"><?//=(isset($kgEgresosReal[$index])) ? ' | ' . $kgEgresosReal[$index] : '' ?></span>
+                                    </td>
+                                    <td>
+                                      <span class="planificado" id="<?=$estructuraIds[$index]?>Importe<?=$i?>" style="font-weight:bold;color:<?=($aPagar == 'A') ? 
+                                      'green' 
+                                      : 
+                                      (($aPagar == 'B') ? 'blue' : (($aPagar == 'D') ? 'red' : 'rgb(277,215,0)'))?>"><?=$aPagar?></span>
+                                      <span id="<?=$estructuraIds[$index]?>ApagarReal<?=$i?>" class="real"><?//=(isset($kgEgresosReal[$index])) ? ' | ' . $kgEgresosReal[$index] : '' ?></span>
+                                    </td>
+                                </tr>
+
+                            <?php }
+                           endforeach; ?> 
+
                             </tbody>
                         </table>
                     </div>
