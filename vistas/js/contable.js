@@ -319,6 +319,104 @@ let calcularEstructuraContable = ()=>{
 
 }
 
+let calcularEstructuraContableSeteado = ()=>{
+
+    let totales = {}
+
+    const updateContable = (selector, total,color) => {
+
+        if ($(selector).html() == '' || $(selector).html() == '0') {
+            $(selector).html($(`<span style="color:${color}">${total.toLocaleString('de-DE')}</span>`));
+        } else {
+            let prevNumber = Number($(selector + ' span').text().replace(/\./g, ''));
+            $(selector).html($(`<span style="color:${color}">${(prevNumber + total).toLocaleString('de-DE')}</span>`));
+        }
+    };
+
+    const processPayment = (importe, aPagar, prefix, index,color = 'red') => {
+
+        let month;
+        if (aPagar === 'A') {
+            month = ((index + 1) - 1) % 12 + 1;
+            if(prefix == 'ingresosExtra')
+                console.log('hola')
+            updateContable(`#${prefix}Contable${month}`, Number(importe), color);
+        } else if (aPagar === 'B') {
+            month1 = ((index + 1) - 1) % 12 + 1;
+            month2 = ((index + 2) - 1) % 12 + 1;
+
+            updateContable(`#${prefix}Contable${month1}`, Number(importe / 2), color);
+            updateContable(`#${prefix}Contable${month2}`, Number(importe / 2), color);
+        } else if (aPagar === 'C') {
+            month = ((index + 2) - 1) % 12 + 1;
+            updateContable(`#${prefix}Contable${month}`, Number(importe), color);
+        } else if (aPagar === 'D') {
+            month = ((index + 3) - 1) % 12 + 1;
+            updateContable(`#${prefix}Contable${month}`, Number(importe), color);
+        }
+        
+    };
+    
+
+    for (let index = 1; index <= 12; index++) {
+
+        let importeDirectoPlan = Number($(`#directaImporte${index}`).text().replace(/\./g, ''))
+        let aPagarDirectoPlan = $(`#directaApagar${index}`).text()
+        let importeIndirectoPlan = Number($(`#indirectaImporte${index}`).text().replace(/\./g, ''))
+        let aPagarIndirectoPlan = $(`#indirectaApagar${index}`).text()
+        let importeGastosPlan = Number($(`#gastosImporte${index}`).text().replace(/\./g, ''))
+        let aPagarGastosPlan = $(`#gastosApagar${index}`).text()
+        let importeIngresosPlan = Number($(`#ingresosImporte${index}`).text().replace(/\./g, ''))
+        let aPagarIngresosPlan = $(`#ingresosApagar${index}`).text()
+
+        console.log(aPagarDirectoPlan,aPagarIndirectoPlan,aPagarGastosPlan,aPagarIngresosPlan)  
+        if(importeDirectoPlan != 0){
+            if(!totales['EstructuraDirecta'])
+                totales['EstructuraDirecta'] = 0
+
+            totales['EstructuraDirecta'] += importeDirectoPlan
+
+            processPayment(importeDirectoPlan,aPagarDirectoPlan, 'estructuraDirecta', index);
+        }
+
+        if(importeIndirectoPlan != 0){
+
+            if(!totales['EstructuraIndirecta'])
+                totales['EstructuraIndirecta'] = 0
+
+            totales['EstructuraIndirecta'] += importeIndirectoPlan
+
+            processPayment(importeIndirectoPlan,aPagarIndirectoPlan, 'estructuraIndirecta', index);
+        }
+
+        if(importeGastosPlan != 0){
+
+            if(!totales['GastosVarios'])
+                totales['GastosVarios'] = 0
+
+            totales['GastosVarios'] += importeGastosPlan
+
+            processPayment(importeGastosPlan,aPagarGastosPlan, 'gastosVarios', index);
+        }
+
+        if(importeIngresosPlan != 0){
+
+            if(!totales['IngresosExtraordinarios'])1
+                totales['IngresosExtraordinarios'] = 0
+
+            totales['IngresosExtraordinarios'] += importeIngresosPlan
+
+            processPayment(importeIngresosPlan,aPagarIngresosPlan, 'ingresosExtra', index,'green');
+        }
+    }
+
+    
+    for (const tipo in totales) {
+        $(`#total${tipo}`).text(totales[tipo].toLocaleString('de-DE'));
+    }  
+
+}
+
 let calcularFlujoDeFondoMensual = ()=>{ 
 
     let totalesFlujo = {}

@@ -42,6 +42,7 @@
           ];
 
           $indexPrefixes = 0;
+
           foreach ($rows as $label => $idPrefixes) { ?>
             <tr>
               <td style="padding-top:2px;padding-bottom:2px;font-weight:600;line-height:1em;vertical-align:middle;"><?= $label ?></td>
@@ -67,9 +68,10 @@
                     <td class="contable<?=$preFixes?> <?=$class?>" month-data="<?=$key?>" id="<?= $idPrefixes['plan'] . $key ?>">0</td>
 
                   <?php } else { ?>
+
                     <td month-data="<?=$key?>">
-                      <span class="planificado" id="<?= $idPrefixes['plan'] . $key ?>">Plan</span>
-                      <span id="<?= $idPrefixes['real'] . $key ?>" class="real">Real</span>
+                      <span class="planificado" id="<?= $idPrefixes['plan'] . $key ?>"></span>
+                      <span id="<?= $idPrefixes['real'] . $key ?>" class="real"></span>
                     </td>
                   <?php }
                 }

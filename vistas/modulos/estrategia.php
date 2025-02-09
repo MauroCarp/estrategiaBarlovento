@@ -1252,6 +1252,7 @@ if(seteado){
 
     calculateStockAndTotals()
     calcularInsumosContableSeteado()
+    calcularEstructuraContableSeteado()
   }, 500);
   
   setTimeout(() => {

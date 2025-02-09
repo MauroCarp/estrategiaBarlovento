@@ -117,11 +117,11 @@
                                 <tr class="monthRow">
                                     <td><?= $month ?></td>
                                     <td>
-                                      <span class="planificado" id="<?=$estructuraIds[$index]?>Importe<?=$i?>"><?=number_format($importe, 0, ',', '.')?></span>
+                                      <span class="planificado contableEstructura" id="<?=$estructuraIds[$index]?>Importe<?=$i?>"><?=number_format($importe, 0, ',', '.')?></span>
                                       <span id="<?=$estructuraIds[$index]?>ImporteReal<?=$i?>" class="real"><?//=(isset($kgEgresosReal[$index])) ? ' | ' . $kgEgresosReal[$index] : '' ?></span>
                                     </td>
                                     <td>
-                                      <span class="planificado" id="<?=$estructuraIds[$index]?>Importe<?=$i?>" style="font-weight:bold;color:<?=($aPagar == 'A') ? 
+                                      <span class="planificado" id="<?=$estructuraIds[$index]?>Apagar<?=$i?>" style="font-weight:bold;color:<?=($aPagar == 'A') ? 
                                       'green' 
                                       : 
                                       (($aPagar == 'B') ? 'blue' : (($aPagar == 'D') ? 'red' : 'rgb(277,215,0)'))?>"><?=$aPagar?></span>
