@@ -66,7 +66,6 @@ let calcularInsumosContable = ()=>{
         let precio = Number($(this).parent().next().children().val());
         // let aPagar = $(this).parent().next().next().children().val();
         let cantInsumo = Number($(this).val());
-
         if (!total[idInsumo]) {
             total[idInsumo] = 0;
         }
@@ -99,29 +98,33 @@ let calcularInsumosContableSeteado = ()=>{
 
     $('.compraInsumos').each(function(){
 
-        let idInsumo = $(this).attr('id-insumo')
+        let id = $(this).attr('id')
 
-        let realMonth = $(this).attr('id').replace(`insumoIngreso${idInsumo}`,'')
+        let idInsumo = $(this).attr('id').replace('insumoPlan','').replace('Contable','')
 
-        let precio = Number($(this).parent().next().children().val())
+        let month = idInsumo.split('_');
+
+        month = month[1];
         
-        let aPagar = $(this).parent().next().next().children().val()
+        idInsumo = idInsumo.replace(`_${month}`,'')
 
-        let cantInsumo = Number($(this).val())
+        let cantidad = Number($(this).text())
 
-        let month = (Number(realMonth) + Number(aPagar) - 1) % 12 + 1;
+        let precio = $(`#insumoPrecioPlan${idInsumo}_${month}`).html()
 
-        if($(`#insumo${idInsumo}${month}Contable`).html() == '' || $(`#insumo${idInsumo}${month}Contable`).html() == '0'){
+        if($(`#insumo${idInsumo}PlanContable_${month}`).html() == '' || $(`#insumo${idInsumo}${month}Contable`).html() == '0'){
 
-            $(`#insumo${idInsumo}${month}Contable`).html(cantInsumo * precio)
+            $(`#insumo${idInsumo}PlanContable_${month}`).html((cantidad * precio).toLocaleString('de-DE'))
 
-        } else {
+        } 
 
-            let prevNumber = Number($(`#insumo${idInsumo}${month}Contable`).html())
+        // else {
+
+        //     let prevNumber = Number($(`#insumo${idInsumo}${month}Contable`).html())
             
-            $(`#insumo${idInsumo}${month}Contable`).html(prevNumber + (cantInsumo * precio))
+        //     $(`#insumo${idInsumo}${month}Contable`).html(prevNumber + (cantInsumo * precio))
 
-        }
+        // }
 
     })
     
