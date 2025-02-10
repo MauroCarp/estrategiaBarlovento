@@ -996,6 +996,7 @@ if(seteado){
         let trContable = document.createElement('TR');
         let tdKey = document.createElement('TD');
         tdKey.innerText = key
+        tdKey.setAttribute('style', 'font-weight:600;padding:10px');
         trContable.append(tdKey)
 
         $('#trStock').append($(`<th>${key}</th>`))
@@ -1107,7 +1108,7 @@ if(seteado){
                 spanPlanificado.setAttribute('id', `insumoPlan${insumosNameId[key]}_${monthIndex}`);
                 spanReal.setAttribute('id', `insumoReal${insumosNameId[key]}_${monthIndex}`);
                 spanPlanificado.classList.add('compraInsumos');
-                spanPlanificado.innerText = element;
+                spanPlanificado.innerText = element.toLocaleString('de-DE');  
                 spanReal.innerText = (cerealesReal != null) ? (cerealesReal[monthIndex] != undefined) ? ' | ' + cerealesReal[monthIndex][insumosNameId[key]] : '' : '';
 
 
@@ -1116,7 +1117,7 @@ if(seteado){
               if(columnHeader == 'Precio'){
                 spanPlanificado.setAttribute('id', `insumoPrecioPlan${insumosNameId[key]}_${monthIndex}`);
                 spanReal.setAttribute('id', `insumoPrecioReal${insumosNameId[key]}_${monthIndex}`);
-                spanPlanificado.innerText = correccionPrecioInsumoPlan[insumosNameId[key]][monthIndex];
+                spanPlanificado.innerText = correccionPrecioInsumoPlan[insumosNameId[key]][monthIndex].toLocaleString('de-DE');
                 spanReal.innerText = (precioInsumoReal != null) ? (precioInsumoReal[insumosNameId[key]] != undefined) ? ' | ' + precioInsumoRealinsumosNameId[key][monthIndex] : '' : '';
 
               }
@@ -1157,12 +1158,18 @@ if(seteado){
           // spanReal.innerText = (insumosReal[insumosNameId[key]][index] != undefined) ? ` | ${insumosReal[insumosNameId[key]][index]}` : ' | '
           tdSPan.append(spanPlanificado,spanReal);
           trContable.append(tdSPan);
-                
-          $('#tbodyContable').prepend(trContable);
 
-
-                
+          
+          
+          
         });
+
+        let tdTotales = document.createElement('TD');
+        tdTotales.setAttribute('id',`totalInsumo${insumosNameId[key]}`)
+        tdTotales.setAttribute('style',`font-weight:bold`)
+        trContable.append(tdTotales); 
+
+        $('#tbodyContable').prepend(trContable);
 
         index++
           

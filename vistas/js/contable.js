@@ -66,9 +66,10 @@ let calcularInsumosContable = ()=>{
         let precio = Number($(this).parent().next().children().val());
         // let aPagar = $(this).parent().next().next().children().val();
         let cantInsumo = Number($(this).val());
-        if (!total[idInsumo]) {
+
+        if (!total[idInsumo])
             total[idInsumo] = 0;
-        }
+        
         total[idInsumo] += cantInsumo * precio;
 
         if (cantInsumo !== 0) {
@@ -96,6 +97,8 @@ let calcularInsumosContable = ()=>{
 
 let calcularInsumosContableSeteado = ()=>{
 
+    let total = {}
+
     $('.compraInsumos').each(function(){
 
         let id = $(this).attr('id')
@@ -118,6 +121,11 @@ let calcularInsumosContableSeteado = ()=>{
 
         } 
 
+        if (!total[idInsumo])
+            total[idInsumo] = 0;
+        
+        total[idInsumo] += cantidad * precio;
+
         // else {
 
         //     let prevNumber = Number($(`#insumo${idInsumo}${month}Contable`).html())
@@ -127,6 +135,10 @@ let calcularInsumosContableSeteado = ()=>{
         // }
 
     })
+
+    for (const idInsumo in total) {
+        $(`#totalInsumo${idInsumo}`).text(total[idInsumo].toLocaleString('de-DE'));
+     }
     
 
 }
@@ -226,6 +238,8 @@ let calcularAnimalesContable = ()=>{
 }
 
 let calcularAnimalesContableSeteado = ()=>{
+
+    let totales = {}  
     $('.ingreso').each(function(){
         
         let tipo = 'ingreso'
@@ -302,6 +316,11 @@ let calcularAnimalesContableSeteado = ()=>{
         if(ingresos != 0){
             let total = (ingresos * kgIngreso) * precioIngreso
             processPayment(total,aPagarIngreso,`${tipo}Plan`,realMonth,'green');
+            
+            if(!totales['Ingresos'])
+                totales['Ingresos'] = 0
+            
+            totales['Ingresos'] += total
         }
 
         // processPayment(total,aPagarIngreso,`${tipo}Real`,realMonth,'green');
@@ -310,12 +329,20 @@ let calcularAnimalesContableSeteado = ()=>{
             tipo = 'venta'
             let total = (ventas * kgVentas) * precioVenta
             processPayment(total,aPagarVenta,`${tipo}Plan`,realMonth);
+
+            if(!totales['Egresos'])
+                totales['Egresos'] = 0
+            
+            totales['Egresos'] += total
         } 
 
         // processPayment(total,aPagarVenta,`${tipo}Real`,realMonth);
-  
+        
     })
-  
+    
+    for (const key in totales) {
+       $(`#total${key}`).text(totales[key].toLocaleString('de-DE'));
+    }
   }
 
 let calcularEstructuraContable = ()=>{
@@ -590,6 +617,11 @@ let calcularFlujoDeFondoMensualSeteado = ()=>{
         let id = $(this).attr('id')
 
         let month = id.replace('ingresoPlanContable','').replace('ventaPlanContable','')
+
+        if(!id.includes('ingresoPlanContable') && !id.includes('ventaPlanContable')){
+            month = id.split('_')
+            month = month[1]
+        } 
 
         if (id.includes('ventaPlanContable')) {
             if (!totalesFlujo[month]) {
