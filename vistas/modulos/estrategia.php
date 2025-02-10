@@ -1191,6 +1191,7 @@ if(seteado){
     calcularAnimalesContableSeteado()
     calcularEstructuraContableSeteado()
     calcularFlujoDeFondoMensualSeteado()
+    calcularFlujoNetoSeteado()
   }, 500);
   
   setTimeout(() => {
