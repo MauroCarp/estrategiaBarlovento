@@ -226,12 +226,11 @@ let calcularAnimalesContable = ()=>{
 }
 
 let calcularAnimalesContableSeteado = ()=>{
-
     $('.ingreso').each(function(){
-  
+        
         let tipo = 'ingreso'
   
-        let realMonth = $(this).attr('id').replace(`ingreso`,'')
+        let realMonth = Number($(this).attr('id').replace(`ingreso`,''))
         
         let ingresos = Number($(this).text().replace(/\./g, ''))
         let ingresosReal = Number($(this).next().text().replace(/\./g, '').replace('| ',''))
@@ -251,18 +250,12 @@ let calcularAnimalesContableSeteado = ()=>{
         let precioVenta = Number($(this).parent().next().next().next().next().children().first().text().replace(/\./g, ''))
         let precioVentaReal = Number($(this).parent().next().next().next().next().children().eq(1).text().replace(/\./g, '').replace('| ',''))
   
-        let aPagarIngreso = $(this).parent().next().next().next().next().next().children().first().text().replace(/\./g, '')
-        let aPagarIngresoReal = $(this).parent().next().next().next().next().next().children().eq(1).text().replace(/\./g, '').replace('| ','')
-  
-        let aPagarVenta = $(this).parent().next().next().next().next().next().children().first().text().replace(/\./g, '')
-        let aPagarVentaReal = $(this).parent().next().next().next().next().next().children().eq(1).text().replace(/\./g, '').replace('| ','')
-  
-
-        let cantidad = ingresos
-        let kilos = kgIngreso
-        let aPagar = aPagarIngreso
-
-          
+        let aPagarIngreso = $(this).parent().next().next().next().next().next().children().first().children().first().text().replace(/\s+/g, '')
+        let aPagarIngresoReal = $(this).parent().next().next().next().next().next().children().eq(1).text().replace(/\./g, '').replace('| ','').replace(/\s+/g, '')
+        
+        let aPagarVenta = $(this).parent().next().next().next().next().next().children().first().children().first().text().replace(/\s+/g, '')
+        let aPagarVentaReal = $(this).parent().next().next().next().next().next().children().eq(1).text().replace(/\./g, '').replace('| ','').replace(/\s+/g, '')
+        
         let updateContable = (selector, total) => {
   
             if ($(selector).html() == '0') {
@@ -278,25 +271,48 @@ let calcularAnimalesContableSeteado = ()=>{
             }
   
         };
-  
-        if(ingresos != 0){
-            let total = (cantidad * kilos) * precio
-            month = ((index + 1) - 1) % 12 + 1;
+        
+        const processPayment = (importe, aPagar, prefix, index,color = 'red') => {
+            let month;
 
-            updateContable(`#${tipo}PlanContable${month}`, total);
-            updateContable(`#${tipo}RealContable${month}`, total);
+            if (aPagar === 'A') {
+                month = ((index + 1) - 1) % 12 + 1;
+                updateContable(`#${prefix}Contable${month}`, Number(importe), color);
+            } else if (aPagar === 'B') {
+                month1 = ((index + 1) - 1) % 12 + 1;
+                month2 = ((index + 2) - 1) % 12 + 1;
+    
+                updateContable(`#${prefix}Contable${month1}`, Number(importe / 2), color);
+                updateContable(`#${prefix}Contable${month2}`, Number(importe / 2), color);
+            } else if (aPagar === 'C') {
+                month = ((index + 2) - 1) % 12 + 1;
+                updateContable(`#${prefix}Contable${month}`, Number(importe), color);
+            } else if (aPagar === 'D') {
+                month = ((index + 3) - 1) % 12 + 1;
+                updateContable(`#${prefix}Contable${month}`, Number(importe), color);
+            }
+        };
+
+        if ($(`#ingresoPlanContable${realMonth}`).html() == '')
+            $(`#ingresoPlanContable${realMonth}`).html('0')
+
+        if ($(`#ventaPlanContable${realMonth}`).html() == '')
+            $(`#ventaPlanContable${realMonth}`).html('0')
+
+        if(ingresos != 0){
+            let total = (ingresos * kgIngreso) * precioIngreso
+            processPayment(total,aPagarIngreso,`${tipo}Plan`,realMonth,'green');
         }
+
+        // processPayment(total,aPagarIngreso,`${tipo}Real`,realMonth,'green');
 
         if(ventas != 0){
             tipo = 'venta'
-            cantidad = ventas
-            kilos = kgVentas
-            let total = (cantidad * kilos) * precio
-
-            updateContable(`#${tipo}PlanContable${month}`, total);
-            updateContable(`#${tipo}RealContable${month}`, total);
-
+            let total = (ventas * kgVentas) * precioVenta
+            processPayment(total,aPagarVenta,`${tipo}Plan`,realMonth);
         } 
+
+        // processPayment(total,aPagarVenta,`${tipo}Real`,realMonth);
   
     })
   
@@ -444,6 +460,19 @@ let calcularEstructuraContableSeteado = ()=>{
         let aPagarGastosPlan = $(`#gastosApagar${index}`).text()
         let importeIngresosPlan = Number($(`#ingresosImporte${index}`).text().replace(/\./g, ''))
         let aPagarIngresosPlan = $(`#ingresosApagar${index}`).text()
+
+
+        if ($(`#estructuraDirectaContable${index}`).html() == '')
+            $(`#estructuraDirectaContable${index}`).html('0')
+
+        if ($(`#estructuraIndirectaContable${index}`).html() == '')
+            $(`#estructuraIndirectaContable${index}`).html('0')
+
+        if ($(`#gastosVariosContable${index}`).html() == '')
+            $(`#gastosVariosContable${index}`).html('0')
+
+        if ($(`#ingresosExtraContable${index}`).html() == '')
+            $(`#ingresosExtraContable${index}`).html('0')
 
         if(importeDirectoPlan != 0){
             if(!totales['EstructuraDirecta'])

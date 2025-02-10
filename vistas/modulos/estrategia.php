@@ -1167,8 +1167,6 @@ if(seteado){
         index++
           
       } 
-
-      calcularAnimalesContableSeteado()
      
       setTimeout(() => {
 
@@ -1190,7 +1188,7 @@ if(seteado){
 
     calculateStockAndTotals()
     calcularInsumosContableSeteado()
-    // calcularAnimalesContableSeteado()
+    calcularAnimalesContableSeteado()
     calcularEstructuraContableSeteado()
   }, 500);
   
