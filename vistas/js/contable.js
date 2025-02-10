@@ -579,7 +579,109 @@ let calcularFlujoDeFondoMensual = ()=>{
     
 }
 
+let calcularFlujoDeFondoMensualSeteado = ()=>{ 
+
+    let totalesFlujo = {}
+
+    $('.flujo').each(function(){
+
+        let value = Number($(this).text().replace(/\./g, ''))
+
+        let id = $(this).attr('id')
+
+        let month = id.replace('ingresoPlanContable','').replace('ventaPlanContable','')
+
+        if (id.includes('ventaPlanContable')) {
+            if (!totalesFlujo[month]) {
+                totalesFlujo[month] = {};
+            }
+
+            if (!totalesFlujo[month]['positivo']) {
+                totalesFlujo[month]['positivo'] = 0;
+            }
+
+            totalesFlujo[month]['positivo'] += value;
+            
+        } else {
+
+            if (!totalesFlujo[month]) {
+                totalesFlujo[month] = {};
+            }
+
+            if (!totalesFlujo[month]['negativo']) {
+                totalesFlujo[month]['negativo'] = 0;
+            }
+
+            totalesFlujo[month]['negativo'] += value;
+
+        }
+
+    })
+
+
+    let totalAccum = 0
+
+    for (const key in totalesFlujo) {
+
+        let resultado = totalesFlujo[key].positivo - totalesFlujo[key].negativo;
+        totalAccum += resultado
+
+        let color = (resultado < 0) ? 'red' : 'green'
+        
+        $(`#flujoMensualContable${key}`).text(resultado.toLocaleString('de-DE'))
+        $(`#flujoMensualContable${key}`).css('color',color)
+
+        color = (totalAccum < 0) ? 'red' : 'green'
+        $(`#flujoMensualAcumContable${key}`).text(totalAccum.toLocaleString('de-DE'))
+        $(`#flujoMensualAcumContable${key}`).css('color',color)
+        
+    }
+    
+}
+
 let calcularFlujoNeto = ()=>{
+
+    let totalesNeto = {}
+
+    for (let index = 1; index <= 12; index++) {
+
+        let directa = Number($(`#estructuraDirectaContable${index}`).text().replace(/\./g, ''))
+        let indirecta = Number($(`#estructuraIndirectaContable${index}`).text().replace(/\./g, ''))
+        let gastos = Number($(`#gastosVariosContable${index}`).text().replace(/\./g, ''))
+        let ingresos = Number($(`#ingresosExtraContable${index}`).text().replace(/\./g, ''))
+        let flujoMensual = Number($(`#flujoMensualContable${index}`).text().replace(/\./g, ''))
+
+        if(!totalesNeto[index])
+            totalesNeto[index] = {}
+
+        if(!totalesNeto[index]['positivo'])
+            totalesNeto[index]['positivo'] = 0 
+
+        if(!totalesNeto[index]['negativo'])
+            totalesNeto[index]['negativo'] = 0 
+
+        totalesNeto[index]['positivo'] += ingresos
+        totalesNeto[index]['negativo'] += directa
+        totalesNeto[index]['negativo'] += indirecta
+        totalesNeto[index]['negativo'] += gastos
+
+        totalesNeto[index]['flujoMensual'] = flujoMensual
+
+    }
+
+    for (const month in totalesNeto) {
+
+        let resultado = (Number(totalesNeto[month]['positivo']) - Number(totalesNeto[month]['negativo'])) + totalesNeto[month]['flujoMensual']
+
+        let color = (resultado < 0) ? 'red' : 'green'
+
+       $(`#flujoNetoContable${month}`).text(resultado.toLocaleString('de-DE'))
+       $(`#flujoNetoContable${month}`).css('color',color)
+
+    }
+}
+
+let calcularFlujoNetoSeteado = ()=>{
 
     let totalesNeto = {}
 

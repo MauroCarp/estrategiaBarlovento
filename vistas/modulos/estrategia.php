@@ -1190,6 +1190,7 @@ if(seteado){
     calcularInsumosContableSeteado()
     calcularAnimalesContableSeteado()
     calcularEstructuraContableSeteado()
+    calcularFlujoDeFondoMensualSeteado()
   }, 500);
   
   setTimeout(() => {
