@@ -347,6 +347,7 @@ $('#dieta').on('change',function(){
                         trContable.setAttribute('class','insumosContable')
                         let tdInsumo = document.createElement('TD');
                         tdInsumo.innerText = insumo;
+                        // tdInsumo.innerText = insumo;
                         trContable.append(tdInsumo);
 
                         for (let k = 0; k < 12; k++) {
