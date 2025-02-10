@@ -1108,7 +1108,7 @@ if(seteado){
                 spanPlanificado.setAttribute('id', `insumoPlan${insumosNameId[key]}_${monthIndex}`);
                 spanReal.setAttribute('id', `insumoReal${insumosNameId[key]}_${monthIndex}`);
                 spanPlanificado.classList.add('compraInsumos');
-                spanPlanificado.innerText = element.toLocaleString('de-DE');  
+                spanPlanificado.innerText = Number(element).toLocaleString('de-DE');
                 spanReal.innerText = (cerealesReal != null) ? (cerealesReal[monthIndex] != undefined) ? ' | ' + cerealesReal[monthIndex][insumosNameId[key]] : '' : '';
 
 
