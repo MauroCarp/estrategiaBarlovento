@@ -446,68 +446,6 @@
 
 <script>
 
-let calcularAnimalesContableSeteado = ()=>{
-
-  $('.ingreso').each(function(){
-
-      let tipo = 'ingreso'
-
-      let realMonth = $(this).attr('id').replace(`ingreso`,'')
-      
-      let ingresos = Number($(this).text())
-      let ingresosReal = Number($(this).next().text().replace('| ',''))
-
-      let kgIngreso = Number($(this).parent().next().children().first().text())
-      let kgIngresoReal = Number($(this).parent().next().children().eq(1).text().replace('| ',''))
-          
-      let ventas = Number($(this).parent().next().next().children().first().text())
-      let ventasReal = Number($(this).parent().next().next().children().eq(1).text().replace('| ',''))
-          
-      let kgVentas = Number($(this).parent().next().next().next().children().first().text())
-      let kgVentasReal = Number($(this).parent().next().next().next().children().eq(1).text().replace('| ',''))
-
-      let precio = Number($(this).parent().next().next().next().next().children().first().text())
-      let precioReal = Number($(this).parent().next().next().next().next().children().eq(1).text().replace('| ',''))
-
-      let aPagar = $(this).parent().next().next().next().next().next().children().first().text()
-      let aPagarReal = $(this).parent().next().next().next().next().next().children().eq(1).text().replace('| ','')
-
-      month = Number(realMonth) + Number(aPagar)
-
-      let cantidad = ingresos
-      let kilos = kgIngreso
-
-      if(ventas != 0){
-          tipo = 'venta'
-          cantidad = ventas
-          kilos = kgVentas
-      }
-
-      let total = (cantidad * kilos) * precio
-
-      let updateContable = (selector, total) => {
-
-          if ($(selector).html() == '0') {
-
-            $(selector).html($(`<span style="color:green">${total.toLocaleString('de-DE')}</span>`));
-
-          } else {
-
-          let prevNumber = Number($(selector + ' span').text().replace(/\./g, ''));
-
-            $(selector).html($(`<span style="color:green">${(prevNumber + total).toLocaleString('de-DE')}</span>`));
-
-          }
-
-      };
-
-      updateContable(`#${tipo}PlanContable${month}`, total);
-      updateContable(`#${tipo}RealContable${month}`, total);
-
-  })
-
-}
-
 let calcularPesoPromedio = (dataEstrategia = false,tipo = 'plan',debug = false)=>{
 
   let ingresoAccum = 0
@@ -1252,6 +1190,7 @@ if(seteado){
 
     calculateStockAndTotals()
     calcularInsumosContableSeteado()
+    // calcularAnimalesContableSeteado()
     calcularEstructuraContableSeteado()
   }, 500);
   

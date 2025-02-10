@@ -225,6 +225,83 @@ let calcularAnimalesContable = ()=>{
 
 }
 
+let calcularAnimalesContableSeteado = ()=>{
+
+    $('.ingreso').each(function(){
+  
+        let tipo = 'ingreso'
+  
+        let realMonth = $(this).attr('id').replace(`ingreso`,'')
+        
+        let ingresos = Number($(this).text().replace(/\./g, ''))
+        let ingresosReal = Number($(this).next().text().replace(/\./g, '').replace('| ',''))
+  
+        let kgIngreso = Number($(this).parent().next().children().first().text().replace(/\./g, ''))
+        let kgIngresoReal = Number($(this).parent().next().children().eq(1).text().replace(/\./g, '').replace('| ',''))
+            
+        let ventas = Number($(this).parent().next().next().children().first().text().replace(/\./g, ''))
+        let ventasReal = Number($(this).parent().next().next().children().eq(1).text().replace(/\./g, '').replace('| ',''))
+            
+        let kgVentas = Number($(this).parent().next().next().next().children().first().text().replace(/\./g, ''))
+        let kgVentasReal = Number($(this).parent().next().next().next().children().eq(1).text().replace(/\./g, '').replace('| ',''))
+  
+        let precioIngreso = Number($(this).parent().next().next().next().next().children().first().text().replace(/\./g, ''))
+        let precioIngresoReal = Number($(this).parent().next().next().next().next().children().eq(1).text().replace(/\./g, '').replace('| ',''))
+
+        let precioVenta = Number($(this).parent().next().next().next().next().children().first().text().replace(/\./g, ''))
+        let precioVentaReal = Number($(this).parent().next().next().next().next().children().eq(1).text().replace(/\./g, '').replace('| ',''))
+  
+        let aPagarIngreso = $(this).parent().next().next().next().next().next().children().first().text().replace(/\./g, '')
+        let aPagarIngresoReal = $(this).parent().next().next().next().next().next().children().eq(1).text().replace(/\./g, '').replace('| ','')
+  
+        let aPagarVenta = $(this).parent().next().next().next().next().next().children().first().text().replace(/\./g, '')
+        let aPagarVentaReal = $(this).parent().next().next().next().next().next().children().eq(1).text().replace(/\./g, '').replace('| ','')
+  
+
+        let cantidad = ingresos
+        let kilos = kgIngreso
+        let aPagar = aPagarIngreso
+
+          
+        let updateContable = (selector, total) => {
+  
+            if ($(selector).html() == '0') {
+  
+              $(selector).html($(`<span style="color:green">${total.toLocaleString('de-DE')}</span>`));
+  
+            } else {
+  
+            let prevNumber = Number($(selector + ' span').text().replace(/\./g, ''));
+  
+              $(selector).html($(`<span style="color:green">${(prevNumber + total).toLocaleString('de-DE')}</span>`));
+  
+            }
+  
+        };
+  
+        if(ingresos != 0){
+            let total = (cantidad * kilos) * precio
+            month = ((index + 1) - 1) % 12 + 1;
+
+            updateContable(`#${tipo}PlanContable${month}`, total);
+            updateContable(`#${tipo}RealContable${month}`, total);
+        }
+
+        if(ventas != 0){
+            tipo = 'venta'
+            cantidad = ventas
+            kilos = kgVentas
+            let total = (cantidad * kilos) * precio
+
+            updateContable(`#${tipo}PlanContable${month}`, total);
+            updateContable(`#${tipo}RealContable${month}`, total);
+
+        } 
+  
+    })
+  
+  }
+
 let calcularEstructuraContable = ()=>{
 
     let totales = {}
@@ -338,9 +415,8 @@ let calcularEstructuraContableSeteado = ()=>{
         let month;
         if (aPagar === 'A') {
             month = ((index + 1) - 1) % 12 + 1;
-            if(prefix == 'ingresosExtra')
-                console.log('hola')
             updateContable(`#${prefix}Contable${month}`, Number(importe), color);
+
         } else if (aPagar === 'B') {
             month1 = ((index + 1) - 1) % 12 + 1;
             month2 = ((index + 2) - 1) % 12 + 1;
@@ -369,7 +445,6 @@ let calcularEstructuraContableSeteado = ()=>{
         let importeIngresosPlan = Number($(`#ingresosImporte${index}`).text().replace(/\./g, ''))
         let aPagarIngresosPlan = $(`#ingresosApagar${index}`).text()
 
-        console.log(aPagarDirectoPlan,aPagarIndirectoPlan,aPagarGastosPlan,aPagarIngresosPlan)  
         if(importeDirectoPlan != 0){
             if(!totales['EstructuraDirecta'])
                 totales['EstructuraDirecta'] = 0
@@ -424,7 +499,7 @@ let calcularFlujoDeFondoMensual = ()=>{
     $('.flujo').each(function(){
 
         let value = Number($(this).text().replace(/\./g, ''))
-        console.log(value)
+
         let month = $(this).attr('month-data')
 
         let id = $(this).attr('id')
@@ -473,8 +548,6 @@ let calcularFlujoDeFondoMensual = ()=>{
         
     }
     
-    console.log(totalesFlujo)
-
 }
 
 let calcularFlujoNeto = ()=>{
