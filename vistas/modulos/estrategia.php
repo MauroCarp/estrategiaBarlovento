@@ -559,7 +559,7 @@ let calcularPesoPromedio = (dataEstrategia = false,tipo = 'plan',debug = false)=
 
       let idDieta = (typeof dataEstrategia === "number") ? dataEstrategia : (dataEstrategia === false) ? Number($('#dieta').val()) : dataEstrategia.idDieta 
 
-
+      //TODO calcular insumos necesarios
       $.ajax({
         method:'POST',
         url:'ajax/estrategia.ajax.php',
