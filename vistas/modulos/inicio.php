@@ -13,13 +13,12 @@ function selectDietas($dietas){
 
 $dietas = ControladorEstrategia::ctrMostrarDietas();
 
-var_dump('PASO POR ACA 1');
 $dietasOptions = selectDietas($dietas);
-var_dump('PASO POR ACA 2');
 
 $campania = (isset($_GET['campania'])) ? $_GET['campania'] : null;
 
 var_dump('PASO POR ACA 3');
+var_dump($campania);
 $data = ControladorEstrategia::ctrMostrarEstrategia($campania);
 var_dump($data);
 var_dump('PASO POR ACA 4');
