@@ -1018,14 +1018,38 @@ if(seteado){
 
         $('#trStockInicial').append($(`<td><input class="form-control stockInicial" type="number" min="0" value="${value}" readOnly></td>`))
 
-        $('#insumosReal').append($(`<div class="col-sm-4">
+        $('#insumosReal').append($(`
+                  <div class="row" style="padding-left:15px;">
+                  <b>${key}</b>
+                  </div>
+                  
+                  <div class="row">
+                    
+                    <div class="col-sm-4">
 
-                                      <div class="form-group">
-                                        <label>Ingreso ${key}</label>
-                                        <input type="number" min="0" class="form-control real" name="insumoReal${insumosNameId[key]}" value="0">
-                                      </div>
+                      <div class="form-group">
 
-                                    </div>`))
+                        <label>Ingreso</label>
+
+                        <input type="number" min="0" step="0.1" class="form-control real" name="insumoReal${insumosNameId[key]}" value="0">
+
+                      </div>
+
+                    </div>
+
+                    <div class="col-sm-4">
+
+                      <div class="form-group">
+
+                        <label>Precio</label>
+
+                        <input type="number" min="0" step="0.1" class="form-control real" name="precioInsumoReal${insumosNameId[key]}" value="0">
+
+                      </div>
+
+                    </div>
+                    
+                  </div>`))
 
         $('#dietaReal').append($(`<div class="col-sm-4">
 

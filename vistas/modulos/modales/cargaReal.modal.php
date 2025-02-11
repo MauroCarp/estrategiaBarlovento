@@ -70,6 +70,7 @@
               <div class="row">
 
                 <div class="col-lg-12">
+
                   <h4>Animales</h4>
 
                   <div class="row">
@@ -192,9 +193,10 @@
 
               <div class="row">
 
-                <div class="col-lg-12">
+                <div class="col-lg-12" id="insumosReal">
+
                   <h4>Insumos</h4>
-                  <div class="row" id="insumosReal"></div>
+                      
                 </div>
 
               </div>
