@@ -368,14 +368,14 @@ class ControladorEstrategia{
 	static public function ctrCargaReal(){
 
 		if ($_SERVER["REQUEST_METHOD"] == "POST") {
-					
+				var_dump($_POST);
 			$month = $_POST['month'];
 
 			$campania = $_POST['campaniaReal'];
 
 			$dataEstrategia = ControladorEstrategia::ctrMostrarEstrategia($campania);
 
-			$dataKeys = ['msReal', 'adpReal', 'ingresosReal', 'kgIngresosReal', 'ventasReal', 'kgVentasReal','dietaReal'];
+			$dataKeys = ['msReal', 'adpReal', 'ingresosReal', 'kgIngresosReal','precioKgIngresoReal','aPagarIngresoReal', 'ventasReal', 'kgVentasReal','precioKgVentaReal','aPagarVentaReal','dietaReal'];
 			$data = [];
 
 			foreach ($dataKeys as $key) {
@@ -410,12 +410,21 @@ class ControladorEstrategia{
 					$data['cerealesReal'][$month][$index] = $value;
 
 				}
+				
+				if(strpos($key,'precioInsumoReal') === 0){
+
+					$index = str_replace('precioInsumoReal','',$key);
+
+					$data['precioCerealesReal'][$month][$index] = $value;
+
+				}
 
 			}
 
 			$data['idEstrategia'] = $dataEstrategia['estrategia']['idEstrategia'];
 	
-
+			var_dump($data);
+			die;
 			$estrategiaReal = ModeloEstrategia::mdlEstrategiaReal('estrategias',$data);
 			$cerealesReal = ModeloEstrategia::mdlInsumosReal('movimientoscereales',$data,'cerealesReal');
 			$animalesReal = ModeloEstrategia::mdlAnimalesReal('movimientosanimales',$data);

@@ -105,7 +105,7 @@
 
                         <label>Precio Kg Ing.</label>
 
-                        <input type="number" min="0" step="0.1" class="form-control real" name="precioKgIngresosReal" value="0">
+                        <input type="number" min="0" step="0.1" class="form-control real" name="precioKgIngresoReal" value="0">
 
                       </div>
 
