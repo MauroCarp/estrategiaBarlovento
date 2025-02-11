@@ -584,9 +584,18 @@ let calcularPesoPromedio = (dataEstrategia = false,tipo = 'plan',debug = false)=
 
               let totalConsumoMensual = consumoInsumo * stockMesPlan * 30 //dias del mes
 
-              $(`#insumoNecesario${respuesta[key].idInsumo}${objMonths[index]}`).html(totalConsumoMensual.toLocaleString('de-DE'))
-console.log($(`#insumoNecesarioPlan${respuesta[key].idInsumo}_${objMonths[index]}`).length)
-              // insumoNecesarioPlan38_1
+              // $(`#insumoNecesario${respuesta[key].idInsumo}${objMonths[index]}`).html(totalConsumoMensual.toLocaleString('de-DE'))
+
+              if($(`#insumoNecesario${respuesta[key].idInsumo}${objMonths[index]}`).length == 0){
+
+                $(`#insumoNecesarioPlan${respuesta[key].idInsumo}_${objMonths[index]}`).html(totalConsumoMensual.toLocaleString('de-DE'))
+
+              } else {
+
+                $(`#insumoNecesario${respuesta[key].idInsumo}${objMonths[index]}`).html(totalConsumoMensual.toLocaleString('de-DE'))
+
+              }
+
             }
 
           }
@@ -1001,10 +1010,13 @@ if(seteado){
         tdKey.innerText = key
         tdKey.setAttribute('style', 'font-weight:600;padding:10px');
         trContable.append(tdKey)
+        
+        let obj = stockInsumos.find(item => item.hasOwnProperty(insumosNameId[key]));
+        let value = obj ? obj[insumosNameId[key]] : undefined;
 
         $('#trStock').append($(`<th>${key}</th>`))
 
-        $('#trStockInicial').append($(`<td><input class="form-control stockInicial" type="number" min="0" value="${stockInsumos[index][insumosNameId[key]]}" readOnly></td>`))
+        $('#trStockInicial').append($(`<td><input class="form-control stockInicial" type="number" min="0" value="${value}" readOnly></td>`))
 
         $('#insumosReal').append($(`<div class="col-sm-4">
 
