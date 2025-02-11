@@ -17,14 +17,8 @@ $dietasOptions = selectDietas($dietas);
 
 $campania = (isset($_GET['campania'])) ? $_GET['campania'] : null;
 
-var_dump('PASO POR ACA 3');
-var_dump('CAMPANIA');
-var_dump($campania);
-var_dump('VOY A ENTRAR A MOSTRAR ESTRATEGIA');
 $data = ControladorEstrategia::ctrMostrarEstrategia($campania);
-var_dump($data);
-var_dump('PASO POR ACA 4');
-die;
+
 $meses = array(1=>'May',2=>'Jun',3=>'Jul',4=>'Ago',5=>'Sep',6=>'Oct',7=>'Nov',8=>'Dic',9=>'Ene',10=>'Feb',11=>'Mar',12=>'Abr');
 
 ?>

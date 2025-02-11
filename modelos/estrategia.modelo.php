@@ -79,7 +79,6 @@ class ModeloEstrategia{
 				$stmt -> bindParam(":campania", $campania, PDO::PARAM_STR);
 				
 			} else {
-				var_dump('DEBERIA ENTRAR POR ACA');
 				$stmt = Conexion::conectarEstrategia()->prepare("SELECT * FROM $tabla 
 				INNER JOIN movimientoscereales ON $tabla.id = movimientoscereales.idEstrategia 
 				INNER JOIN movimientosanimales ON $tabla.id = movimientosanimales.idEstrategia 
