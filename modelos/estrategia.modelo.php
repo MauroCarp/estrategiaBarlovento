@@ -72,7 +72,7 @@ class ModeloEstrategia{
 				$stmt = Conexion::conectarEstrategia()->prepare("SELECT * FROM $tabla 
 													INNER JOIN movimientoscereales ON $tabla.id = movimientoscereales.idEstrategia 
 													INNER JOIN movimientosanimales ON $tabla.id = movimientosanimales.idEstrategia 
-													INNER JOIN movimientosEstructura ON $tabla.id = movimientosEstructura.idEstrategia 
+													INNER JOIN movimientosestructura ON $tabla.id = movimientosestructura.idEstrategia 
 													INNER JOIN dietas ON $tabla.idDieta = dietas.id 
 													WHERE $tabla.campania = :campania");
 
@@ -83,9 +83,10 @@ class ModeloEstrategia{
 				$stmt = Conexion::conectarEstrategia()->prepare("SELECT * FROM $tabla 
 				INNER JOIN movimientoscereales ON $tabla.id = movimientoscereales.idEstrategia 
 				INNER JOIN movimientosanimales ON $tabla.id = movimientosanimales.idEstrategia 
-				INNER JOIN movimientosEstructura ON $tabla.id = movimientosEstructura.idEstrategia 
+				INNER JOIN movimientosestructura ON $tabla.id = movimientosestructura.idEstrategia 
 				INNER JOIN dietas ON $tabla.idDieta = dietas.id 
 				WHERE $tabla.id = (select MAX($tabla.id) from $tabla)");
+				
 
 			}
 
