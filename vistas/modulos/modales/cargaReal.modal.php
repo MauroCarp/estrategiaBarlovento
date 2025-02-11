@@ -2,10 +2,10 @@
 
   <form role="form" method="post" id="formCarga">
   
-    <div class="modal-dialog">
+    <div class="modal-dialog" style="max-width:1100px; margin: 30px auto;">
 
         
-        <div class="modal-content" style="width:1100px;margin-left:-25%">
+        <div class="modal-content" style="width:1100px;margin-left:-25%;max-height:80vh;overflow-y: auto;">
 
 
           <!--=====================================
@@ -215,7 +215,7 @@
 
               </div>
 
-              <div class="row">
+              <div class="row" style="padding-left:15px;">
 
                 <div class="col-lg-3" style="padding-left:0px;">
                   
@@ -385,7 +385,7 @@
     
           <div class="modal-footer">
 
-            <div class="pull-lef">
+            <div class="pull-right">
 
               <small><span style="color:green"><b>A</b></span> - 30 d&iacute;as | </small>
               <small><span style="color:blue"><b>B</b> - </span>30/60 d&iacute;as | </small>
@@ -393,8 +393,9 @@
               <small><span style="color:red"><b>D</b></span> - 90 d&iacute;as</small>
               
             </div>
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal" style="margin-bottom:10px">Cerrar</button>
 
-            <button type="submit" class="btn btn-primary pull-right" id="btnCargaReal" name="btnCargaReal" disabled>Cargar</button>
+            <button type="submit" class="btn btn-primary btn-block pull-right" id="btnCargaReal" name="btnCargaReal" disabled>Cargar</button>
     
           </div>
         </div>
