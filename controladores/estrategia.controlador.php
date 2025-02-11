@@ -70,7 +70,6 @@ class ControladorEstrategia{
 		$tabla = "estrategias";
 
 		$respuesta = ModeloEstrategia::mdlMostrarEstrategia($tabla,$campania);
-
 		
 		$insumos = ControladorEstrategia::ctrMostrarInsumos();
 		
