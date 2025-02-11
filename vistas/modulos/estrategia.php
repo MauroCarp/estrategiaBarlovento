@@ -577,13 +577,16 @@ let calcularPesoPromedio = (dataEstrategia = false,tipo = 'plan',debug = false)=
               let stockMesPlan = Number($(`#stockPlan${index}`).html())
 
               let consMS = Number($(`#porcentMS${index}`).val())
-  
+              if(isNaN(consMS))
+                consMS = Number($(`#msPlan${index}`).html())
+
               let consumoInsumo = (respuesta[key].porcentaje * consMS) / 100 
 
               let totalConsumoMensual = consumoInsumo * stockMesPlan * 30 //dias del mes
 
               $(`#insumoNecesario${respuesta[key].idInsumo}${objMonths[index]}`).html(totalConsumoMensual.toLocaleString('de-DE'))
-
+console.log($(`#insumoNecesarioPlan${respuesta[key].idInsumo}_${objMonths[index]}`).length)
+              // insumoNecesarioPlan38_1
             }
 
           }

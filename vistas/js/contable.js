@@ -115,7 +115,6 @@ let calcularInsumosContableSeteado = ()=>{
 
         let precio = $(`#insumoPrecioPlan${idInsumo}_${month}`).html()
 
-        console.log(cantidad,precio)
         if($(`#insumo${idInsumo}PlanContable_${month}`).html() == '' || $(`#insumo${idInsumo}${month}Contable`).html() == '0'){
 
             $(`#insumo${idInsumo}PlanContable_${month}`).html((cantidad * precio).toLocaleString('de-DE'))
