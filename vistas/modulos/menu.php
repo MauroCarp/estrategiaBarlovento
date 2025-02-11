@@ -8,7 +8,7 @@
 <?php
 
 	
-	if($_SESSION["usuario"] == "Tecnico"){
+	if($_SESSION["usuario"] == "tecnicoEstrategia"){
 	
 				echo '<li>
 	
