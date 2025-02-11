@@ -162,7 +162,7 @@
 
                         <label>Precio Kg Egr.</label>
 
-                        <input type="number" min="0" step="0.1" class="form-control real" name="precioKgIngresosReal" value="0">
+                        <input type="number" min="0" step="0.1" class="form-control real" name="precioKgVentaReal" value="0">
 
                       </div>
 
@@ -174,7 +174,7 @@
 
                         <label>A Pagar</label>
 
-                        <select class="form-control" name="aPagarIngresoReal" style="font-weight:bold;color:green" >
+                        <select class="form-control" name="aPagarVentaReal" style="font-weight:bold;color:green" >
                           <option value="A" style="font-weight:bold;color:green">A</option>
                           <option value="B" style="font-weight:bold;color:blue">B</option>
                           <option value="C" style="font-weight:bold;color:rgb(227,216,0)">C</option>
