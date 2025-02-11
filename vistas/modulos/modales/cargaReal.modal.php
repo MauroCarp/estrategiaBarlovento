@@ -382,8 +382,17 @@
           ======================================-->
     
           <div class="modal-footer">
-    
-            <button type="submit" class="btn btn-primary" id="btnCargaReal" name="btnCargaReal" disabled>Cargar</button>
+
+            <div class="pull-lef">
+
+              <small><span style="color:green"><b>A</b></span> - 30 d&iacute;as | </small>
+              <small><span style="color:blue"><b>B</b> - </span>30/60 d&iacute;as | </small>
+              <small><span style="color:rgb(227,216,0)"><b>C</b></span> - 60 d&iacute;as | </small>
+              <small><span style="color:red"><b>D</b></span> - 90 d&iacute;as</small>
+              
+            </div>
+
+            <button type="submit" class="btn btn-primary pull-right" id="btnCargaReal" name="btnCargaReal" disabled>Cargar</button>
     
           </div>
         </div>
