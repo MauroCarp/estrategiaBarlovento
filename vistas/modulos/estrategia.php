@@ -977,8 +977,8 @@ if(seteado){
       let cerealesReal = (dataEstrategia.cerealesReal != null) ? JSON.parse(dataEstrategia.cerealesReal) : null
 
       let precioInsumoPlan = JSON.parse(dataEstrategia.precioPlan)
-      let precioInsumoReal = (dataEstrategia.precioReeal != null) ? JSON.parse(dataEstrategia.cerealesReal) : null
-
+      let precioInsumoReal = (dataEstrategia.precioReal != null) ? JSON.parse(dataEstrategia.precioReal) : null
+      console.log(precioInsumoReal)
       // CREO Y FORMATEO LOS DATOS DE CEREALES REAL
       let insumosReal = {}
 
@@ -1113,7 +1113,7 @@ if(seteado){
 
         Object.values(correccionCerealesPlan[insumosNameId[key]]).forEach((element,index) => {
 
-          let monthIndex = [index + 1];
+          let monthIndex = index + 1;
 
           let trInsumo = document.createElement('TR');
           let tdMonth = document.createElement('TD');
@@ -1132,9 +1132,6 @@ if(seteado){
               let spanReal = document.createElement('SPAN');
               spanReal.setAttribute('class', 'real');
 
-              let precioInsumoReal = []
-              let aPagarInsumoReal = []
-
               if(columnHeader == 'Necesario'){
                 spanPlanificado.setAttribute('id', `insumoNecesarioPlan${insumosNameId[key]}_${monthIndex}`);
                 spanReal.setAttribute('id', `insumoNecesarioReal${insumosNameId[key]}_${monthIndex}`);
@@ -1146,7 +1143,7 @@ if(seteado){
                 spanReal.setAttribute('id', `insumoReal${insumosNameId[key]}_${monthIndex}`);
                 spanPlanificado.classList.add('compraInsumos');
                 spanPlanificado.innerText = Number(element).toLocaleString('de-DE');
-                spanReal.innerText = (cerealesReal != null) ? (cerealesReal[monthIndex] != undefined) ? ' | ' + cerealesReal[monthIndex][insumosNameId[key]] : '' : '';
+                spanReal.innerText = (cerealesReal != null) ? (cerealesReal[monthIndex] != undefined) ? ' | ' + Number(cerealesReal[monthIndex][insumosNameId[key]]).toLocaleString('de-DE') : '' : '';
 
 
               }
@@ -1155,8 +1152,7 @@ if(seteado){
                 spanPlanificado.setAttribute('id', `insumoPrecioPlan${insumosNameId[key]}_${monthIndex}`);
                 spanReal.setAttribute('id', `insumoPrecioReal${insumosNameId[key]}_${monthIndex}`);
                 spanPlanificado.innerText = correccionPrecioInsumoPlan[insumosNameId[key]][monthIndex].toLocaleString('de-DE');
-                spanReal.innerText = (precioInsumoReal != null) ? (precioInsumoReal[insumosNameId[key]] != undefined) ? ' | ' + precioInsumoRealinsumosNameId[key][monthIndex] : '' : '';
-
+                spanReal.innerText = (precioInsumoReal != null) ? (precioInsumoReal[monthIndex] != undefined) ? ' | ' + Number(precioInsumoReal[monthIndex][insumosNameId[key]]).toLocaleString('de-DE') : '' : '';
               }
                 
               // if(columnHeader == 'APagar'){
