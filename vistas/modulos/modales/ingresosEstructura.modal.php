@@ -61,6 +61,15 @@
                 $estructuraGastosAP = json_decode($data['estrategia']['gastosApagarPlan'],true);
                 $estructuraIngresosAP = json_decode($data['estrategia']['ingresosApagarPlan'],true);
 
+                $estructuraDirectaReal = json_decode($data['estrategia']['directaImporteReal'],true);
+                $estructuraIndirectaReal = json_decode($data['estrategia']['indirectaImporteReal'],true);
+                $estructuraGastosReal = json_decode($data['estrategia']['gastosImporteReal'],true);
+                $estructuraIngresosReal = json_decode($data['estrategia']['ingresosImporteReal'],true);
+                $estructuraDirectaAPReal = json_decode($data['estrategia']['directaApagarReal'],true);
+                $estructuraIndirectaAPReal = json_decode($data['estrategia']['indirectaApagarReal'],true);
+                $estructuraGastosAPReal = json_decode($data['estrategia']['gastosApagarReal'],true);
+                $estructuraIngresosAPReal = json_decode($data['estrategia']['ingresosApagarReal'],true);
+
                 foreach ($estructuraIndex as $index => $estructura): ?>
                     
                     <div class="tab-pane <?=($index == 0) ? 'active' : ''?>" id="<?=$estructura?>">
@@ -101,15 +110,23 @@
                                 if ($estructuraIds[$index] == 'directa'){
                                   $importe = $estructuraDirecta[$i];
                                   $aPagar = $estructuraDirectaAP[$i];
+                                  $importeReal = $estructuraDirectaReal[$i];
+                                  $aPagarReal = $estructuraDirectaAPReal[$i];
                                 } else if($estructuraIds[$index] == 'indirecta'){
                                   $importe = $estructuraIndirecta[$i];
                                   $aPagar = $estructuraIndirectaAP[$i];
+                                  $importeReal = $estructuraIndirectaReal[$i];
+                                  $aPagarReal = $estructuraIndirectaAPReal[$i];
                                 } else if($estructuraIds[$index] == 'gastos'){
                                   $importe = $estructuraGastos[$i];
                                   $aPagar = $estructuraGastosAP[$i];
+                                  $importeReal = $estructuraGastosReal[$i];
+                                  $aPagarReal = $estructuraGastosAPReal[$i];
                                 } else { 
                                   $importe = $estructuraIngresos[$i];
                                   $aPagar = $estructuraIngresosAP[$i];
+                                  $importeReal = $estructuraIngresosReal[$i];
+                                  $aPagarReal = $estructuraIngresosAPReal[$i];
                                 }
                               
                                 ?>
@@ -118,14 +135,14 @@
                                     <td><?= $month ?></td>
                                     <td>
                                       <span class="planificado contableEstructura" id="<?=$estructuraIds[$index]?>Importe<?=$i?>"><?=number_format($importe, 0, ',', '.')?></span>
-                                      <span id="<?=$estructuraIds[$index]?>ImporteReal<?=$i?>" class="real"><?//=(isset($kgEgresosReal[$index])) ? ' | ' . $kgEgresosReal[$index] : '' ?></span>
+                                      <span id="<?=$estructuraIds[$index]?>ImporteReal<?=$i?>" class="real"><?=($importeReal) ? ' | ' . number_format($importeReal,0,',','.') : '' ?></span>
                                     </td>
                                     <td>
                                       <span class="planificado" id="<?=$estructuraIds[$index]?>Apagar<?=$i?>" style="font-weight:bold;color:<?=($aPagar == 'A') ? 
                                       'green' 
                                       : 
                                       (($aPagar == 'B') ? 'blue' : (($aPagar == 'D') ? 'red' : 'rgb(277,215,0)'))?>"><?=$aPagar?></span>
-                                      <span id="<?=$estructuraIds[$index]?>ApagarReal<?=$i?>" class="real"><?//=(isset($kgEgresosReal[$index])) ? ' | ' . $kgEgresosReal[$index] : '' ?></span>
+                                      <span id="<?=$estructuraIds[$index]?>ApagarReal<?=$i?>" class="real"><?=($aPagarReal) ? ' | ' . $aPagarReal : '' ?></span>
                                     </td>
                                 </tr>
 
