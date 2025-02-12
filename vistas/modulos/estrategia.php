@@ -178,7 +178,8 @@
                     $ingresosReal = json_decode($data['estrategia']['ingresosReal'],true);
                     var_dump(json_decode($data['estrategia']['ingresosReal'],true));
                     
-
+                    var_dump($data['estrategia']);
+                    
                     foreach ($ingresosPlan as $key => $value) { ?>
 
                     <td><span class="planificado"><?=$value?></span><span class="real" <?=(isset($ingresosReal[(string)$key]) && $ingresosReal[(string)$key] < $value) ? 'style="color:red"' : ''?> id='ingReal<?=$key?>'><?=(isset($ingresosReal[(string)$key])) ? " | " . $ingresosReal[(string)$key] : ''?></span></td>
