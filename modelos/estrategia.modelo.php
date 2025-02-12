@@ -287,9 +287,33 @@ class ModeloEstrategia{
 	static public function mdlInsumosReal($tabla,$data){
 
 
-		$stmt = Conexion::conectarEstrategia()->prepare("UPDATE $tabla SET cerealesReal = :cerealesReal WHERE idEstrategia = :idEstrategia");
+		$stmt = Conexion::conectarEstrategia()->prepare("UPDATE $tabla SET cerealesReal = :cerealesReal,precioReal = :precioReal WHERE idEstrategia = :idEstrategia");
 
 		$stmt -> bindParam(":cerealesReal", json_encode($data['cerealesReal']), PDO::PARAM_STR);
+		$stmt -> bindParam(":precioReal", json_encode($data['precioCerealesReal']), PDO::PARAM_STR);
+		$stmt -> bindParam(":idEstrategia", $data['idEstrategia'], PDO::PARAM_STR);
+				
+		if($stmt -> execute()){
+		
+			// Retornar los datos del registro actualizado
+			return 'ok';
+		
+		}else{
+
+			return $stmt->errorInfo();
+		
+		};
+
+
+	}
+
+	static public function mdlEstructuraReal($tabla,$data){
+
+
+		$stmt = Conexion::conectarEstrategia()->prepare("UPDATE $tabla SET cerealesReal = :cerealesReal,precioReal = :precioReal WHERE idEstrategia = :idEstrategia");
+
+		$stmt -> bindParam(":cerealesReal", json_encode($data['cerealesReal']), PDO::PARAM_STR);
+		$stmt -> bindParam(":precioReal", json_encode($data['precioCerealesReal']), PDO::PARAM_STR);
 		$stmt -> bindParam(":idEstrategia", $data['idEstrategia'], PDO::PARAM_STR);
 				
 		if($stmt -> execute()){
@@ -332,10 +356,12 @@ class ModeloEstrategia{
 
 	static public function mdlAnimalesReal($tabla,$data){
 
-		$stmt = Conexion::conectarEstrategia()->prepare("UPDATE $tabla SET ingresosReal = :ingresosReal, kgIngresosReal = :kgIngresosReal, ventasReal = :ventasReal, kgVentasReal = :kgVentasReal WHERE idEstrategia = :idEstrategia");
+		$stmt = Conexion::conectarEstrategia()->prepare("UPDATE $tabla SET ingresosReal = :ingresosReal, kgIngresosReal = :kgIngresosReal,precioKgIngresoReal = :precioKgIngresoReal,aPagarIngresoReal = :aPagarIngresoReal, ventasReal = :ventasReal, kgVentasReal = :kgVentasReal WHERE idEstrategia = :idEstrategia");
 
 		$stmt -> bindParam(":ingresosReal", json_encode($data['ingresosReal']), PDO::PARAM_STR);
 		$stmt -> bindParam(":kgIngresosReal", json_encode($data['kgIngresosReal']), PDO::PARAM_STR);
+		$stmt -> bindParam(":precioKgIngresosReal", json_encode($data['precioKgIngresoReal']), PDO::PARAM_STR);
+		$stmt -> bindParam(":aPagarIngresosReal", json_encode($data['aPagarIngresoReal']), PDO::PARAM_STR);
 		$stmt -> bindParam(":ventasReal", json_encode($data['ventasReal']), PDO::PARAM_STR);
 		$stmt -> bindParam(":kgVentasReal", json_encode($data['kgVentasReal']), PDO::PARAM_STR);
 		$stmt -> bindParam(":idEstrategia", $data['idEstrategia'], PDO::PARAM_STR);
