@@ -2,9 +2,9 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost:8889
--- Tiempo de generación: 10-02-2025 a las 02:42:33
--- Versión del servidor: 5.7.39
+-- Servidor: 127.0.0.1:3306
+-- Tiempo de generación: 12-02-2025 a las 02:05:04
+-- Versión del servidor: 8.0.31
 -- Versión de PHP: 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `estrategiaBarlovento`
+-- Base de datos: `estrategiabarlovento`
 --
 
 -- --------------------------------------------------------
@@ -27,12 +27,14 @@ SET time_zone = "+00:00";
 -- Estructura de tabla para la tabla `dietas`
 --
 
-CREATE TABLE `dietas` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `dietas`;
+CREATE TABLE IF NOT EXISTS `dietas` (
+  `id` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) DEFAULT NULL,
   `insumos` varchar(200) DEFAULT NULL,
-  `porcentajes` varchar(200) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `porcentajes` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `dietas`
@@ -49,21 +51,23 @@ INSERT INTO `dietas` (`id`, `nombre`, `insumos`, `porcentajes`) VALUES
 -- Estructura de tabla para la tabla `estrategias`
 --
 
-CREATE TABLE `estrategias` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `estrategias`;
+CREATE TABLE IF NOT EXISTS `estrategias` (
+  `id` int NOT NULL AUTO_INCREMENT,
   `campania` varchar(100) NOT NULL,
   `stockInsumos` varchar(500) DEFAULT NULL,
-  `idDieta` int(11) DEFAULT NULL,
+  `idDieta` int DEFAULT NULL,
   `dietaReal` varchar(3000) DEFAULT NULL,
   `adpPlan` varchar(3000) DEFAULT NULL,
   `adpReal` varchar(3000) DEFAULT NULL,
   `msPlan` varchar(3000) DEFAULT NULL,
   `msReal` varchar(3000) DEFAULT NULL,
-  `stockAnimales` int(11) DEFAULT NULL,
-  `stockKgProm` int(11) NOT NULL DEFAULT '0',
+  `stockAnimales` int DEFAULT NULL,
+  `stockKgProm` int NOT NULL DEFAULT '0',
   `seteado` tinyint(1) NOT NULL DEFAULT '0',
-  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `estrategias`
@@ -71,7 +75,7 @@ CREATE TABLE `estrategias` (
 
 INSERT INTO `estrategias` (`id`, `campania`, `stockInsumos`, `idDieta`, `dietaReal`, `adpPlan`, `adpReal`, `msPlan`, `msReal`, `stockAnimales`, `stockKgProm`, `seteado`, `created_at`) VALUES
 (44, '2025/2026', '[{\"59\":300000},{\"93\":140000},{\"67\":90000},{\"31\":2000000}]', 6, '{\"1\":{\"31\":\"10\",\"59\":\"65\",\"67\":\"5\",\"93\":\"20\"},\"2\":{\"31\":\"10\",\"59\":\"65\",\"67\":\"5\",\"93\":\"20\"},\"3\":{\"31\":\"10\",\"59\":\"65\",\"67\":\"5\",\"93\":\"20\"},\"4\":{\"31\":\"10\",\"59\":\"65\",\"67\":\"5\",\"93\":\"20\"},\"5\":{\"31\":\"0\",\"59\":\"0\",\"67\":\"0\",\"93\":\"0\"},\"6\":{\"31\":\"10\",\"59\":\"70\",\"67\":\"5\",\"93\":\"15\"},\"7\":{\"31\":\"10\",\"59\":\"70\",\"67\":\"5\",\"93\":\"15\"},\"8\":{\"31\":\"5\",\"59\":\"60\",\"67\":\"3\",\"93\":\"32\"},\"9\":{\"31\":\"10\",\"59\":\"70\",\"67\":\"5\",\"93\":\"15\"}}', '[\"1.1\",\"1.2\",\"1.2\",\"1.2\",\"1.3\",\"1.3\",\"1.3\",\"1.1\",\"1.1\",\"1.1\",\"1.2\",\"1.3\"]', '{\"1\":\"1.2\",\"2\":\"1.2\",\"3\":\"1.3\",\"4\":\"1.1\",\"5\":\"1.3\",\"6\":\"1.3\",\"7\":\"1.2\",\"8\":\"1.3\",\"\":null,\"9\":\"1.2\"}', '[\"2.8\",\"2.8\",\"2.8\",\"2.8\",\"2.6\",\"2.6\",\"2.6\",\"2.6\",\"2.6\",\"2.8\",\"2.8\",\"2.8\"]', '{\"1\":\"2.7\",\"2\":\"2.7\",\"3\":\"2.6\",\"4\":\"2.5\",\"5\":\"2.8\",\"6\":\"2.8\",\"7\":\"2.8\",\"8\":\"2.9\",\"\":null,\"9\":\"6\"}', 3000, 350, 1, '2024-10-23 13:41:31'),
-(48, '2026/2027', '[{\"59\":100000},{\"67\":60000},{\"38\":30000}]', 2, NULL, '[\"1.2\",\"1.2\",\"1.2\",\"1.2\",\"1.2\",\"1.2\",\"1.2\",\"1.2\",\"1.2\",\"1.2\",\"1.2\",\"1.2\"]', NULL, '[\"2.4\",\"2.4\",\"2.4\",\"2.4\",\"2.4\",\"2.4\",\"2.4\",\"2.4\",\"2.4\",\"2.4\",\"2.4\",\"2.4\"]', NULL, 360, 360, 1, '2025-02-06 19:46:09'),
+(48, '2026/2027', '[{\"59\":100000},{\"67\":60000},{\"38\":30000}]', 2, '{\"1\":{\"38\":\"5\",\"59\":\"60\",\"67\":\"35\"}}', '[\"1.2\",\"1.2\",\"1.2\",\"1.2\",\"1.2\",\"1.2\",\"1.2\",\"1.2\",\"1.2\",\"1.2\",\"1.2\",\"1.2\"]', '{\"1\":\"1.2\"}', '[\"2.4\",\"2.4\",\"2.4\",\"2.4\",\"2.4\",\"2.4\",\"2.4\",\"2.4\",\"2.4\",\"2.4\",\"2.4\",\"2.4\"]', '{\"1\":\"2.4\"}', 360, 360, 1, '2025-02-06 19:46:09'),
 (49, '2027/2028', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 0, '2025-02-07 10:37:15');
 
 -- --------------------------------------------------------
@@ -80,12 +84,14 @@ INSERT INTO `estrategias` (`id`, `campania`, `stockInsumos`, `idDieta`, `dietaRe
 -- Estructura de tabla para la tabla `insumos`
 --
 
-CREATE TABLE `insumos` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `insumos`;
+CREATE TABLE IF NOT EXISTS `insumos` (
+  `id` int NOT NULL AUTO_INCREMENT,
   `insumo` varchar(150) NOT NULL,
   `tipo` varchar(100) DEFAULT NULL,
-  `porceMS` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+  `porceMS` int NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=98 DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `insumos`
@@ -161,9 +167,10 @@ INSERT INTO `insumos` (`id`, `insumo`, `tipo`, `porceMS`) VALUES
 -- Estructura de tabla para la tabla `movimientosanimales`
 --
 
-CREATE TABLE `movimientosanimales` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `idEstrategia` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `movimientosanimales`;
+CREATE TABLE IF NOT EXISTS `movimientosanimales` (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `idEstrategia` bigint UNSIGNED NOT NULL,
   `ingresosPlan` varchar(400) NOT NULL,
   `kgIngresosPlan` varchar(400) DEFAULT NULL,
   `precioKgIngresosPlan` varchar(1500) DEFAULT NULL,
@@ -179,8 +186,9 @@ CREATE TABLE `movimientosanimales` (
   `precioKgIngresosReal` varchar(1500) DEFAULT NULL,
   `aPagarIngresosReal` varchar(1500) DEFAULT NULL,
   `precioKgEgresosReal` varchar(1500) DEFAULT NULL,
-  `aPagarEgresosReal` varchar(1500) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `aPagarEgresosReal` varchar(1500) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `movimientosanimales`
@@ -188,7 +196,7 @@ CREATE TABLE `movimientosanimales` (
 
 INSERT INTO `movimientosanimales` (`id`, `idEstrategia`, `ingresosPlan`, `kgIngresosPlan`, `precioKgIngresosPlan`, `aPagarIngresosPlan`, `egresosPlan`, `precioKgEgresosPlan`, `aPagarEgresosPlan`, `kgEgresosPlan`, `ingresosReal`, `kgIngresosReal`, `ventasReal`, `kgVentasReal`, `precioKgIngresosReal`, `aPagarIngresosReal`, `precioKgEgresosReal`, `aPagarEgresosReal`) VALUES
 (44, 44, '{\"1\":\"300\",\"2\":\"350\",\"3\":\"400\",\"4\":\"350\",\"5\":\"400\",\"6\":\"400\",\"7\":\"500\",\"8\":\"500\",\"9\":\"500\",\"10\":\"500\",\"11\":\"800\",\"12\":\"800\"}', '{\"1\":\"350\",\"2\":\"320\",\"3\":\"280\",\"4\":\"350\",\"5\":\"350\",\"6\":\"290\",\"7\":\"300\",\"8\":\"350\",\"9\":\"350\",\"10\":\"350\",\"11\":\"400\",\"12\":\"350\"}', '{\"1\":\"130\",\"2\":\"135\",\"3\":\"120\",\"4\":\"130\",\"5\":\"130\",\"6\":\"140\",\"7\":\"145\",\"8\":\"140\",\"9\":\"135\",\"10\":\"140\",\"11\":\"140\",\"12\":\"145\"}', '{\"1\":\"0\",\"2\":\"0\",\"3\":\"0\",\"4\":\"0\",\"5\":\"2\",\"6\":\"1\",\"7\":\"1\",\"8\":\"1\",\"9\":\"1\",\"10\":\"1\",\"11\":\"2\",\"12\":\"2\"}', '{\"1\":\"400\",\"2\":\"400\",\"3\":\"400\",\"4\":\"500\",\"5\":\"500\",\"6\":\"500\",\"7\":\"400\",\"8\":\"400\",\"9\":\"400\",\"10\":\"400\",\"11\":\"500\",\"12\":\"600\"}', '{\"1\":\"450\",\"2\":\"450\",\"3\":\"450\",\"4\":\"420\",\"5\":\"420\",\"6\":\"420\",\"7\":\"450\",\"8\":\"450\",\"9\":\"450\",\"10\":\"450\",\"11\":\"420\",\"12\":\"400\"}', '{\"1\":\"0\",\"2\":\"0\",\"3\":\"0\",\"4\":\"0\",\"5\":\"0\",\"6\":\"0\",\"7\":\"0\",\"8\":\"0\",\"9\":\"0\",\"10\":\"0\",\"11\":\"0\",\"12\":\"0\"}', '{\"1\":\"420\",\"2\":\"420\",\"3\":\"450\",\"4\":\"450\",\"5\":\"450\",\"6\":\"420\",\"7\":\"420\",\"8\":\"420\",\"9\":\"450\",\"10\":\"450\",\"11\":\"420\",\"12\":\"500\"}', '{\"1\":\"300\",\"2\":\"400\",\"3\":\"200\",\"4\":\"250\",\"5\":\"500\",\"6\":\"500\",\"7\":\"1500\",\"8\":\"1500\",\"\":null,\"9\":\"200\"}', '{\"1\":\"350\",\"2\":\"280\",\"3\":\"350\",\"4\":\"380\",\"5\":\"350\",\"6\":\"350\",\"7\":\"400\",\"8\":\"400\",\"\":null,\"9\":\"180\"}', '{\"1\":\"400\",\"2\":\"500\",\"3\":\"500\",\"4\":\"300\",\"5\":\"0\",\"6\":\"0\",\"7\":\"0\",\"8\":\"0\",\"\":null,\"9\":\"500\"}', '{\"1\":\"420\",\"2\":\"450\",\"3\":\"420\",\"4\":\"420\",\"5\":\"0\",\"6\":\"0\",\"7\":\"0\",\"8\":\"0\",\"\":null,\"9\":\"480\"}', NULL, NULL, NULL, NULL),
-(47, 48, '{\"1\":\"500\",\"2\":\"700\",\"3\":\"600\",\"4\":\"800\",\"5\":\"300\",\"6\":\"0\",\"7\":\"0\",\"8\":\"0\",\"9\":\"500\",\"10\":\"0\",\"11\":\"0\",\"12\":\"0\"}', '{\"1\":\"200\",\"2\":\"180\",\"3\":\"220\",\"4\":\"190\",\"5\":\"200\",\"6\":\"0\",\"7\":\"0\",\"8\":\"0\",\"9\":\"220\",\"10\":\"0\",\"11\":\"0\",\"12\":\"0\"}', '{\"1\":\"2900\",\"2\":\"2900\",\"3\":\"2900\",\"4\":\"2900\",\"5\":\"2900\",\"6\":\"0\",\"7\":\"0\",\"8\":\"0\",\"9\":\"2950\",\"10\":\"0\",\"11\":\"0\",\"12\":\"0\"}', '{\"1\":\"B\",\"2\":\"B\",\"3\":\"B\",\"4\":\"B\",\"5\":\"B\",\"6\":\"A\",\"7\":\"A\",\"8\":\"A\",\"9\":\"B\",\"10\":\"A\",\"11\":\"A\",\"12\":\"A\"}', '{\"1\":\"0\",\"2\":\"0\",\"3\":\"300\",\"4\":\"0\",\"5\":\"800\",\"6\":\"0\",\"7\":\"800\",\"8\":\"0\",\"9\":\"400\",\"10\":\"400\",\"11\":\"0\",\"12\":\"0\"}', '{\"1\":\"0\",\"2\":\"0\",\"3\":\"2700\",\"4\":\"0\",\"5\":\"2700\",\"6\":\"0\",\"7\":\"2700\",\"8\":\"0\",\"9\":\"2800\",\"10\":\"2880\",\"11\":\"0\",\"12\":\"0\"}', '{\"1\":\"A\",\"2\":\"A\",\"3\":\"A\",\"4\":\"A\",\"5\":\"A\",\"6\":\"A\",\"7\":\"A\",\"8\":\"A\",\"9\":\"A\",\"10\":\"A\",\"11\":\"A\",\"12\":\"A\"}', '{\"1\":\"0\",\"2\":\"0\",\"3\":\"460\",\"4\":\"0\",\"5\":\"450\",\"6\":\"0\",\"7\":\"480\",\"8\":\"0\",\"9\":\"480\",\"10\":\"450\",\"11\":\"0\",\"12\":\"0\"}', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(47, 48, '{\"1\":\"500\",\"2\":\"700\",\"3\":\"600\",\"4\":\"800\",\"5\":\"300\",\"6\":\"0\",\"7\":\"0\",\"8\":\"0\",\"9\":\"500\",\"10\":\"0\",\"11\":\"0\",\"12\":\"0\"}', '{\"1\":\"200\",\"2\":\"180\",\"3\":\"220\",\"4\":\"190\",\"5\":\"200\",\"6\":\"0\",\"7\":\"0\",\"8\":\"0\",\"9\":\"220\",\"10\":\"0\",\"11\":\"0\",\"12\":\"0\"}', '{\"1\":\"2900\",\"2\":\"2900\",\"3\":\"2900\",\"4\":\"2900\",\"5\":\"2900\",\"6\":\"0\",\"7\":\"0\",\"8\":\"0\",\"9\":\"2950\",\"10\":\"0\",\"11\":\"0\",\"12\":\"0\"}', '{\"1\":\"B\",\"2\":\"B\",\"3\":\"B\",\"4\":\"B\",\"5\":\"B\",\"6\":\"A\",\"7\":\"A\",\"8\":\"A\",\"9\":\"B\",\"10\":\"A\",\"11\":\"A\",\"12\":\"A\"}', '{\"1\":\"0\",\"2\":\"0\",\"3\":\"300\",\"4\":\"0\",\"5\":\"800\",\"6\":\"0\",\"7\":\"800\",\"8\":\"0\",\"9\":\"400\",\"10\":\"400\",\"11\":\"0\",\"12\":\"0\"}', '{\"1\":\"0\",\"2\":\"0\",\"3\":\"2700\",\"4\":\"0\",\"5\":\"2700\",\"6\":\"0\",\"7\":\"2700\",\"8\":\"0\",\"9\":\"2800\",\"10\":\"2880\",\"11\":\"0\",\"12\":\"0\"}', '{\"1\":\"A\",\"2\":\"A\",\"3\":\"A\",\"4\":\"A\",\"5\":\"A\",\"6\":\"A\",\"7\":\"A\",\"8\":\"A\",\"9\":\"A\",\"10\":\"A\",\"11\":\"A\",\"12\":\"A\"}', '{\"1\":\"0\",\"2\":\"0\",\"3\":\"460\",\"4\":\"0\",\"5\":\"450\",\"6\":\"0\",\"7\":\"480\",\"8\":\"0\",\"9\":\"480\",\"10\":\"450\",\"11\":\"0\",\"12\":\"0\"}', '{\"1\":\"500\"}', '{\"1\":\"200\"}', '{\"1\":\"0\"}', '{\"1\":\"0\"}', '{\"1\":\"1900\"}', '{\"1\":\"B\"}', '{\"1\":\"0\"}', '{\"1\":\"A\"}');
 
 -- --------------------------------------------------------
 
@@ -196,14 +204,16 @@ INSERT INTO `movimientosanimales` (`id`, `idEstrategia`, `ingresosPlan`, `kgIngr
 -- Estructura de tabla para la tabla `movimientoscereales`
 --
 
-CREATE TABLE `movimientoscereales` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `idEstrategia` int(11) NOT NULL,
+DROP TABLE IF EXISTS `movimientoscereales`;
+CREATE TABLE IF NOT EXISTS `movimientoscereales` (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
+  `idEstrategia` int NOT NULL,
   `cerealesPlan` varchar(1500) DEFAULT NULL,
   `cerealesReal` varchar(5000) DEFAULT NULL,
   `precioPlan` varchar(1500) DEFAULT NULL,
-  `precioReal` varchar(5000) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `precioReal` varchar(5000) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `movimientoscereales`
@@ -211,17 +221,18 @@ CREATE TABLE `movimientoscereales` (
 
 INSERT INTO `movimientoscereales` (`id`, `idEstrategia`, `cerealesPlan`, `cerealesReal`, `precioPlan`, `precioReal`) VALUES
 (40, 44, '{\"59\":[\"300000\",\"300000\",\"30000\",\"1000000\",\"1000000\",\"1000000\",\"1000000\",\"300000\",\"300000\",\"300000\",\"1000000\",\"1000000\"],\"93\":[\"24000\",\"24000\",\"400000\",\"400000\",\"400000\",\"400000\",\"400000\",\"0\",\"0\",\"50000\",\"48000\",\"48000\"],\"67\":[\"0\",\"0\",\"0\",\"0\",\"90000\",\"0\",\"50000\",\"50000\",\"40000\",\"60000\",\"70000\",\"50000\"],\"31\":[\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\",\"0\"]}', '{\"1\":{\"31\":\"0\",\"59\":\"300000\",\"67\":\"0\",\"93\":\"24000\"},\"2\":{\"31\":\"0\",\"59\":\"300000\",\"67\":\"0\",\"93\":\"0\"},\"3\":{\"31\":\"0\",\"59\":\"120000000\",\"67\":\"30000\",\"93\":\"0\"},\"4\":{\"31\":\"0\",\"59\":\"0\",\"67\":\"0\",\"93\":\"300000\"},\"5\":{\"31\":\"0\",\"59\":\"0\",\"67\":\"0\",\"93\":\"0\"},\"6\":{\"31\":\"0\",\"59\":\"0\",\"67\":\"0\",\"93\":\"0\"},\"7\":{\"31\":\"0\",\"59\":\"0\",\"67\":\"0\",\"93\":\"0\"},\"8\":{\"31\":\"0\",\"59\":\"0\",\"67\":\"0\",\"93\":\"0\"},\"9\":{\"31\":\"0\",\"59\":\"100000\",\"67\":\"0\",\"93\":\"0\"}}', '0', NULL),
-(42, 48, '{\"59\":{\"5\":\"0\",\"6\":\"0\",\"7\":\"500000\",\"8\":\"0\",\"9\":\"0\",\"10\":\"0\",\"11\":\"0\",\"12\":\"400000\",\"1\":\"0\",\"2\":\"0\",\"3\":\"0\",\"4\":\"0\"},\"67\":{\"5\":\"150000\",\"6\":\"0\",\"7\":\"0\",\"8\":\"0\",\"9\":\"0\",\"10\":\"2500000\",\"11\":\"0\",\"12\":\"0\",\"1\":\"0\",\"2\":\"0\",\"3\":\"0\",\"4\":\"0\"},\"38\":{\"5\":\"30000\",\"6\":\"0\",\"7\":\"0\",\"8\":\"0\",\"9\":\"0\",\"10\":\"600000\",\"11\":\"0\",\"12\":\"0\",\"1\":\"0\",\"2\":\"0\",\"3\":\"0\",\"4\":\"0\"}}', NULL, '{\"59\":{\"5\":\"0\",\"6\":\"0\",\"7\":\"200\",\"8\":\"0\",\"9\":\"0\",\"10\":\"0\",\"11\":\"0\",\"12\":\"200\",\"1\":\"0\",\"2\":\"0\",\"3\":\"0\",\"4\":\"0\"},\"67\":{\"5\":\"120\",\"6\":\"0\",\"7\":\"0\",\"8\":\"0\",\"9\":\"0\",\"10\":\"130\",\"11\":\"0\",\"12\":\"0\",\"1\":\"0\",\"2\":\"0\",\"3\":\"0\",\"4\":\"0\"},\"38\":{\"5\":\"120\",\"6\":\"0\",\"7\":\"0\",\"8\":\"0\",\"9\":\"0\",\"10\":\"130\",\"11\":\"0\",\"12\":\"0\",\"1\":\"0\",\"2\":\"0\",\"3\":\"0\",\"4\":\"0\"}}', NULL);
+(42, 48, '{\"59\":{\"5\":\"0\",\"6\":\"0\",\"7\":\"500000\",\"8\":\"0\",\"9\":\"0\",\"10\":\"0\",\"11\":\"0\",\"12\":\"400000\",\"1\":\"0\",\"2\":\"0\",\"3\":\"0\",\"4\":\"0\"},\"67\":{\"5\":\"150000\",\"6\":\"0\",\"7\":\"0\",\"8\":\"0\",\"9\":\"0\",\"10\":\"2500000\",\"11\":\"0\",\"12\":\"0\",\"1\":\"0\",\"2\":\"0\",\"3\":\"0\",\"4\":\"0\"},\"38\":{\"5\":\"30000\",\"6\":\"0\",\"7\":\"0\",\"8\":\"0\",\"9\":\"0\",\"10\":\"600000\",\"11\":\"0\",\"12\":\"0\",\"1\":\"0\",\"2\":\"0\",\"3\":\"0\",\"4\":\"0\"}}', '{\"1\":{\"38\":\"30000\",\"59\":\"0\",\"67\":\"150000\"}}', '{\"59\":{\"5\":\"0\",\"6\":\"0\",\"7\":\"200\",\"8\":\"0\",\"9\":\"0\",\"10\":\"0\",\"11\":\"0\",\"12\":\"200\",\"1\":\"0\",\"2\":\"0\",\"3\":\"0\",\"4\":\"0\"},\"67\":{\"5\":\"120\",\"6\":\"0\",\"7\":\"0\",\"8\":\"0\",\"9\":\"0\",\"10\":\"130\",\"11\":\"0\",\"12\":\"0\",\"1\":\"0\",\"2\":\"0\",\"3\":\"0\",\"4\":\"0\"},\"38\":{\"5\":\"120\",\"6\":\"0\",\"7\":\"0\",\"8\":\"0\",\"9\":\"0\",\"10\":\"130\",\"11\":\"0\",\"12\":\"0\",\"1\":\"0\",\"2\":\"0\",\"3\":\"0\",\"4\":\"0\"}}', '{\"1\":{\"38\":\"100\",\"59\":\"0\",\"67\":\"120\"}}');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `movimientosEstructura`
+-- Estructura de tabla para la tabla `movimientosestructura`
 --
 
-CREATE TABLE `movimientosEstructura` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `idEstrategia` int(10) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `movimientosestructura`;
+CREATE TABLE IF NOT EXISTS `movimientosestructura` (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `idEstrategia` int UNSIGNED NOT NULL,
   `directaImportePlan` varchar(1500) NOT NULL,
   `indirectaImportePlan` varchar(1500) NOT NULL,
   `gastosImportePlan` varchar(1500) NOT NULL,
@@ -229,15 +240,24 @@ CREATE TABLE `movimientosEstructura` (
   `directaApagarPlan` varchar(1500) NOT NULL,
   `indirectaApagarPlan` varchar(1500) NOT NULL,
   `gastosApagarPlan` varchar(1500) NOT NULL,
-  `ingresosApagarPlan` varchar(1500) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `ingresosApagarPlan` varchar(1500) NOT NULL,
+  `directaImporteReal` varchar(1000) DEFAULT NULL,
+  `directaApagarReal` varchar(1000) DEFAULT NULL,
+  `indirectaImporteReal` varchar(1000) DEFAULT NULL,
+  `indirectaApagarReal` varchar(1000) DEFAULT NULL,
+  `gastosImporteReal` varchar(1000) DEFAULT NULL,
+  `gastosApagarReal` varchar(1000) DEFAULT NULL,
+  `ingresosImporteReal` varchar(1000) DEFAULT NULL,
+  `ingresosApagarReal` varchar(1000) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
 
 --
--- Volcado de datos para la tabla `movimientosEstructura`
+-- Volcado de datos para la tabla `movimientosestructura`
 --
 
-INSERT INTO `movimientosEstructura` (`id`, `idEstrategia`, `directaImportePlan`, `indirectaImportePlan`, `gastosImportePlan`, `ingresosImportePlan`, `directaApagarPlan`, `indirectaApagarPlan`, `gastosApagarPlan`, `ingresosApagarPlan`) VALUES
-(2, 48, '{\"1\":\"100000\",\"2\":\"0\",\"3\":\"0\",\"4\":\"0\",\"5\":\"0\",\"6\":\"200000\",\"7\":\"0\",\"8\":\"0\",\"9\":\"400000\",\"10\":\"0\",\"11\":\"0\",\"12\":\"0\"}', '{\"1\":\"0\",\"2\":\"400000\",\"3\":\"0\",\"4\":\"0\",\"5\":\"0\",\"6\":\"0\",\"7\":\"0\",\"8\":\"0\",\"9\":\"9000000\",\"10\":\"0\",\"11\":\"0\",\"12\":\"0\"}', '{\"1\":\"0\",\"2\":\"0\",\"3\":\"0\",\"4\":\"0\",\"5\":\"3000000\",\"6\":\"0\",\"7\":\"0\",\"8\":\"0\",\"9\":\"0\",\"10\":\"0\",\"11\":\"0\",\"12\":\"0\"}', '{\"1\":\"0\",\"2\":\"0\",\"3\":\"145000000\",\"4\":\"0\",\"5\":\"0\",\"6\":\"0\",\"7\":\"0\",\"8\":\"25000000\",\"9\":\"0\",\"10\":\"0\",\"11\":\"0\",\"12\":\"0\"}', '{\"1\":\"A\",\"2\":\"A\",\"3\":\"A\",\"4\":\"A\",\"5\":\"A\",\"6\":\"A\",\"7\":\"A\",\"8\":\"A\",\"9\":\"A\",\"10\":\"A\",\"11\":\"A\",\"12\":\"A\"}', '{\"1\":\"A\",\"2\":\"A\",\"3\":\"A\",\"4\":\"A\",\"5\":\"A\",\"6\":\"A\",\"7\":\"A\",\"8\":\"A\",\"9\":\"A\",\"10\":\"A\",\"11\":\"A\",\"12\":\"A\"}', '{\"1\":\"A\",\"2\":\"A\",\"3\":\"A\",\"4\":\"A\",\"5\":\"A\",\"6\":\"A\",\"7\":\"A\",\"8\":\"A\",\"9\":\"A\",\"10\":\"A\",\"11\":\"A\",\"12\":\"A\"}', '{\"1\":\"A\",\"2\":\"A\",\"3\":\"A\",\"4\":\"A\",\"5\":\"A\",\"6\":\"A\",\"7\":\"A\",\"8\":\"A\",\"9\":\"A\",\"10\":\"A\",\"11\":\"A\",\"12\":\"A\"}');
+INSERT INTO `movimientosestructura` (`id`, `idEstrategia`, `directaImportePlan`, `indirectaImportePlan`, `gastosImportePlan`, `ingresosImportePlan`, `directaApagarPlan`, `indirectaApagarPlan`, `gastosApagarPlan`, `ingresosApagarPlan`, `directaImporteReal`, `directaApagarReal`, `indirectaImporteReal`, `indirectaApagarReal`, `gastosImporteReal`, `gastosApagarReal`, `ingresosImporteReal`, `ingresosApagarReal`) VALUES
+(2, 48, '{\"1\":\"100000\",\"2\":\"0\",\"3\":\"0\",\"4\":\"0\",\"5\":\"0\",\"6\":\"200000\",\"7\":\"0\",\"8\":\"0\",\"9\":\"400000\",\"10\":\"0\",\"11\":\"0\",\"12\":\"0\"}', '{\"1\":\"0\",\"2\":\"400000\",\"3\":\"0\",\"4\":\"0\",\"5\":\"0\",\"6\":\"0\",\"7\":\"0\",\"8\":\"0\",\"9\":\"9000000\",\"10\":\"0\",\"11\":\"0\",\"12\":\"0\"}', '{\"1\":\"0\",\"2\":\"0\",\"3\":\"0\",\"4\":\"0\",\"5\":\"3000000\",\"6\":\"0\",\"7\":\"0\",\"8\":\"0\",\"9\":\"0\",\"10\":\"0\",\"11\":\"0\",\"12\":\"0\"}', '{\"1\":\"0\",\"2\":\"0\",\"3\":\"145000000\",\"4\":\"0\",\"5\":\"0\",\"6\":\"0\",\"7\":\"0\",\"8\":\"25000000\",\"9\":\"0\",\"10\":\"0\",\"11\":\"0\",\"12\":\"0\"}', '{\"1\":\"A\",\"2\":\"A\",\"3\":\"A\",\"4\":\"A\",\"5\":\"A\",\"6\":\"A\",\"7\":\"A\",\"8\":\"A\",\"9\":\"A\",\"10\":\"A\",\"11\":\"A\",\"12\":\"A\"}', '{\"1\":\"A\",\"2\":\"A\",\"3\":\"A\",\"4\":\"A\",\"5\":\"A\",\"6\":\"A\",\"7\":\"A\",\"8\":\"A\",\"9\":\"A\",\"10\":\"A\",\"11\":\"A\",\"12\":\"A\"}', '{\"1\":\"A\",\"2\":\"A\",\"3\":\"A\",\"4\":\"A\",\"5\":\"A\",\"6\":\"A\",\"7\":\"A\",\"8\":\"A\",\"9\":\"A\",\"10\":\"A\",\"11\":\"A\",\"12\":\"A\"}', '{\"1\":\"A\",\"2\":\"A\",\"3\":\"A\",\"4\":\"A\",\"5\":\"A\",\"6\":\"A\",\"7\":\"A\",\"8\":\"A\",\"9\":\"A\",\"10\":\"A\",\"11\":\"A\",\"12\":\"A\"}', '{\"1\":\"100000\"}', '{\"1\":\"A\"}', '{\"1\":\"250000\"}', '{\"1\":\"A\"}', '{\"1\":\"25000\"}', '{\"1\":\"A\"}', '{\"1\":\"150000\"}', '{\"1\":\"A\"}');
 
 -- --------------------------------------------------------
 
@@ -245,18 +265,20 @@ INSERT INTO `movimientosEstructura` (`id`, `idEstrategia`, `directaImportePlan`,
 -- Estructura de tabla para la tabla `usuarios`
 --
 
-CREATE TABLE `usuarios` (
-  `id` int(11) NOT NULL,
-  `nombre` text COLLATE utf8_spanish_ci NOT NULL,
-  `usuario` text COLLATE utf8_spanish_ci NOT NULL,
-  `password` text COLLATE utf8_spanish_ci NOT NULL,
-  `empresa` varchar(100) CHARACTER SET utf8 DEFAULT NULL,
-  `perfil` text COLLATE utf8_spanish_ci NOT NULL,
-  `foto` text COLLATE utf8_spanish_ci,
-  `estado` int(11) DEFAULT NULL,
+DROP TABLE IF EXISTS `usuarios`;
+CREATE TABLE IF NOT EXISTS `usuarios` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nombre` text CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
+  `usuario` text CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
+  `password` text CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
+  `empresa` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `perfil` text CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci NOT NULL,
+  `foto` text CHARACTER SET utf8mb3 COLLATE utf8mb3_spanish_ci,
+  `estado` int DEFAULT NULL,
   `ultimo_login` datetime DEFAULT NULL,
-  `fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `fecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `usuarios`
@@ -275,98 +297,6 @@ INSERT INTO `usuarios` (`id`, `nombre`, `usuario`, `password`, `empresa`, `perfi
 (24, 'Tecnico', 'tecnicoEstrategia', '$2a$07$asxx54ahjppf45sd87a5auCqRfN5riaXMbI325TFZ6KOpzYf9E84i', 'Estrategia', 'Administrador', NULL, 1, '2025-02-09 11:03:50', '2024-05-22 02:51:19'),
 (25, 'Jorge', 'JorgePlan', '$2a$07$asxx54ahjppf45sd87a5auCseuQDrLZZ7ic0MltFw4qsxZXNnhb/K', 'Estrategia', 'Administrador', NULL, 1, '2024-12-23 18:12:15', '2024-10-18 17:27:37'),
 (26, 'Ornela', 'OrnelaPlan', '$2a$07$asxx54ahjppf45sd87a5auF964pzcuwj/zySN7jCfGu.f443ilD02', 'Estrategia', 'Administrador', NULL, 1, '2024-11-20 13:09:13', '2024-10-18 19:39:46');
-
---
--- Índices para tablas volcadas
---
-
---
--- Indices de la tabla `dietas`
---
-ALTER TABLE `dietas`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `estrategias`
---
-ALTER TABLE `estrategias`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `insumos`
---
-ALTER TABLE `insumos`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `movimientosanimales`
---
-ALTER TABLE `movimientosanimales`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `movimientoscereales`
---
-ALTER TABLE `movimientoscereales`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `movimientosEstructura`
---
-ALTER TABLE `movimientosEstructura`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `usuarios`
---
-ALTER TABLE `usuarios`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla `dietas`
---
-ALTER TABLE `dietas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT de la tabla `estrategias`
---
-ALTER TABLE `estrategias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
-
---
--- AUTO_INCREMENT de la tabla `insumos`
---
-ALTER TABLE `insumos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
-
---
--- AUTO_INCREMENT de la tabla `movimientosanimales`
---
-ALTER TABLE `movimientosanimales`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
-
---
--- AUTO_INCREMENT de la tabla `movimientoscereales`
---
-ALTER TABLE `movimientoscereales`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
-
---
--- AUTO_INCREMENT de la tabla `movimientosEstructura`
---
-ALTER TABLE `movimientosEstructura`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT de la tabla `usuarios`
---
-ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
