@@ -128,6 +128,10 @@
                 $kgIngresosReal = json_decode($data['estrategia']['kgIngresosReal'],true);
                 $kgEgresosReal = json_decode($data['estrategia']['kgVentasReal'],true);
                 $egresosReal = json_decode($data['estrategia']['ventasReal'],true);
+                $precioKgIngresoReal = json_decode($data['estrategia']['precioKgIngresosReal'],true);
+                $aPagarIngresoReal = json_decode($data['estrategia']['aPagarIngresosReal'],true);
+                $precioKgEgresoReal = json_decode($data['estrategia']['precioKgEgresosReal'],true);
+                $aPagarEgresoReal = json_decode($data['estrategia']['aPagarEgresosReal'],true);
 
                 foreach ($months as $index => $month): ?>
                   <tr class="monthRow">
@@ -139,12 +143,11 @@
                       <td class="celda-doble">  
                           <div class="celda-izquierda">
                             <span class="planificado precioKgIngreso" id="precioKgIngreso<?= $index ?>" style="float:left"><?=$precioKgIngresoPlan[$index]?></span>
-                            <span id="precioKgIngresoReal<?= $index ?>" class="real" style="float:right"><?=(isset($precioKgIngresoReal[$index])) ? ' | ' . $precioKgIngresoReal[$index] : '' ?></span>
+                            <span id="precioKgIngresoReal<?= $index ?>" class="real"><?=(isset($precioKgIngresoReal[$index])) ? ' | ' . $precioKgIngresoReal[$index] : '' ?></span>
                           </div>
                           <div class="celda-derecha">
                             <span class="planificado precioKgVenta" id="precioKgVenta<?= $index ?>" style="float:left"><?=$precioKgEgresoPlan[$index]?></span>
-                            <span id="precioKgVentaReal<?= $index ?>" class="real" style="float:right
-                            "><?=(isset($precioKgEgresoReal[$index])) ? ' | ' . $precioKgEgresoReal[$index] : '' ?></span>
+                            <span id="precioKgVentaReal<?= $index ?>" class="real"><?=(isset($precioKgEgresoReal[$index])) ? ' | ' . $precioKgEgresoReal[$index] : '' ?></span>
                           </div>
                       </td>
                       <td>
@@ -155,14 +158,22 @@
                               'green' 
                               : 
                               (($aPagarIngresoPlan[$index] == 'B') ? 'blue' : (($aPagarIngresoPlan[$index] == 'D') ? 'red' : 'rgb(277,215,0)'))?>"><?=$aPagarIngresoPlan[$index]?></span>
-                            <span id="aPagarIngresoReal<?= $index ?>" class="real" style="float:right"><?=(isset($aPagarIngresoReal[$index])) ? ' | ' . $aPagarIngresoReal[$index] : '' ?></span>
+
+                            <span id="aPagarIngresoReal<?= $index ?>" class="real" style="font-weight:bold;color:<?=($aPagarIngresoReal[$index] == 'A') ? 
+                              'green' 
+                              : 
+                              (($aPagarIngresoReal[$index] == 'B') ? 'blue' : (($aPagarIngresoReal[$index] == 'D') ? 'red' : 'rgb(277,215,0)'))?>"><?=(isset($aPagarIngresoReal[$index])) ? ' | ' . $aPagarIngresoReal[$index] : '' ?></span>
+
                           </div>
                           <div class="celda-derecha">
                             <span class="planificado aPagar" id="aPagarVenta<?= $index ?>" style="float:left;font-weight:bold;color:<?=($aPagarEgresoPlan[$index] == 'A') ? 
                               'green'
                               : 
                               (($aPagarEgresoPlan[$index] == 'B') ? 'blue' : (($aPagarEgresoPlan[$index] == 'D') ? 'red' : 'rgb(277,215,0)'))?>"><?=$aPagarEgresoPlan[$index]?></span>
-                              <span id="aPagarVentaReal<?= $index ?>" class="real" style="float:right"><?=(isset($aPagarEgresoReal[$index])) ? ' | ' . $aPagarEgresoReal[$index] : '' ?></span>
+                              <span id="aPagarVentaReal<?= $index ?>" class="real" style="font-weight:bold;color:<?=($aPagarEgresoPlan[$index] == 'A') ? 
+                              'green'
+                              : 
+                              (($aPagarEgresoPlan[$index] == 'B') ? 'blue' : (($aPagarEgresoPlan[$index] == 'D') ? 'red' : 'rgb(277,215,0)'))?>"><?=(isset($aPagarEgresoReal[$index])) ? ' | ' . $aPagarEgresoReal[$index] : '' ?></span>
                           </div>
                           
                         </div>
