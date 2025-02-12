@@ -423,14 +423,13 @@ class ControladorEstrategia{
 
 			$data['idEstrategia'] = $dataEstrategia['estrategia']['idEstrategia'];
 	
-			var_dump($data);
-			die;
+			
 			$estrategiaReal = ModeloEstrategia::mdlEstrategiaReal('estrategias',$data);
 			$cerealesReal = ModeloEstrategia::mdlInsumosReal('movimientoscereales',$data,'cerealesReal');
 			$animalesReal = ModeloEstrategia::mdlAnimalesReal('movimientosanimales',$data);
 			$estructuraReal = ModeloEstrategia::mdlEstructuraReal('movimientosestructura',$data);
-			
-			if($estrategiaReal == 'ok' && $cerealesReal == 'ok' && $animalesReal == 'ok'){
+		
+			if($estrategiaReal == 'ok' && $cerealesReal == 'ok' && $animalesReal == 'ok' && $estructuraReal == 'ok'){
 
 				echo'<script>
 
