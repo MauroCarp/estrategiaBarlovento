@@ -165,7 +165,7 @@
                 <?php
 
                   if(!$data['estrategia']['seteado']){
-
+                    var_dump('hola');
                     foreach ($meses as $key => $mes) { ?>
 
                       <td id="ingresoPlan<?=$key?>" >0</td>
@@ -175,9 +175,7 @@
                   } else {
                     
                     $ingresosPlan = json_decode($data['estrategia']['ingresosPlan'],true);
-                    $ingresosReal = json_decode($data['estrategia']['ingresosReal'],true);
-
-                    
+                    $ingresosReal = json_decode($data['estrategia']['ingresosReal'],true);                    
 
                     foreach ($ingresosPlan as $key => $value) { ?>
 
@@ -1245,7 +1243,8 @@ if(seteado){
   }, 5000);
   
 }
-        
+  
+let isReal = '<?=$data['estrategia']['seteado']?>'
 </script>
 
 <?php
