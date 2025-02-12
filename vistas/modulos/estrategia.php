@@ -176,9 +176,6 @@
                     
                     $ingresosPlan = json_decode($data['estrategia']['ingresosPlan'],true);
                     $ingresosReal = json_decode($data['estrategia']['ingresosReal'],true);
-                    var_dump(json_decode($data['estrategia']['ingresosReal'],true));
-                    
-                    var_dump($data['estrategia']);
                     
                     foreach ($ingresosPlan as $key => $value) { ?>
 
