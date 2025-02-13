@@ -959,4 +959,5 @@ let calcularFlujoNetoSeteado = ()=>{
     }
 }
 
-
+// TODO: CALCULAR CONSUMO NECESARIO REAL
+// REVISAR GRAFICO STOCK Y SALDOS

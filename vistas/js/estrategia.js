@@ -334,7 +334,7 @@ $('#dieta').on('change',function(){
                             divTab.append(tableInsumo)
                             
                             $('#tab-insumos').append(divTab)
-                            //TODO RESTRUCTURAR TABLA DE INSUMOS EN MODAL
+
                         }
                     
                     //------ CARGO DINAMICAMENTE LOS INSUMOS EN LA TABLA CONTABLE ---------//
