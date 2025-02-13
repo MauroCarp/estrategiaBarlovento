@@ -74,9 +74,7 @@ let calcularInsumosContable = ()=>{
 
         if (cantInsumo !== 0) {
 
-            // let month = (Number(realMonth) + Number(aPagar) - 1) % 12 + 1;
             let month = realMonth
-
 
             if ($(`#insumo${idInsumo}${month}Contable`).html() == '' || $(`#insumo${idInsumo}${month}Contable`).html() == '0') {
             $(`#insumo${idInsumo}${month}Contable`).html($(`<span style="color:red">${(cantInsumo * precio).toLocaleString('de-DE')}</span>`));
@@ -99,6 +97,8 @@ let calcularInsumosContableSeteado = ()=>{
 
     let total = {}
 
+    let isReal = $('#ingReal1').html()
+
     $('.compraInsumos').each(function(){
 
         let id = $(this).attr('id')
@@ -113,7 +113,11 @@ let calcularInsumosContableSeteado = ()=>{
 
         let cantidad = Number($(this).text().replace(/\./g, ''))
 
+        // let cantidadReal = (isReal) ? $(`#`).html() : null
+        
         let precio = $(`#insumoPrecioPlan${idInsumo}_${month}`).html()
+
+        // let precioReal = (isReal) ? $(`#`).html() : null
 
         if($(`#insumo${idInsumo}PlanContable_${month}`).html() == '' || $(`#insumo${idInsumo}${month}Contable`).html() == '0'){
 
@@ -443,41 +447,48 @@ let calcularEstructuraContableSeteado = ()=>{
 
     let totales = {}
 
-    const updateContable = (selector, total,color) => {
 
+    const updateContable = (selector, total,color,real = false) => {
+
+        // console.log(selector)
+        if(real){
+            console.log(selector)
+        }
         if ($(selector).html() == '' || $(selector).html() == '0') {
-            $(selector).html($(`<span style="color:${color}">${total.toLocaleString('de-DE')}</span>`));
+            $(selector).html($(`<span style="color:${color}">${(real) ? ' | ' : ''}${total.toLocaleString('de-DE')}</span>`));
         } else {
             let prevNumber = Number($(selector + ' span').text().replace(/\./g, ''));
-            $(selector).html($(`<span style="color:${color}">${(prevNumber + total).toLocaleString('de-DE')}</span>`));
+            $(selector).html($(`<span style="color:${color}">${(real) ? ' | ' : ''}${(prevNumber + total).toLocaleString('de-DE')}</span>`));
         }
     };
 
-    const processPayment = (importe, aPagar, prefix, index,color = 'red') => {
+    const processPayment = (importe, aPagar, prefix, index,color = 'red', real = false) => {
 
         let month;
         if (aPagar === 'A') {
             month = ((index + 1) - 1) % 12 + 1;
-            updateContable(`#${prefix}Contable${month}`, Number(importe), color);
+            updateContable(`#${prefix}Contable${month}`, Number(importe), color,real);
 
         } else if (aPagar === 'B') {
             month1 = ((index + 1) - 1) % 12 + 1;
             month2 = ((index + 2) - 1) % 12 + 1;
 
-            updateContable(`#${prefix}Contable${month1}`, Number(importe / 2), color);
-            updateContable(`#${prefix}Contable${month2}`, Number(importe / 2), color);
+            updateContable(`#${prefix}Contable${month1}`, Number(importe / 2), color,real);
+            updateContable(`#${prefix}Contable${month2}`, Number(importe / 2), color,real);
         } else if (aPagar === 'C') {
             month = ((index + 2) - 1) % 12 + 1;
-            updateContable(`#${prefix}Contable${month}`, Number(importe), color);
+            updateContable(`#${prefix}Contable${month}`, Number(importe), color,real);
         } else if (aPagar === 'D') {
             month = ((index + 3) - 1) % 12 + 1;
-            updateContable(`#${prefix}Contable${month}`, Number(importe), color);
+            updateContable(`#${prefix}Contable${month}`, Number(importe), color,real);
         }
         
     };
     
 
     for (let index = 1; index <= 12; index++) {
+
+        let isReal = ($(`#ingReal${index}`).html()) ? true : false
 
         let importeDirectoPlan = Number($(`#directaImporte${index}`).text().replace(/\./g, ''))
         let aPagarDirectoPlan = $(`#directaApagar${index}`).text()
@@ -488,6 +499,31 @@ let calcularEstructuraContableSeteado = ()=>{
         let importeIngresosPlan = Number($(`#ingresosImporte${index}`).text().replace(/\./g, ''))
         let aPagarIngresosPlan = $(`#ingresosApagar${index}`).text()
 
+        let importeDirectoReal = 0
+        let aPagarDirectoReal = 0
+
+        let importeIndirectoReal = 0
+        let aPagarIndirectoReal = 0
+
+        let importeGastosReal = 0
+        let aPagarGastosReal = 0
+
+        let importeIngresosReal = 0
+        let aPagarIngresosReal = 0
+
+
+        if(isReal){
+
+            importeDirectoReal = Number($(`#directaImporteReal${index}`).text().replace('|','').replace(/\./g, ''))
+            aPagarDirectoReal = $(`#directaApagarReal${index}`).text().replace('|','').replace(/\s+/g, '')
+            importeIndirectoReal = Number($(`#indirectaImporteReal${index}`).text().replace('|','').replace(/\./g, ''))
+            aPagarIndirectoReal = $(`#indirectaApagarReal${index}`).text().replace('|','').replace(/\s+/g, '')
+            importeGastosReal = Number($(`#gastosImporteReal${index}`).text().replace('|','').replace(/\./g, ''))
+            aPagarGastosReal = $(`#gastosApagarReal${index}`).text().replace('|','').replace(/\s+/g, '')
+            importeIngresosReal = Number($(`#ingresosImporteReal${index}`).text().replace('|','').replace(/\./g, ''))
+            aPagarIngresosReal = $(`#ingresosApagarReal${index}`).text().replace('|','').replace(/\s+/g, '')
+
+        }
 
         if ($(`#estructuraDirectaContable${index}`).html() == '')
             $(`#estructuraDirectaContable${index}`).html('0')
@@ -508,16 +544,35 @@ let calcularEstructuraContableSeteado = ()=>{
             totales['EstructuraDirecta'] += importeDirectoPlan
 
             processPayment(importeDirectoPlan,aPagarDirectoPlan, 'estructuraDirecta', index);
+            
+        }
+
+        if(isReal && importeDirectoReal != 0){
+            if(!totales['EstructuraDirectaReal'])
+                totales['EstructuraDirectaReal'] = 0
+
+            totales['EstructuraDirectaReal'] += importeDirectoReal
+
+            processPayment(importeDirectoReal,aPagarDirectoReal, 'estructuraDirectaReal', index, true , true);
+            
         }
 
         if(importeIndirectoPlan != 0){
 
             if(!totales['EstructuraIndirecta'])
-                totales['EstructuraIndirecta'] = 0
+            totales['EstructuraIndirecta'] = 0
 
             totales['EstructuraIndirecta'] += importeIndirectoPlan
 
             processPayment(importeIndirectoPlan,aPagarIndirectoPlan, 'estructuraIndirecta', index);
+        }
+
+        if(isReal && importeIndirectoReal != 0){
+            if(!totales['EstructuraIndirectaReal'])
+            totales['EstructuraIndirectaReal'] = 0
+
+            totales['EstructuraIndirectaReal'] += importeIndirectoReal
+            processPayment(importeIndirectoReal,aPagarIndirectoReal, 'estructuraIndirectaReal', index, true, true);
         }
 
         if(importeGastosPlan != 0){
@@ -528,6 +583,16 @@ let calcularEstructuraContableSeteado = ()=>{
             totales['GastosVarios'] += importeGastosPlan
 
             processPayment(importeGastosPlan,aPagarGastosPlan, 'gastosVarios', index);
+            
+        }
+
+        if(isReal && importeGastosReal != 0){
+            if(!totales['GastosVarios'])
+                totales['GastosVarios'] = 0
+
+            totales['GastosVarios'] += importeGastosReal
+
+            processPayment(importeGastosReal,aPagarGastosReal, 'gastosVariosReal', index, true, true);
         }
 
         if(importeIngresosPlan != 0){
@@ -538,7 +603,18 @@ let calcularEstructuraContableSeteado = ()=>{
             totales['IngresosExtraordinarios'] += importeIngresosPlan
 
             processPayment(importeIngresosPlan,aPagarIngresosPlan, 'ingresosExtra', index,'green');
+    
         }
+        
+        if(isReal && importeIngresosReal != 0){
+            if(!totales['IngresosExtraordinariosReal'])
+                totales['IngresosExtraordinariosReal'] = 0
+
+            totales['IngresosExtraordinariosReal'] += importeIngresosReal
+
+            processPayment(importeIngresosReal,aPagarIngresosReal, 'ingresosExtraReal', index, true, true);
+        }
+
     }
 
     

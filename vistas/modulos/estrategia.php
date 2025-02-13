@@ -165,7 +165,7 @@
                 <?php
 
                   if(!$data['estrategia']['seteado']){
-                    var_dump('hola');
+
                     foreach ($meses as $key => $mes) { ?>
 
                       <td id="ingresoPlan<?=$key?>" >0</td>
