@@ -97,8 +97,6 @@ let calcularInsumosContableSeteado = ()=>{
 
     let total = {}
 
-    let isReal = $('#ingReal1').html()
-
     $('.compraInsumos').each(function(){
 
         let id = $(this).attr('id')
@@ -112,12 +110,8 @@ let calcularInsumosContableSeteado = ()=>{
         idInsumo = idInsumo.replace(`_${month}`,'')
 
         let cantidad = Number($(this).text().replace(/\./g, ''))
-
-        // let cantidadReal = (isReal) ? $(`#`).html() : null
         
         let precio = $(`#insumoPrecioPlan${idInsumo}_${month}`).html()
-
-        // let precioReal = (isReal) ? $(`#`).html() : null
 
         if($(`#insumo${idInsumo}PlanContable_${month}`).html() == '' || $(`#insumo${idInsumo}${month}Contable`).html() == '0'){
 
@@ -125,19 +119,20 @@ let calcularInsumosContableSeteado = ()=>{
 
         } 
 
+        let isReal = ($(`#ingReal${month}`).html()) ? true : false
+        
+        let cantidadReal = Number($(`#insumoReal${idInsumo}_${month}`).text().replace(/\./g, '').replace('| ',''))
+        let precioReal = Number($(`#insumoPrecioReal${idInsumo}_${month}`).text().replace(/\./g, '').replace('| ',''))
+
+        if(isReal){
+            $(`#insumo${idInsumo}RealContable_${month}`).html(` | ${(cantidadReal * precioReal).toLocaleString('de-DE')}`)
+        }
+
         if (!total[idInsumo])
             total[idInsumo] = 0;
         
         total[idInsumo] += cantidad * precio;
-
-        // else {
-
-        //     let prevNumber = Number($(`#insumo${idInsumo}${month}Contable`).html())
-            
-        //     $(`#insumo${idInsumo}${month}Contable`).html(prevNumber + (cantInsumo * precio))
-
-        // }
-
+       
     })
 
     for (const idInsumo in total) {
@@ -762,8 +757,6 @@ let calcularFlujoDeFondoMensualSeteado = ()=>{
 
         let month = id.replace('ingresoPlanContable','').replace('ventaPlanContable','')
 
-        if(isReal)
-            console.log(value)
         // if(!id.includes('ingresoPlanContable') && !id.includes('ventaPlanContable')){
         //     month = id.split('_')
         //     month = month[1]
