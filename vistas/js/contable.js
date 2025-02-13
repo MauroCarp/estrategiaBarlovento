@@ -244,6 +244,7 @@ let calcularAnimalesContable = ()=>{
 let calcularAnimalesContableSeteado = ()=>{
 
     let totales = {}  
+    let index = 1
     $('.ingreso').each(function(){
         
         let tipo = 'ingreso'
@@ -263,10 +264,10 @@ let calcularAnimalesContableSeteado = ()=>{
         let kgVentasReal = Number($(this).parent().next().next().next().children().eq(1).text().replace(/\./g, '').replace('| ',''))
   
         let precioIngreso = Number($(this).parent().next().next().next().next().children().first().text().replace(/\./g, ''))
-        let precioIngresoReal = Number($(this).parent().next().next().next().next().children().eq(1).text().replace(/\./g, '').replace('| ',''))
+        let precioIngresoReal = Number($(this).parent().next().next().next().next().children().children().eq(1).text().replace(/\./g, '').replace('| ',''))
 
         let precioVenta = Number($(this).parent().next().next().next().next().children().first().text().replace(/\./g, ''))
-        let precioVentaReal = Number($(this).parent().next().next().next().next().children().eq(1).text().replace(/\./g, '').replace('| ',''))
+        let precioVentaReal = Number($(this).parent().next().next().next().next().next().children().children().eq(1).children().eq(1).text().replace(/\./g, '').replace('| ',''))
   
         let aPagarIngreso = $(this).parent().next().next().next().next().next().children().first().children().first().text().replace(/\s+/g, '')
         let aPagarIngresoReal = $(this).parent().next().next().next().next().next().children().eq(1).text().replace(/\./g, '').replace('| ','').replace(/\s+/g, '')
@@ -274,6 +275,13 @@ let calcularAnimalesContableSeteado = ()=>{
         let aPagarVenta = $(this).parent().next().next().next().next().next().children().first().children().first().text().replace(/\s+/g, '')
         let aPagarVentaReal = $(this).parent().next().next().next().next().next().children().eq(1).text().replace(/\./g, '').replace('| ','').replace(/\s+/g, '')
         
+        if(index == 1){
+
+            console.log(ingresosReal,kgIngresoReal,ventasReal,kgVentasReal,precioIngresoReal,precioVentaReal,aPagarIngresoReal,aPagarVentaReal)
+            console.log(precioVentaReal)
+        }
+
+        index++
         let updateContable = (selector, total) => {
   
             if ($(selector).html() == '0') {
@@ -450,10 +458,6 @@ let calcularEstructuraContableSeteado = ()=>{
 
     const updateContable = (selector, total,color,real = false) => {
 
-        // console.log(selector)
-        if(real){
-            console.log(selector)
-        }
         if ($(selector).html() == '' || $(selector).html() == '0') {
             $(selector).html($(`<span style="color:${color}">${(real) ? ' | ' : ''}${total.toLocaleString('de-DE')}</span>`));
         } else {
