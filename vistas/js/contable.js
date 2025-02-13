@@ -243,10 +243,56 @@ let calcularAnimalesContable = ()=>{
 
 let calcularAnimalesContableSeteado = ()=>{
 
+    let updateContable = (selector, total, color,real = false) => {
+
+        if ($(selector).html() == '0' || $(selector).html() == '') {
+
+          $(selector).html($(`<span style="color:${color}">${(real) ? ' | ' : ''}${total.toLocaleString('de-DE')}</span>`));
+
+        } else {
+
+            let prevNumber = Number($(selector + ' span').text().replace(/\./g, '').replace('| ',''));
+            $(selector).html($(`<span style="color:${color}">${(real) ? ' | ' : ''}${(prevNumber + total).toLocaleString('de-DE')}</span>`));
+
+        }
+
+    };
+    
+    const processPayment = (importe, aPagar, prefix, index,color = 'red',real = false) => {
+        let month;
+
+        if (aPagar === 'A') {   
+            month = ((index + 1) - 1) % 12 + 1;
+            
+            updateContable(`#${prefix}Contable${month}`, Number(importe), color,real);
+        } else if (aPagar === 'B') {
+            month1 = ((index + 1) - 1) % 12 + 1;
+            month2 = ((index + 2) - 1) % 12 + 1;
+          
+            
+            updateContable(`#${prefix}Contable${month1}`, Number(importe / 2), color,real);
+            updateContable(`#${prefix}Contable${month2}`, Number(importe / 2), color,real);
+        } else if (aPagar === 'C') {
+            month = ((index + 2) - 1) % 12 + 1;
+            updateContable(`#${prefix}Contable${month}`, Number(importe), color,real);
+        } else if (aPagar === 'D') {
+            month = ((index + 3) - 1) % 12 + 1;
+            updateContable(`#${prefix}Contable${month}`, Number(importe), color,real);
+        }
+
+
+    };
+
     let totales = {}  
+
     let index = 1
+
+    $('.contableReal').html('')
+
     $('.ingreso').each(function(){
         
+        let isReal = ($(`#ingReal${index}`).html()) ? true : false
+
         let tipo = 'ingreso'
   
         let realMonth = Number($(this).attr('id').replace(`ingreso`,''))
@@ -263,61 +309,19 @@ let calcularAnimalesContableSeteado = ()=>{
         let kgVentas = Number($(this).parent().next().next().next().children().first().text().replace(/\./g, ''))
         let kgVentasReal = Number($(this).parent().next().next().next().children().eq(1).text().replace(/\./g, '').replace('| ',''))
   
-        let precioIngreso = Number($(this).parent().next().next().next().next().children().first().text().replace(/\./g, ''))
+        let precioIngreso = Number($(this).parent().next().next().next().next().children().first().children().first().text().replace(/\./g, ''))
         let precioIngresoReal = Number($(this).parent().next().next().next().next().children().children().eq(1).text().replace(/\./g, '').replace('| ',''))
 
         let precioVenta = Number($(this).parent().next().next().next().next().children().first().text().replace(/\./g, ''))
-        let precioVentaReal = Number($(this).parent().next().next().next().next().next().children().children().eq(1).children().eq(1).text().replace(/\./g, '').replace('| ',''))
+        let precioVentaReal = Number($(this).parent().next().next().next().next().children().eq(1).children().eq(1).text().replace(/\./g, '').replace('| ',''))
   
-        let aPagarIngreso = $(this).parent().next().next().next().next().next().children().first().children().first().text().replace(/\s+/g, '')
-        let aPagarIngresoReal = $(this).parent().next().next().next().next().next().children().eq(1).text().replace(/\./g, '').replace('| ','').replace(/\s+/g, '')
+        let aPagarIngreso = $(this).parent().next().next().next().next().next().children().first().children().first().children().first().text().replace(/\s+/g, '')
+        let aPagarIngresoReal = $(this).parent().next().next().next().next().next().children().children().eq(1).children().first().text().replace(/\./g, '').replace('| ','').replace(/\s+/g, '')
         
         let aPagarVenta = $(this).parent().next().next().next().next().next().children().first().children().first().text().replace(/\s+/g, '')
-        let aPagarVentaReal = $(this).parent().next().next().next().next().next().children().eq(1).text().replace(/\./g, '').replace('| ','').replace(/\s+/g, '')
-        
-        if(index == 1){
-
-            console.log(ingresosReal,kgIngresoReal,ventasReal,kgVentasReal,precioIngresoReal,precioVentaReal,aPagarIngresoReal,aPagarVentaReal)
-            console.log(precioVentaReal)
-        }
-
-        index++
-        let updateContable = (selector, total) => {
-  
-            if ($(selector).html() == '0') {
-  
-              $(selector).html($(`<span style="color:green">${total.toLocaleString('de-DE')}</span>`));
-  
-            } else {
-  
-            let prevNumber = Number($(selector + ' span').text().replace(/\./g, ''));
-  
-              $(selector).html($(`<span style="color:green">${(prevNumber + total).toLocaleString('de-DE')}</span>`));
-  
-            }
-  
-        };
-        
-        const processPayment = (importe, aPagar, prefix, index,color = 'red') => {
-            let month;
-
-            if (aPagar === 'A') {
-                month = ((index + 1) - 1) % 12 + 1;
-                updateContable(`#${prefix}Contable${month}`, Number(importe), color);
-            } else if (aPagar === 'B') {
-                month1 = ((index + 1) - 1) % 12 + 1;
-                month2 = ((index + 2) - 1) % 12 + 1;
-    
-                updateContable(`#${prefix}Contable${month1}`, Number(importe / 2), color);
-                updateContable(`#${prefix}Contable${month2}`, Number(importe / 2), color);
-            } else if (aPagar === 'C') {
-                month = ((index + 2) - 1) % 12 + 1;
-                updateContable(`#${prefix}Contable${month}`, Number(importe), color);
-            } else if (aPagar === 'D') {
-                month = ((index + 3) - 1) % 12 + 1;
-                updateContable(`#${prefix}Contable${month}`, Number(importe), color);
-            }
-        };
+        let aPagarVentaReal = $(this).parent().next().next().next().next().next().children().children().eq(1).children().eq(1).text().replace(/\./g, '').replace('| ','').replace(/\s+/g, '')
+      
+        index ++
 
         if ($(`#ingresoPlanContable${realMonth}`).html() == '')
             $(`#ingresoPlanContable${realMonth}`).html('0')
@@ -327,7 +331,7 @@ let calcularAnimalesContableSeteado = ()=>{
 
         if(ingresos != 0){
             let total = (ingresos * kgIngreso) * precioIngreso
-            processPayment(total,aPagarIngreso,`${tipo}Plan`,realMonth,'green');
+            processPayment(total,aPagarIngreso,`${tipo}Plan`,realMonth);
             
             if(!totales['Ingresos'])
                 totales['Ingresos'] = 0
@@ -335,12 +339,23 @@ let calcularAnimalesContableSeteado = ()=>{
             totales['Ingresos'] += total
         }
 
-        // processPayment(total,aPagarIngreso,`${tipo}Real`,realMonth,'green');
+        if(isReal){
+
+            let total = (ingresosReal * kgIngresoReal) * precioIngresoReal
+
+            if(!totales['ingresosReal'])
+                totales['ingresosReal'] = 0
+
+            totales['ingresosReal'] += total
+
+            processPayment(total,aPagarIngresoReal, 'ingresoReal', realMonth, true , true);
+            
+        }
 
         if(ventas != 0){
             tipo = 'venta'
             let total = (ventas * kgVentas) * precioVenta
-            processPayment(total,aPagarVenta,`${tipo}Plan`,realMonth);
+            processPayment(total,aPagarVenta,`${tipo}Plan`,realMonth,'green');
 
             if(!totales['Egresos'])
                 totales['Egresos'] = 0
@@ -348,7 +363,18 @@ let calcularAnimalesContableSeteado = ()=>{
             totales['Egresos'] += total
         } 
 
-        // processPayment(total,aPagarVenta,`${tipo}Real`,realMonth);
+        if(isReal){
+
+            let total = (ventasReal * kgVentasReal) * precioVentaReal
+
+            if(!totales['ventasReal'])
+                totales['ventasReal'] = 0
+
+            totales['ventasReal'] += total
+            console.log('paso proccess venta')
+            processPayment(total,aPagarVentaReal, 'ventaReal', realMonth, true , true);
+            
+        }
         
     })
     
@@ -551,16 +577,6 @@ let calcularEstructuraContableSeteado = ()=>{
             
         }
 
-        if(isReal && importeDirectoReal != 0){
-            if(!totales['EstructuraDirectaReal'])
-                totales['EstructuraDirectaReal'] = 0
-
-            totales['EstructuraDirectaReal'] += importeDirectoReal
-
-            processPayment(importeDirectoReal,aPagarDirectoReal, 'estructuraDirectaReal', index, true , true);
-            
-        }
-
         if(importeIndirectoPlan != 0){
 
             if(!totales['EstructuraIndirecta'])
@@ -569,14 +585,6 @@ let calcularEstructuraContableSeteado = ()=>{
             totales['EstructuraIndirecta'] += importeIndirectoPlan
 
             processPayment(importeIndirectoPlan,aPagarIndirectoPlan, 'estructuraIndirecta', index);
-        }
-
-        if(isReal && importeIndirectoReal != 0){
-            if(!totales['EstructuraIndirectaReal'])
-            totales['EstructuraIndirectaReal'] = 0
-
-            totales['EstructuraIndirectaReal'] += importeIndirectoReal
-            processPayment(importeIndirectoReal,aPagarIndirectoReal, 'estructuraIndirectaReal', index, true, true);
         }
 
         if(importeGastosPlan != 0){
@@ -590,15 +598,6 @@ let calcularEstructuraContableSeteado = ()=>{
             
         }
 
-        if(isReal && importeGastosReal != 0){
-            if(!totales['GastosVarios'])
-                totales['GastosVarios'] = 0
-
-            totales['GastosVarios'] += importeGastosReal
-
-            processPayment(importeGastosReal,aPagarGastosReal, 'gastosVariosReal', index, true, true);
-        }
-
         if(importeIngresosPlan != 0){
 
             if(!totales['IngresosExtraordinarios'])1
@@ -609,8 +608,29 @@ let calcularEstructuraContableSeteado = ()=>{
             processPayment(importeIngresosPlan,aPagarIngresosPlan, 'ingresosExtra', index,'green');
     
         }
-        
-        if(isReal && importeIngresosReal != 0){
+
+        if(isReal){
+            if(!totales['EstructuraDirectaReal'])
+                totales['EstructuraDirectaReal'] = 0
+
+            totales['EstructuraDirectaReal'] += importeDirectoReal
+
+            processPayment(importeDirectoReal,aPagarDirectoReal, 'estructuraDirectaReal', index, true , true);
+            
+    
+            if(!totales['EstructuraIndirectaReal'])
+            totales['EstructuraIndirectaReal'] = 0
+
+            totales['EstructuraIndirectaReal'] += importeIndirectoReal
+            processPayment(importeIndirectoReal,aPagarIndirectoReal, 'estructuraIndirectaReal', index, true, true);
+     
+            if(!totales['GastosVarios'])
+                totales['GastosVarios'] = 0
+
+            totales['GastosVarios'] += importeGastosReal
+
+            processPayment(importeGastosReal,aPagarGastosReal, 'gastosVariosReal', index, true, true);
+  
             if(!totales['IngresosExtraordinariosReal'])
                 totales['IngresosExtraordinariosReal'] = 0
 

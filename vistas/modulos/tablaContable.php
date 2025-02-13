@@ -71,7 +71,7 @@
 
                     <td month-data="<?=$key?>">
                       <span class="planificado <?=$class?>" id="<?= $idPrefixes['plan'] . $key ?>"></span>
-                      <span id="<?= $idPrefixes['real'] . $key ?>" class="real"></span>
+                      <span id="<?= $idPrefixes['real'] . $key ?>" class="real <?=$class?>Real contableReal"></span>
                     </td>
 
                   <?php }

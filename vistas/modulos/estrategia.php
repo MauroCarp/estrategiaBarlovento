@@ -978,7 +978,7 @@ if(seteado){
 
       let precioInsumoPlan = JSON.parse(dataEstrategia.precioPlan)
       let precioInsumoReal = (dataEstrategia.precioReal != null) ? JSON.parse(dataEstrategia.precioReal) : null
-      console.log(precioInsumoReal)
+
       // CREO Y FORMATEO LOS DATOS DE CEREALES REAL
       let insumosReal = {}
 
