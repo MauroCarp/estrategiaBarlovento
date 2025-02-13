@@ -703,6 +703,7 @@ let calcularFlujoDeFondoMensual = ()=>{
 let calcularFlujoDeFondoMensualSeteado = ()=>{ 
 
     let totalesFlujo = {}
+    let totalesFlujoReal = {}
 
     $('.flujo').each(function(){
 
@@ -745,50 +746,49 @@ let calcularFlujoDeFondoMensualSeteado = ()=>{
     })
 
 
-    let index = 1 
-
     $('.flujoReal').each(function(){
-
-        let isReal = ($(`#ingReal${index}`).html()) ? true : false
 
         let value = Number($(this).text().replace(/\./g, '').replace('| ',''))
 
         let id = $(this).attr('id')
 
-        let month = id.replace('ingresoPlanContable','').replace('ventaPlanContable','')
+        let month = id.replace('ingresoRealContable','').replace('ventaRealContable','')
 
-        // if(!id.includes('ingresoPlanContable') && !id.includes('ventaPlanContable')){
-        //     month = id.split('_')
-        //     month = month[1]
-        // } 
+        if(!id.includes('ingresoRealContable') && !id.includes('ventaRealContable')){
+            month = id.split('_')
+            month = month[1]
+        } 
 
-        // if (id.includes('ventaPlanContable')) {
-        //     if (!totalesFlujo[month]) {
-        //         totalesFlujo[month] = {};
-        //     }
+        let isReal = ($(`#ingReal${month}`).html()) ? true : false
 
-        //     if (!totalesFlujo[month]['positivo']) {
-        //         totalesFlujo[month]['positivo'] = 0;
-        //     }
-
-        //     totalesFlujo[month]['positivo'] += value;
-            
-        // } else {
-
-        //     if (!totalesFlujo[month]) {
-        //         totalesFlujo[month] = {};
-        //     }
-
-        //     if (!totalesFlujo[month]['negativo']) {
-        //         totalesFlujo[month]['negativo'] = 0;
-        //     }
-
-        //     totalesFlujo[month]['negativo'] += value;
-
-        // }
+        if(month !== undefined){
         
+            if (id.includes('ventaRealContable')) {
+                if (!totalesFlujoReal[month]) {
+                    totalesFlujoReal[month] = {};
+                }
+    
+                if (!totalesFlujoReal[month]['positivo']) {
+                    totalesFlujoReal[month]['positivo'] = 0;
+                }
+    
+                totalesFlujoReal[month]['positivo'] += value;
+                
+            } else {
+    
+                if (!totalesFlujoReal[month]) {
+                    totalesFlujoReal[month] = {};
+                }
+    
+                if (!totalesFlujoReal[month]['negativo']) {
+                    totalesFlujoReal[month]['negativo'] = 0;
+                }
+    
+                totalesFlujoReal[month]['negativo'] += value;
+    
+            }
 
-        index++
+        }
     })
 
     let totalAccum = 0
@@ -807,6 +807,33 @@ let calcularFlujoDeFondoMensualSeteado = ()=>{
         $(`#flujoMensualAcumContable${key}`).text(totalAccum.toLocaleString('de-DE'))
         $(`#flujoMensualAcumContable${key}`).css('color',color)
         
+    }
+    
+    let totalAccumReal = 0
+
+    if(isReal){
+        
+        for (const key in totalesFlujoReal) {
+
+            let resultado = totalesFlujoReal[key].positivo - totalesFlujoReal[key].negativo;
+            totalAccumReal += resultado
+    
+            let color = (resultado < 0) ? 'red' : 'green'
+
+            flujoMensualAcumRealContable1
+            $(`#flujoMensualRealContable${key}`).text(` | ${resultado.toLocaleString('de-DE')}`)
+            
+            $(`#flujoMensualRealContable${key}`).css('color',color)
+            $(`#flujoMensualRealContable${key}`).css('background-color','rgba(160, 208, 255, 0.62)')
+
+            color = (totalAccumReal < 0) ? 'red' : 'green'
+            $(`#flujoMensualAcumRealContable${key}`).text(` | ${totalAccumReal.toLocaleString('de-DE')}`)
+            $(`#flujoMensualAcumRealContable${key}`).css('color',color)
+            $(`#flujoMensualAcumRealContable${key}`).css('background-color','rgba(160, 208, 255, 0.62)')
+
+            
+        }
+
     }
     
 }

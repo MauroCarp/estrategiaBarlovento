@@ -701,7 +701,7 @@ let calcularPesoPromedio = (dataEstrategia = false,tipo = 'plan',debug = false)=
 
 let calculateStockAndTotals = () => {
 
-  return  new Promise((resolve,reject)=>{
+  return new Promise((resolve,reject)=>{
 
 
     let stock = parseFloat($('#stockAnimales').val())
