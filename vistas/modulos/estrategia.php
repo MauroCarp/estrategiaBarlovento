@@ -1181,10 +1181,10 @@ if(seteado){
           let spanPlanificado = document.createElement('SPAN');
           let spanReal = spanPlanificado.cloneNode(true)
   
-          spanPlanificado.setAttribute('class', 'planificado');
+          spanPlanificado.setAttribute('class', 'planificado flujo');
           spanPlanificado.setAttribute('id', `insumo${insumosNameId[key]}PlanContable_${monthIndex}`);
           
-          spanReal.setAttribute('class', 'real');
+          spanReal.setAttribute('class', 'real flujoReal');
           spanReal.setAttribute('id', `insumo${insumosNameId[key]}RealContable_${monthIndex}`);
   
           // spanPlanificado.innerText = element;

@@ -371,7 +371,6 @@ let calcularAnimalesContableSeteado = ()=>{
                 totales['ventasReal'] = 0
 
             totales['ventasReal'] += total
-            console.log('paso proccess venta')
             processPayment(total,aPagarVentaReal, 'ventaReal', realMonth, true , true);
             
         }
@@ -750,6 +749,54 @@ let calcularFlujoDeFondoMensualSeteado = ()=>{
 
     })
 
+
+    let index = 1 
+
+    $('.flujoReal').each(function(){
+
+        let isReal = ($(`#ingReal${index}`).html()) ? true : false
+
+        let value = Number($(this).text().replace(/\./g, '').replace('| ',''))
+
+        let id = $(this).attr('id')
+
+        let month = id.replace('ingresoPlanContable','').replace('ventaPlanContable','')
+
+        if(isReal)
+            console.log(value)
+        // if(!id.includes('ingresoPlanContable') && !id.includes('ventaPlanContable')){
+        //     month = id.split('_')
+        //     month = month[1]
+        // } 
+
+        // if (id.includes('ventaPlanContable')) {
+        //     if (!totalesFlujo[month]) {
+        //         totalesFlujo[month] = {};
+        //     }
+
+        //     if (!totalesFlujo[month]['positivo']) {
+        //         totalesFlujo[month]['positivo'] = 0;
+        //     }
+
+        //     totalesFlujo[month]['positivo'] += value;
+            
+        // } else {
+
+        //     if (!totalesFlujo[month]) {
+        //         totalesFlujo[month] = {};
+        //     }
+
+        //     if (!totalesFlujo[month]['negativo']) {
+        //         totalesFlujo[month]['negativo'] = 0;
+        //     }
+
+        //     totalesFlujo[month]['negativo'] += value;
+
+        // }
+        
+
+        index++
+    })
 
     let totalAccum = 0
 
