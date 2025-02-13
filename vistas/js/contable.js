@@ -824,12 +824,15 @@ let calcularFlujoDeFondoMensualSeteado = ()=>{
             $(`#flujoMensualRealContable${key}`).text(` | ${resultado.toLocaleString('de-DE')}`)
             
             $(`#flujoMensualRealContable${key}`).css('color',color)
-            $(`#flujoMensualRealContable${key}`).css('background-color','rgba(160, 208, 255, 0.62)')
+            $(`#flujoMensualRealContable${key}`).css('background-color','rgb(175, 206, 238,.25)')
+            $(`#flujoMensualRealContable${key}`).css('padding','2px')
+
 
             color = (totalAccumReal < 0) ? 'red' : 'green'
             $(`#flujoMensualAcumRealContable${key}`).text(` | ${totalAccumReal.toLocaleString('de-DE')}`)
             $(`#flujoMensualAcumRealContable${key}`).css('color',color)
-            $(`#flujoMensualAcumRealContable${key}`).css('background-color','rgba(160, 208, 255, 0.62)')
+            $(`#flujoMensualAcumRealContable${key}`).css('background-color','rgba(175, 206, 238,.25)')
+            $(`#flujoMensualAcumRealContable${key}`).css('padding','2px')
 
             
         }
@@ -883,6 +886,7 @@ let calcularFlujoNeto = ()=>{
 let calcularFlujoNetoSeteado = ()=>{
 
     let totalesNeto = {}
+    let totalesNetoReal = {}
 
     for (let index = 1; index <= 12; index++) {
 
@@ -891,6 +895,12 @@ let calcularFlujoNetoSeteado = ()=>{
         let gastos = Number($(`#gastosVariosContable${index}`).text().replace(/\./g, ''))
         let ingresos = Number($(`#ingresosExtraContable${index}`).text().replace(/\./g, ''))
         let flujoMensual = Number($(`#flujoMensualContable${index}`).text().replace(/\./g, ''))
+        
+        let directaReal = Number($(`#estructuraDirectaRealContable${index}`).text().replace(/\./g, '').replace(' | ',''))
+        let indirectaReal = Number($(`#estructuraIndirectaRealContable${index}`).text().replace(/\./g, '').replace(' | ',''))
+        let gastosReal = Number($(`#gastosVariosRealContable${index}`).text().replace(/\./g, '').replace(' | ',''))
+        let ingresosReal = Number($(`#ingresosExtraRealContable${index}`).text().replace(/\./g, '').replace(' | ',''))
+        let flujoMensualReal = Number($(`#flujoMensualRealContable${index}`).text().replace(/\./g, '').replace(' | ',''))
 
         if(!totalesNeto[index])
             totalesNeto[index] = {}
@@ -908,17 +918,44 @@ let calcularFlujoNetoSeteado = ()=>{
 
         totalesNeto[index]['flujoMensual'] = flujoMensual
 
+        if(!totalesNetoReal[index])
+            totalesNetoReal[index] = {}
+
+        if(!totalesNetoReal[index]['positivo'])
+            totalesNetoReal[index]['positivo'] = 0 
+
+        if(!totalesNetoReal[index]['negativo'])
+            totalesNetoReal[index]['negativo'] = 0 
+
+        totalesNetoReal[index]['positivo'] += ingresosReal
+        totalesNetoReal[index]['negativo'] += directaReal
+        totalesNetoReal[index]['negativo'] += indirectaReal
+        totalesNetoReal[index]['negativo'] += gastosReal
+
+        totalesNetoReal[index]['flujoMensual'] = flujoMensualReal
+
     }
 
     for (const month in totalesNeto) {
 
         let resultado = (Number(totalesNeto[month]['positivo']) - Number(totalesNeto[month]['negativo'])) + totalesNeto[month]['flujoMensual']
+        
+        let resultadoReal = ((Number(totalesNetoReal[month]['flujoMensual']) + Number(totalesNetoReal[month]['positivo'])) - (Number(totalesNetoReal[month]['negativo'])))
 
         let color = (resultado < 0) ? 'red' : 'green'
 
-       $(`#flujoNetoContable${month}`).text(resultado.toLocaleString('de-DE'))
-       $(`#flujoNetoContable${month}`).css('color',color)
+        $(`#flujoNetoContable${month}`).text(resultado.toLocaleString('de-DE'))
+        $(`#flujoNetoContable${month}`).css('color',color)
+        
+        color = (resultadoReal < 0) ? 'red' : 'green'
 
+        $(`#flujoNetoRealContable${month}`).text(` | ${resultadoReal.toLocaleString('de-DE')}`)
+        $(`#flujoNetoRealContable${month}`).css('color',color)
+        $(`#flujoNetoRealContable${month}`).css('background-color','rgba(175, 206, 238,.25)')
+        $(`#flujoNetoRealContable${month}`).css('padding','2px')
+
+
+       
     }
 }
 
