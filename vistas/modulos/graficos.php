@@ -385,7 +385,7 @@ let generarGraficoEstrategiaInsumos = (stockPlan,saldoPlan,stockReal,saldoReal,d
         i++
         
     }  
-return
+
     dataa = JSON.parse('[' + dataa.slice(0,-1) + ']')
 
     let config = {}
@@ -895,12 +895,11 @@ let calcularConsumos = async ()=>{
 
             let dataCompraInsumosReal = JSON.parse(JSON.stringify(compraInsumosReal))
 
-            for (const key in compraInsumosReal) {
+            // for (const key in compraInsumosReal) {
                 
-                dataCompraInsumosReal[key][1] = Number(dataCompraInsumosReal[key][1]) + Number(stockInicialInsumos[key])  
+            //     compraInsumosReal[key][0] = Number(compraInsumosReal[key][0]) + Number(stockInicialInsumos[key])  
 
-            }
-
+            // }
 
             let stock = {'planificado':{},
                          'real':{}
@@ -952,6 +951,8 @@ let calcularConsumos = async ()=>{
 
             }
 
+            console.log(dataCompraInsumos)
+
             for (const insumo in dataCompraInsumosReal) {
                 
                 for (const mes in dataCompraInsumosReal[insumo]) {
@@ -961,16 +962,16 @@ let calcularConsumos = async ()=>{
                         stock.real[mes] = {}
                         saldo.real[mes] = {}
 
-
                         if(mes == 0){
 
-                            stock.real[mes][insumo] = Number(stockInicialInsumos[insumo]) + Number(dataCompraInsumos[insumo][mes])
-                            saldo.real[mes][insumo] = (consumoDeInsumos['real'][mes] == undefined) ? 1 : Number(stock.real[mes][insumo]) - Number(consumoDeInsumos['real'][mes][insumo]['consumoTotal'])
+                            stock.real[mes][insumo] = Number(stockInicialInsumos[insumo]) + Number(dataCompraInsumosReal[insumo][mes])
+                            saldo.real[mes][insumo] = (consumoDeInsumos['real'][mes] == undefined) ? 0 : Number(stock.real[mes][insumo]) - Number(consumoDeInsumos['real'][mes][insumo]['consumoTotal'])
+
 
                         } else {
 
-                            stock.real[mes][insumo] = Number(saldo.real[mes - 1][insumo]) + Number(dataCompraInsumos[insumo][mes])
-                            saldo.real[mes][insumo] = (consumoDeInsumos['real'][mes] == undefined) ? 1 : Number(stock.real[mes][insumo]) - Number(consumoDeInsumos['real'][mes][insumo]['consumoTotal'])
+                            stock.real[mes][insumo] = Number(saldo.real[mes][insumo]) + Number(dataCompraInsumosReal[insumo][mes])
+                            saldo.real[mes][insumo] = (consumoDeInsumos['real'][mes] == undefined) ? 0 : Number(stock.real[mes][insumo]) - Number(consumoDeInsumos['real'][mes][insumo]['consumoTotal'])
 
                         }
 
@@ -978,13 +979,15 @@ let calcularConsumos = async ()=>{
 
                         if(mes == 0){
 
-                            stock.real[mes][insumo] = Number(stockInicialInsumos[insumo]) + Number(dataCompraInsumos[insumo][mes])
-                            saldo.real[mes][insumo] = (consumoDeInsumos['real'][mes] == undefined) ? 1 : Number(stock.real[mes][insumo]) - Number(consumoDeInsumos['real'][mes][insumo]['consumoTotal'])
+                            stock.real[mes][insumo] = Number(stockInicialInsumos[insumo]) + Number(dataCompraInsumosReal[insumo][mes])
+                            saldo.real[mes][insumo] = (consumoDeInsumos['real'][mes] == undefined) ? 0 : Number(stock.real[mes][insumo]) - Number(consumoDeInsumos['real'][mes][insumo]['consumoTotal'])
+
+                            console.log()
 
                         } else {
 
-                            stock.real[mes][insumo] = Number(saldo.real[mes - 1][insumo]) + Number(dataCompraInsumos[insumo][mes])
-                            saldo.real[mes][insumo] = (consumoDeInsumos['real'][mes] == undefined) ? 1 : Number(stock.real[mes][insumo]) - Number(consumoDeInsumos['real'][mes][insumo]['consumoTotal'])
+                            stock.real[mes][insumo] = Number(saldo.real[mes][insumo]) + Number(dataCompraInsumosReal[insumo][mes])
+                            saldo.real[mes][insumo] = (consumoDeInsumos['real'][mes] == undefined) ? 0 : Number(stock.real[mes][insumo]) - Number(consumoDeInsumos['real'][mes][insumo]['consumoTotal'])
 
 
                         }
@@ -993,7 +996,7 @@ let calcularConsumos = async ()=>{
                 }
 
             }
-      
+
             let insumosName = '<?php echo json_encode($data['estrategia']['compraInsumos']);?>'
 
             let i = 0
