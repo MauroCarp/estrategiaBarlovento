@@ -951,8 +951,6 @@ let calcularConsumos = async ()=>{
 
             }
 
-            console.log(dataCompraInsumos)
-
             for (const insumo in dataCompraInsumosReal) {
                 
                 for (const mes in dataCompraInsumosReal[insumo]) {
@@ -981,8 +979,6 @@ let calcularConsumos = async ()=>{
 
                             stock.real[mes][insumo] = Number(stockInicialInsumos[insumo]) + Number(dataCompraInsumosReal[insumo][mes])
                             saldo.real[mes][insumo] = (consumoDeInsumos['real'][mes] == undefined) ? 0 : Number(stock.real[mes][insumo]) - Number(consumoDeInsumos['real'][mes][insumo]['consumoTotal'])
-
-                            console.log()
 
                         } else {
 

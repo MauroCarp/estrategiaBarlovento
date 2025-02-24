@@ -582,8 +582,6 @@ let calcularPesoPromedio = (dataEstrategia = false,tipo = 'plan',debug = false)=
 
               let totalConsumoMensual = consumoInsumo * stockMesPlan * 30 //dias del mes
 
-              // $(`#insumoNecesario${respuesta[key].idInsumo}${objMonths[index]}`).html(totalConsumoMensual.toLocaleString('de-DE'))
-
               if($(`#insumoNecesario${respuesta[key].idInsumo}${objMonths[index]}`).length == 0){
 
                 $(`#insumoNecesarioPlan${respuesta[key].idInsumo}_${objMonths[index]}`).html(totalConsumoMensual.toLocaleString('de-DE'))
@@ -714,7 +712,9 @@ let calculateStockAndTotals = () => {
   
     let seteado = '<?=$data['estrategia']['seteado']?>'
     let idDieta = Number('<?=$data['estrategia']['idDieta']?>')
-    
+
+    let porcentajesDietaReal = JSON.parse('<?=$data['estrategia']['dietaReal']?>')
+
     if(!seteado){
 
       idDieta = Number($('#dieta').val())
@@ -884,7 +884,18 @@ let calculateStockAndTotals = () => {
 
           }, 500);
         }
-  
+
+        
+        let stockMesPlan = Number($(`#stockReal${index}`).html().replace('|',''))
+
+        let consMS = Number($(`#porcentMS${index}`).val())
+
+        if(isNaN(consMS))
+          consMS = Number($(`#msReal${index}`).html())
+
+        let consumoInsumo = (porcentajesDietaReal[index].porcentaje * consMS) / 100 
+
+        // let totalConsumoMensual = consumoInsumo * stockMesPlan * 30 //dias del mes
   
   
   
