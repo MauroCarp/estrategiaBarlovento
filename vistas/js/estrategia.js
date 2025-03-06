@@ -174,7 +174,7 @@ function guardarDatos() {
 }
 
   // Ejecutar el guardado cada 30 segundos (puedes ajustar el intervalo)
-setInterval(guardarDatos, 5000);
+// setInterval(guardarDatos, 5000);
   
 $('.stockInicial').each(function(){
 

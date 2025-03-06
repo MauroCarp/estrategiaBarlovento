@@ -164,7 +164,7 @@ class ControladorEstrategia{
 					$idInsumo = substr($toFormat, 0, 2);
 					$month = substr($toFormat, 2);
 
-					$insumos[$idInsumo][$month]['cantidad'] = $value;		
+					$insumos['cantidad'][$idInsumo][$month] = $value;		
 
 				}
 
@@ -174,7 +174,7 @@ class ControladorEstrategia{
 					$idInsumo = substr($toFormat, 0, 2);
 					$month = substr($toFormat, 2);
 
-					$insumos[$idInsumo][$month]['precio'] = $value;		
+					$insumos['precio'][$idInsumo][$month] = $value;		
 
 				}
 
@@ -188,7 +188,7 @@ class ControladorEstrategia{
 
 				}
 
-				if(strpos($key,'ingreso') === 0 && strpos($key,'kg') !== 0){
+				if(strpos($key,'ingreso') === 0 && strpos($key,'kg') !== 0 && strpos($key,'ingresosExtraordinarios') !== 0){
 					$ingresos[str_replace('ingreso','',$key)] = $value;		
 				}
 
@@ -252,9 +252,9 @@ class ControladorEstrategia{
 					$ingresosExtraordinarios_aPagar[str_replace('ingresosExtraordinarios_aPagar_','',$key)] = $value;		
 				}
 
-
 			}
 
+			
 			$data = array('stockInsumos'=>$_POST['stockInsumos'],
 						  'stockAnimales'=>$_POST['stockAnimales'],
 						  'stockKgProm'=>$_POST['stockKgProm'],
@@ -263,10 +263,8 @@ class ControladorEstrategia{
 						  'msPorce'=>$_POST['porcentMS'],
 						  'campania'=>$_POST['selectCampania']);
 
-			$guardar = (isset($_POST[''])) ? true : false;
-
-			$idEstrategia = ControladorEstrategia::ctrSetearCampania($data,$guardar);
-
+			$idEstrategia = ControladorEstrategia::ctrSetearCampania($data);
+			
 			$dataAnimales = array('idEstrategia'=>$idEstrategia['id'],
 								  'ingresos'=>$ingresos,
 								  'kgIngresos'=>$kgIngresos,
@@ -276,12 +274,12 @@ class ControladorEstrategia{
 								  'kgVentas'=>$kgVentas,
 	                   			  'precioKgVentas'=>$precioVentas,
 								  'aPagarVentas'=>$aPagarVentas);
-			
+
 			$setearAnimales = ControladorEstrategia::ctrSetearAnimales($dataAnimales);
-			
+								  
 			$dataInsumos = array('idEstrategia'=>$idEstrategia['id'],'insumos'=>$insumos);
-	
 			$setearInsumos = ControladorEstrategia::ctrSetearInsumos($dataInsumos);
+	
 
 			$dataEstructura = array('idEstrategia'=>$idEstrategia['id'],
 								  'estructuraDirecto_importe'=>$estructuraDirecto_importe,
@@ -295,8 +293,8 @@ class ControladorEstrategia{
 		
 			$setearEstrutura = ControladorEstrategia::ctrSetearEstructura($dataEstructura);
 
-			if($setearAnimales == 'ok' && $setearInsumos == 'ok'){
-
+			if($setearAnimales == 'ok' && $setearInsumos == 'ok' && $setearEstrutura == 'ok'){
+			
 				echo'<script>
 
 					Swal.fire({
@@ -315,7 +313,7 @@ class ControladorEstrategia{
 				
 			}else{
 
-			
+				var_dump('error');
 			}
 
 		}
@@ -415,11 +413,10 @@ class ControladorEstrategia{
 						'msPorce'=>$data['porcentMS'],
 						'campania'=>$data['selectCampania']);
 
-		$guardar = true;
+				
+		$idEstrategia = ControladorEstrategia::ctrSetearCampania($datos);
 
-		$idEstrategia = ControladorEstrategia::ctrSetearCampania($datos,$guardar);
 
-		var_dump($ingresos);
 		$dataAnimales = array('idEstrategia'=>$idEstrategia['id'],
 								'ingresos'=>$ingresos,
 								'kgIngresos'=>$kgIngresos,
@@ -431,11 +428,11 @@ class ControladorEstrategia{
 								'aPagarVentas'=>$aPagarVentas);
 		
 		$setearAnimales = ControladorEstrategia::ctrSetearAnimales($dataAnimales);
-		var_dump($setearAnimales);
+
 		$dataInsumos = array('idEstrategia'=>$idEstrategia['id'],'insumos'=>$insumos);
 
 		$setearInsumos = ControladorEstrategia::ctrSetearInsumos($dataInsumos);
-		var_dump($idEstrategia);
+
 		if($setearAnimales == 'ok' && $setearInsumos == 'ok'){
 
 			echo 'todo ok';

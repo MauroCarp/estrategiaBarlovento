@@ -138,7 +138,7 @@ class ModeloEstrategia{
 		$stmt -> bindParam(":stockAnimales", $data['stockAnimales'], PDO::PARAM_STR);
 		$stmt -> bindParam(":stockKgProm", $data['stockKgProm'], PDO::PARAM_STR);
 		$stmt -> bindParam(":campania", $data['campania'], PDO::PARAM_STR);
-		$seteado = $guardar == true ? 1 : 0;
+		$seteado = $guardar == true ? 0 : 1;
 		$stmt -> bindParam(":seteado", $seteado, PDO::PARAM_STR);
 				
 		if($stmt -> execute()){
@@ -191,11 +191,10 @@ class ModeloEstrategia{
 
 	static public function mdlSetearInsumos($tabla,$data){
 
-
 		$stmt = Conexion::conectarEstrategia()->prepare("INSERT INTO $tabla(cerealesPlan,precioPlan,idEstrategia) VALUES(:cerealesPlan,:precioPlan,:idEstrategia)");
 
-		$stmt -> bindParam(":cerealesPlan",json_encode($data['cantidad']),PDO::PARAM_STR);
-		$stmt -> bindParam(":precioPlan",json_encode($data['precio']),PDO::PARAM_STR);
+		$stmt -> bindParam(":cerealesPlan",json_encode($data['insumos']['cantidad']),PDO::PARAM_STR);
+		$stmt -> bindParam(":precioPlan",json_encode($data['insumos']['precio']),PDO::PARAM_STR);
 		$stmt -> bindParam(":idEstrategia",$data['idEstrategia'], PDO::PARAM_STR);
 
 		if($stmt -> execute()){
