@@ -11,6 +11,7 @@ class AjaxEstrategia{
 
     public $idDieta;
     public $campania;
+	public $data;
 
 	public function ajaxGenerarOptionInsumos(){
 
@@ -49,6 +50,18 @@ class AjaxEstrategia{
 		echo json_encode($respuesta);
 
 	}
+
+	public function ajaxGuardarEstrategia(){
+
+		$data = $this->data;
+
+		echo $respuesta = ControladorEstrategia::ctrGuardarEstrategia($data);
+
+		// header('Content-Type: application/json');
+
+		// echo json_encode(['message' => 'ok']);
+
+	}
     
 
 }
@@ -57,6 +70,7 @@ class AjaxEstrategia{
 /*=============================================
 EDITAR USUARIO
 =============================================*/
+
 if(isset($_POST["accion"])){
 
 	$accion = $_POST['accion'];
@@ -78,19 +92,30 @@ if(isset($_POST["accion"])){
 	
 	if($accion == 'eliminarDieta'){
 
-		$mostrarDieta = new AjaxEstrategia();
-        $mostrarDieta ->idDieta = $_POST['idDieta'];
-        $mostrarDieta ->ajaxEliminarDieta();
+		$eliminarDieta = new AjaxEstrategia();
+        $eliminarDieta ->idDieta = $_POST['idDieta'];
+        $eliminarDieta ->ajaxEliminarDieta();
 
     }
 	
 	if($accion == 'mostrarEstrategia'){
 
-		$mostrarDieta = new AjaxEstrategia();
-        $mostrarDieta ->campania = $_POST['campania'];
-        $mostrarDieta ->ajaxMostrarEstrategia();
+		$mostrarEstrategia = new AjaxEstrategia();
+        $mostrarEstrategia ->campania = $_POST['campania'];
+        $mostrarEstrategia ->ajaxMostrarEstrategia();
 
     }
+
+	if($accion == 'guardar'){
+
+		$guardarEstrategia = new AjaxEstrategia();
+		$guardarEstrategia ->data = $_POST;
+		$guardarEstrategia ->ajaxGuardarEstrategia();
+
+
+	}
+
+
 
 }
 

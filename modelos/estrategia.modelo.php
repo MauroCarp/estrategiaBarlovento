@@ -126,10 +126,10 @@ class ModeloEstrategia{
 	}
 
 
-	static public function mdlSetearCampania($tabla,$data){
+	static public function mdlSetearCampania($tabla,$data,$guardar){
 
 
-		$stmt = Conexion::conectarEstrategia()->prepare("UPDATE $tabla SET idDieta = :idDieta, stockInsumos = :stockInsumos, adpPlan = :adpPlan, msPlan = :msPlan, stockAnimales = :stockAnimales, stockKgProm = :stockKgProm, seteado = 1 WHERE campania = :campania");
+		$stmt = Conexion::conectarEstrategia()->prepare("UPDATE $tabla SET idDieta = :idDieta, stockInsumos = :stockInsumos, adpPlan = :adpPlan, msPlan = :msPlan, stockAnimales = :stockAnimales, stockKgProm = :stockKgProm, seteado = :seteado WHERE campania = :campania");
 
 		$stmt -> bindParam(":idDieta", $data['idDieta'], PDO::PARAM_STR);
 		$stmt -> bindParam(":stockInsumos", $data['stockInsumos'], PDO::PARAM_STR);
@@ -138,6 +138,8 @@ class ModeloEstrategia{
 		$stmt -> bindParam(":stockAnimales", $data['stockAnimales'], PDO::PARAM_STR);
 		$stmt -> bindParam(":stockKgProm", $data['stockKgProm'], PDO::PARAM_STR);
 		$stmt -> bindParam(":campania", $data['campania'], PDO::PARAM_STR);
+		$seteado = $guardar == true ? 1 : 0;
+		$stmt -> bindParam(":seteado", $seteado, PDO::PARAM_STR);
 				
 		if($stmt -> execute()){
 
@@ -230,14 +232,7 @@ class ModeloEstrategia{
 		
 		}else{
 
-			return $stmt->errorInfo();
-		
-		
-		
-		
-		
-		
-		
+			return $stmt->errorInfo();		
 		
 		};
 

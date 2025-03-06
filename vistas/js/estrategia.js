@@ -138,6 +138,43 @@ const validarPorcentajesDieta = ()=>{
 
     }
 }
+function guardarDatos() {
+    const form = document.getElementById("formularioEstrategia");
+    const formData = new FormData(form);
+
+    formData.append("accion", 'guardar');
+    const data = Object.fromEntries(formData.entries());
+
+    $.ajax({
+        
+        method: "POST",
+        url:"ajax/estrategia.ajax.php",
+        data: data,
+        success:function(response){
+            console.log(response)
+        }
+
+    })
+    // fetch("ajax/estrategia.ajax.php", {
+    //     method: "POST",
+    //     headers: {
+    //         "Content-Type": "application/json",
+    //     },
+    //     body: formData
+    // })
+    // .then(response => {
+    //     if (!response.ok) {
+    //         throw new Error('Error en la respuesta del servidor');
+    //     }
+    //   return response.json();
+    // })
+    // .then(data => console.log("Datos guardados:", data))
+    // .catch(error => console.log("Error al guardar datos:", error));
+
+}
+
+  // Ejecutar el guardado cada 30 segundos (puedes ajustar el intervalo)
+setInterval(guardarDatos, 5000);
   
 $('.stockInicial').each(function(){
 

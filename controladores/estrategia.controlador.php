@@ -134,8 +134,6 @@ class ControladorEstrategia{
 
 	static public function ctrSetearEstrategia(){
 
-		// var_dump($_POST);
-		// die;
 		if(isset($_POST['btnSetear'])){
 		
 			$ingresos = array();
@@ -147,6 +145,15 @@ class ControladorEstrategia{
 			$precioVentas = array();
 			$aPagarVentas = array();
 			$insumos = array();
+			$estructuraDirecto_importe = array();
+			$estructuraDirecto_aPagar = array();
+			$estructuraIndirecto_importe = array();
+			$estructuraIndirecto_aPagar = array();
+			$gastosVarios_importe = array();
+			$gastosVarios_aPagar = array();
+			$ingresosExtraordinarios_importe = array();
+			$ingresosExtraordinarios_aPagar = array();
+
 
 		
 			foreach ($_POST as $key => $value) {
@@ -212,6 +219,38 @@ class ControladorEstrategia{
 				if(strpos($key,'aPagarVenta') === 0){
 					$aPagarVentas[str_replace('aPagarVenta','',$key)] = $value;		
 				}
+		
+				if(strpos($key,'estructuraDirecto_importe_') === 0){
+					$estructuraDirecto_importe[str_replace('estructuraDirecto_importe_','',$key)] = $value;		
+				}
+
+				if(strpos($key,'estructuraDirecto_aPagar_') === 0){
+					$estructuraDirecto_aPagar[str_replace('estructuraDirecto_aPagar_','',$key)] = $value;		
+				}
+
+				if(strpos($key,'estructuraIndirecto_importe_') === 0){
+					$estructuraIndirecto_importe[str_replace('estructuraIndirecto_importe_','',$key)] = $value;		
+				}
+
+				if(strpos($key,'estructuraIndirecto_aPagar') === 0){
+					$estructuraIndirecto_aPagar[str_replace('estructuraIndirecto_aPagar_','',$key)] = $value;		
+				}
+
+				if(strpos($key,'gastosVarios_importe_') === 0){
+					$gastosVarios_importe[str_replace('gastosVarios_importe_','',$key)] = $value;		
+				}
+		
+				if(strpos($key,'gastosVarios_aPagar_') === 0){
+					$gastosVarios_aPagar[str_replace('gastosVarios_aPagar_','',$key)] = $value;		
+				}
+				
+				if(strpos($key,'ingresosExtraordinarios_importe_') === 0){
+					$ingresosExtraordinarios_importe[str_replace('ingresosExtraordinarios_importe_','',$key)] = $value;		
+				}
+			
+				if(strpos($key,'ingresosExtraordinarios_aPagar_') === 0){
+					$ingresosExtraordinarios_aPagar[str_replace('ingresosExtraordinarios_aPagar_','',$key)] = $value;		
+				}
 
 
 			}
@@ -224,7 +263,9 @@ class ControladorEstrategia{
 						  'msPorce'=>$_POST['porcentMS'],
 						  'campania'=>$_POST['selectCampania']);
 
-			$idEstrategia = ControladorEstrategia::ctrSetearCampania($data);
+			$guardar = (isset($_POST[''])) ? true : false;
+
+			$idEstrategia = ControladorEstrategia::ctrSetearCampania($data,$guardar);
 
 			$dataAnimales = array('idEstrategia'=>$idEstrategia['id'],
 								  'ingresos'=>$ingresos,
@@ -241,7 +282,19 @@ class ControladorEstrategia{
 			$dataInsumos = array('idEstrategia'=>$idEstrategia['id'],'insumos'=>$insumos);
 	
 			$setearInsumos = ControladorEstrategia::ctrSetearInsumos($dataInsumos);
+
+			$dataEstructura = array('idEstrategia'=>$idEstrategia['id'],
+								  'estructuraDirecto_importe'=>$estructuraDirecto_importe,
+								  'estructuraDirecto_aPagar'=>$estructuraDirecto_aPagar,
+								  'estructuraIndirecto_importe'=>$estructuraIndirecto_importe,
+								  'estructuraIndirecto_aPagar'=>$estructuraIndirecto_aPagar,
+								  'gastosVarios_importe'=>$gastosVarios_importe,
+								  'gastosVarios_aPagar'=>$gastosVarios_aPagar,
+	                   			  'ingresosExtraordinarios_importe'=>$ingresosExtraordinarios_importe,
+								  'ingresosExtraordinarios_aPagar'=>$ingresosExtraordinarios_aPagar);
 		
+			$setearEstrutura = ControladorEstrategia::ctrSetearEstructura($dataEstructura);
+
 			if($setearAnimales == 'ok' && $setearInsumos == 'ok'){
 
 				echo'<script>
@@ -269,11 +322,137 @@ class ControladorEstrategia{
 
 	}
 
-	static public function ctrSetearCampania($data){
+	static public function ctrGuardarEstrategia($data){
+		
+		if($data['dieta'] == ''){
+			echo ' no hay dieta select';
+			die;
+		}
+
+		$ingresos = array();
+		$kgIngresos = array();
+		$precioIngresos = array();
+		$aPagarIngresos = array();
+		$ventas = array();
+		$kgVentas = array();
+		$precioVentas = array();
+		$aPagarVentas = array();
+		$insumos = array();
+
+	
+		foreach ($data as $key => $value) {
+
+			if(strpos($key,'insumoIngreso') === 0){
+
+				$toFormat = str_replace('insumoIngreso','',$key);
+				$idInsumo = substr($toFormat, 0, 2);
+				$month = substr($toFormat, 2);
+
+				$insumos[$idInsumo][$month]['cantidad'] = $value;		
+
+			}
+
+			if(strpos($key,'insumoPrecio') === 0){
+
+				$toFormat = str_replace('insumoPrecio','',$key);
+				$idInsumo = substr($toFormat, 0, 2);
+				$month = substr($toFormat, 2);
+
+				$insumos[$idInsumo][$month]['precio'] = $value;		
+
+			}
+
+			if(strpos($key,'insumoAPagar') === 0){
+
+				$toFormat = str_replace('insumoAPagar','',$key);
+				$idInsumo = substr($toFormat, 0, 2);
+				$month = substr($toFormat, 2);
+
+				$insumos[$idInsumo][$month]['aPagar'] = $value;		
+
+			}
+
+			if(strpos($key,'ingreso') === 0 && strpos($key,'kg') !== 0){
+				$ingresos[str_replace('ingreso','',$key)] = $value;		
+			}
+
+			if(strpos($key,'kgIngreso') === 0){
+				$kgIngresos[str_replace('kgIngreso','',$key)] = $value;		
+			}
+
+			if(strpos($key,'venta') === 0 && strpos($key,'kg') !== 0){
+				$ventas[str_replace('venta','',$key)] = $value;		
+			}
+
+			if(strpos($key,'kgVenta') === 0){
+				$kgVentas[str_replace('kgVenta','',$key)] = $value;		
+			}
+
+			if(strpos($key,'precioKgIngreso') === 0){
+				$precioIngresos[str_replace('precioKgIngreso','',$key)] = $value;		
+			}
+
+			if(strpos($key,'precioKgVenta') === 0){
+				$precioVentas[str_replace('precioKgVenta','',$key)] = $value;		
+			}
+
+			if(strpos($key,'aPagarIngreso') === 0){
+				$aPagarIngresos[str_replace('aPagarIngreso','',$key)] = $value;		
+			}
+
+			if(strpos($key,'aPagarVenta') === 0){
+				$aPagarVentas[str_replace('aPagarVenta','',$key)] = $value;		
+			}
+
+
+		}
+
+		$datos = array('stockInsumos'=>$data['stockInsumos'],
+						'stockAnimales'=>($data['stockAnimales'] == '') ? 0 : $data['stockAnimales'],
+						'stockKgProm'=>($data['stockKgProm'] == '') ? 0 : $data['stockKgProm'],
+						'idDieta'=>$data['dieta'],
+						'adp'=>$data['adpv'],
+						'msPorce'=>$data['porcentMS'],
+						'campania'=>$data['selectCampania']);
+
+		$guardar = true;
+
+		$idEstrategia = ControladorEstrategia::ctrSetearCampania($datos,$guardar);
+
+		var_dump($ingresos);
+		$dataAnimales = array('idEstrategia'=>$idEstrategia['id'],
+								'ingresos'=>$ingresos,
+								'kgIngresos'=>$kgIngresos,
+								'precioKgIngresos'=>$precioIngresos,
+								'aPagarIngresos'=>$aPagarIngresos,
+								'ventas'=>$ventas,
+								'kgVentas'=>$kgVentas,
+								'precioKgVentas'=>$precioVentas,
+								'aPagarVentas'=>$aPagarVentas);
+		
+		$setearAnimales = ControladorEstrategia::ctrSetearAnimales($dataAnimales);
+		var_dump($setearAnimales);
+		$dataInsumos = array('idEstrategia'=>$idEstrategia['id'],'insumos'=>$insumos);
+
+		$setearInsumos = ControladorEstrategia::ctrSetearInsumos($dataInsumos);
+		var_dump($idEstrategia);
+		if($setearAnimales == 'ok' && $setearInsumos == 'ok'){
+
+			echo 'todo ok';
+		}else{
+
+			echo 'error';
+		}
+
+		
+
+	}
+
+	static public function ctrSetearCampania($data,$guardar = false){
 
 		$tabla = 'estrategias';
 
-		return ModeloEstrategia::mdlSetearCampania($tabla,$data);
+		return ModeloEstrategia::mdlSetearCampania($tabla,$data,$guardar);
 
 	}
 
@@ -282,6 +461,14 @@ class ControladorEstrategia{
 		$tabla = 'movimientosanimales';
 
 		return ModeloEstrategia::mdlSetearAnimales($tabla,$data);
+
+	}
+
+	static public function ctrSetearEstructura($data){
+
+		$tabla = 'movimientosestructura';
+
+		return ModeloEstrategia::mdlSetearEstructura($tabla,$data);
 
 	}
 
