@@ -894,7 +894,7 @@ let calculateStockAndTotals = () => {
         if(isNaN(consMS))
           consMS = Number($(`#msReal${index}`).html())
 
-        let consumoInsumo = (porcentajesDietaReal == null) ? 0 : (porcentajesDietaReal[index].porcentaje * consMS) / 100 
+        let consumoInsumo = ((porcentajesDietaReal == null || porcentajesDietaReal == undefined) || porcentajesDietaReal[index] == null) ? 0 : (porcentajesDietaReal[index].porcentaje * consMS) / 100 
 
         let totalConsumoMensual = consumoInsumo * stockMesPlan * 30 //dias del mes
   
