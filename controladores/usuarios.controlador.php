@@ -7,8 +7,10 @@ class ControladorUsuarios{
 	=============================================*/
 
 	static public function ctrIngresoUsuario(){
+		var_dump('entro aca');
 
 		if(isset($_POST["ingUsuario"])){
+			var_dump('POST USUARIO');
 
 			if(preg_match('/^[a-zA-Z0-9]+$/', $_POST["ingUsuario"])){
 
@@ -21,6 +23,7 @@ class ControladorUsuarios{
 				$valor = $_POST["ingUsuario"];
 
 				$respuesta = ModeloUsuarios::MdlMostrarUsuarios($tabla, $item, $valor);
+				var_dump($respuesta);
 
 				if($respuesta["usuario"] == $_POST["ingUsuario"] && $respuesta["password"] == $encriptar){
 
@@ -66,9 +69,10 @@ class ControladorUsuarios{
 						$valor2 = $respuesta["id"];
 
 						$ultimoLogin = ModeloUsuarios::mdlActualizarUsuario($tabla, $item1, $valor1, $item2, $valor2);
-						
+						var_dump('aparentemento logueo');
 						if($ultimoLogin == "ok"){
-
+							var_dump('voy a redireccionar');
+							die;
 								echo '<script>
 								
 								window.location = "index.php";
@@ -85,10 +89,12 @@ class ControladorUsuarios{
 					}		
 
 				}else{
-
+					var_dump('error al ingresar');
+					die;
 					echo '<br><div class="alert alert-danger">Error al ingresar, vuelve a intentarlo</div>';
 
 				}
+				die;
 
 			}	
 
