@@ -322,7 +322,7 @@ class ControladorEstrategia{
 	}
 
 	static public function ctrGuardarEstrategia($data){
-
+		var_dump($data);
 		$ingresos = array();
 		$kgIngresos = array();
 		$precioIngresos = array();
@@ -447,7 +447,7 @@ class ControladorEstrategia{
 					'msPorce'=>$data['porcentMS'],
 					'campania'=>$data['selectCampania']);
 
-		$idEstrategia = ControladorEstrategia::ctrSetearCampania($data);
+		$idEstrategia = ControladorEstrategia::ctrSetearCampania($data,true);
 		
 		$dataAnimales = array('idEstrategia'=>$idEstrategia['id'],
 							'ingresos'=>$ingresos,

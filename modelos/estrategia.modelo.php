@@ -133,8 +133,10 @@ class ModeloEstrategia{
 
 		$stmt -> bindParam(":idDieta", $data['idDieta'], PDO::PARAM_STR);
 		$stmt -> bindParam(":stockInsumos", $data['stockInsumos'], PDO::PARAM_STR);
-		$stmt -> bindParam(":adpPlan", json_encode($data['adp']), PDO::PARAM_STR);
-		$stmt -> bindParam(":msPlan", json_encode($data['msPorce']), PDO::PARAM_STR);
+		$adpPlan = json_encode($data['adp']);
+		$msPlan = json_encode($data['msPorce']);
+		$stmt -> bindParam(":adpPlan", $adpPlan, PDO::PARAM_STR);
+		$stmt -> bindParam(":msPlan", $msPlan, PDO::PARAM_STR);
 		$stmt -> bindParam(":stockAnimales", $data['stockAnimales'], PDO::PARAM_STR);
 		$stmt -> bindParam(":stockKgProm", $data['stockKgProm'], PDO::PARAM_STR);
 		$stmt -> bindParam(":campania", $data['campania'], PDO::PARAM_STR);
