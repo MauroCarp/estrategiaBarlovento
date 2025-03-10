@@ -9,7 +9,7 @@ class ModeloUsuarios{
 	=============================================*/
 
 	static public function mdlMostrarUsuarios($tabla, $item, $valor){
-
+		var_dump('entro en mdlMostrarUsuarios');
 		if($item != null){
 
 			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
@@ -29,6 +29,7 @@ class ModeloUsuarios{
 			return $stmt -> fetchAll();
 
 		}
+		var_dump('paso en mdlMostrarUsuarios');
 		
 
 		$stmt -> close();

@@ -13,7 +13,10 @@ class ControladorUsuarios{
 			var_dump('POST USUARIO');
 
 			if(preg_match('/^[a-zA-Z0-9]+$/', $_POST["ingUsuario"])){
+				var_dump('entro al pregmatch');
 
+
+				
 			   	$encriptar = crypt($_POST["ingPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
 
 				$tabla = "usuarios";
@@ -21,6 +24,7 @@ class ControladorUsuarios{
 				$item = "usuario";
 
 				$valor = $_POST["ingUsuario"];
+				var_dump('VOY A BUSCAR EL USUARIO');
 
 				$respuesta = ModeloUsuarios::MdlMostrarUsuarios($tabla, $item, $valor);
 				var_dump($respuesta);
