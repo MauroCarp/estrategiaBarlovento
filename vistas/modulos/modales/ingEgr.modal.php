@@ -59,43 +59,76 @@
                   9 => 'Enero', 10 => 'Febrero', 11 => 'Marzo', 12 => 'Abril'
                 ];
 
-                foreach ($months as $index => $month): ?>
+                if($data['estrategia']){
+                  $ingresos = json_decode($data['estrategia']['ingresosPlan'],true);
+                  $kgIngresosPlan = json_decode($data['estrategia']['kgIngresosPlan'],true);
+                  $precioKgIngresosPlan = json_decode($data['estrategia']['precioKgIngresosPlan'],true);
+                  $aPagarIngresosPlan = json_decode($data['estrategia']['aPagarIngresosPlan'],true);
+                  $egresosPlan = json_decode($data['estrategia']['egresosPlan'],true);
+                  $precioKgEgresosPlan = json_decode($data['estrategia']['precioKgEgresosPlan'],true);
+                  $aPagarEgresosPlan = json_decode($data['estrategia']['aPagarEgresosPlan'],true);
+                  $kgEgresosPlan = json_decode($data['estrategia']['kgEgresosPlan'],true);
+                }
+
+                foreach ($months as $index => $month): 
+                  $ingresosVal = 0;
+                  $kgIngresosPlanVal = 0;
+                  $precioKgIngresosPlanVal = 0;
+                  $aPagarIngresosPlanVal = 0;
+                  $egresosPlanVal = 0;
+                  $precioKgEgresosPlanVal = 0;
+                  $aPagarEgresosPlanVal = 0;
+                  $kgEgresosPlanVal = 0;
+
+                  if($data['estrategia']){
+                    $ingresosVal = $ingresos[$index];                    
+                    $kgIngresosPlanVal = $kgIngresosPlan[$index];
+                    $precioKgIngresosPlanVal = $precioKgIngresosPlan[$index];
+                    $aPagarIngresosPlanVal = $aPagarIngresosPlan[$index];
+                    $egresosPlanVal = $egresosPlan[$index];
+                    $precioKgEgresosPlanVal = $precioKgEgresosPlan[$index];
+                    $aPagarEgresosPlanVal = $aPagarEgresosPlan[$index];
+                    $kgEgresosPlanVal = $kgEgresosPlan[$index];
+                  }
+
+                  ?>
+
                   <tr class="monthRow">
                     <td><?= $month ?></td>
-                    <td><input class="form-control ingEgr ingreso" type="number" id="ingreso<?= $index ?>" min="0" value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>></td>
-                    <td><input class="form-control kgIngreso" type="number" id="kgIngreso<?= $index ?>" min="0" value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>></td>
-                    <td><input class="form-control ingEgr venta" type="number" id="venta<?= $index ?>" min="0" value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>></td>
-                    <td><input class="form-control kgVenta" type="number" id="kgVenta<?= $index ?>" min="0" value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>></td>
+                    <td><input class="form-control ingEgr ingreso" type="number" id="ingreso<?= $index ?>" min="0" value="<?=$ingresosVal?>"></td>
+                    <td><input class="form-control kgIngreso" type="number" id="kgIngreso<?= $index ?>" min="0" value="<?=$kgIngresosPlanVal?>"></td>
+                    <td><input class="form-control ingEgr venta" type="number" id="venta<?= $index ?>" min="0" value="<?=$egresosPlanVal?>"></td>
+                    <td><input class="form-control kgVenta" type="number" id="kgVenta<?= $index ?>" min="0" value="<?=$kgEgresosPlanVal?>"></td>
                     <td>
                       <div style="display: flex; flex-direction: row;">
-                        <input class="form-control precioKgIngreso" type="number" id="precioKgIngreso<?= $index ?>" min="0" value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>>
-                        <input class="form-control precioKgVenta" type="number" id="precioKgVenta<?= $index ?>" min="0" value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>>
+                        <input class="form-control precioKgIngreso" type="number" id="precioKgIngreso<?= $index ?>" min="0" value="<?=$precioKgIngresosPlanVal?>">
+                        <input class="form-control precioKgVenta" type="number" id="precioKgVenta<?= $index ?>" min="0" value="<?=$precioKgEgresosPlanVal?>">
                       </div>
                     </td>
                     <td style="padding:0">
                       <div style="display: flex; flex-direction: row;">
                         <select class="form-control aPagarIngreso aPagar" onChange="cambiarColorApagar($(this))" id="aPagarIngreso<?= $index?>" style="font-weight:bold;color:green" >
-                          <option value="A" style="font-weight:bold;color:green">A</option>
-                          <option value="B" style="font-weight:bold;color:blue">B</option>
-                          <option value="C" style="font-weight:bold;color:rgb(227,216,0)">C</option>
-                          <option value="D" style="font-weight:bold;color:red">D</option>
+                          <option value="A" <?=($data['estrategia']) ? (($aPagarIngresosPlanVal == 'A') ? 'selected' : ''): '' ?> style="font-weight:bold;color:green">A</option>
+                          <option value="B" <?=($data['estrategia']) ? (($aPagarIngresosPlanVal == 'B') ? 'selected' : ''): '' ?> style="font-weight:bold;color:blue">B</option>
+                          <option value="C" <?=($data['estrategia']) ? (($aPagarIngresosPlanVal == 'C') ? 'selected' : ''): '' ?> style="font-weight:bold;color:rgb(227,216,0)">C</option>
+                          <option value="D" <?=($data['estrategia']) ? (($aPagarIngresosPlanVal == 'D') ? 'selected' : ''): '' ?> style="font-weight:bold;color:red">D</option>
                         </select>
                         <select class="form-control aPagarVenta aPagar" onChange="cambiarColorApagar($(this))" id="aPagarVenta<?= $index?>" style="font-weight:bold;color:green">
-                          <option value="A" style="font-weight:bold;color:green">A</option>
-                          <option value="B" style="font-weight:bold;color:blue">B</option>
-                          <option value="C" style="font-weight:bold;color:rgb(227,216,0)">C</option>
-                          <option value="D" style="font-weight:bold;color:red">D</option>
+                          <option value="A" <?=($data['estrategia']) ? (($aPagarEgresosPlanVal == 'A') ? 'selected' : ''): '' ?> style="font-weight:bold;color:green">A</option>
+                          <option value="B" <?=($data['estrategia']) ? (($aPagarEgresosPlanVal == 'B') ? 'selected' : ''): '' ?> style="font-weight:bold;color:blue">B</option>
+                          <option value="C" <?=($data['estrategia']) ? (($aPagarEgresosPlanVal == 'C') ? 'selected' : ''): '' ?> style="font-weight:bold;color:rgb(227,216,0)">C</option>
+                          <option value="D" <?=($data['estrategia']) ? (($aPagarEgresosPlanVal == 'D') ? 'selected' : ''): '' ?> style="font-weight:bold;color:red">D</option>
                         </select>
                       </div>
                     </td>
                     <td><input class="form-control stock" type="text" id="stock<?= $index ?>" value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?> readOnly></td>
                   </tr>
-                <?php endforeach; ?>
-               
+                <?php endforeach;?>
+                  
 
                 <tr style="font-weight:bolder;">
                   <td><b>Total</b></td>
-                  <td><input class="form-control total" type="text" name="" id="totalIngreso" readOnly value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>></td>
+                  <td><input class="form-control total" type="text" name="" id="totalIngreso" readOnly value="0" <?php ($data['estrategia']['seteado']) ? 'readOnly' : '' ?>></td>
                   <td><input class="form-control total" type="text" name="" id="totalKgIngreso" readOnly value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>></tdkgIngreso1>
                   <td><input class="form-control total" type="text" name="" id="totalVenta" readOnly value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>></td>
                   <td><input class="form-control total" type="text" name="" id="totalKgVenta" readOnly value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>></td>
