@@ -820,7 +820,6 @@ let calcularFlujoDeFondoMensualSeteado = ()=>{
     
             let color = (resultado < 0) ? 'red' : 'green'
 
-            flujoMensualAcumRealContable1
             $(`#flujoMensualRealContable${key}`).text(` | ${resultado.toLocaleString('de-DE')}`)
             
             $(`#flujoMensualRealContable${key}`).css('color',color)

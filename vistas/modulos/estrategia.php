@@ -493,6 +493,451 @@
 
 <script>
 
+const cargarInsumos = ()=>{
+    
+    let dieta = $('#dieta').find("option:selected").text();
+    
+    $('#inputsInsumos').html('')
+
+    $('.dietaSeleccionada').each(function(){
+        
+        if(dieta != 'Seleccionar Dieta')
+            $(this).html(dieta)
+        else
+            $(this).html('-')
+    
+    })
+
+    let idDieta = $('#dieta').val()
+
+    if(idDieta != ''){
+
+        let months = {
+            5:'Mayo', 6:'Junio', 7:'Julio', 8:'Agosto', 
+            9:'Septiembre', 10:'Octubre', 11:'Noviembre', 12:'Diciembre',
+            1:'Enero', 2:'Febrero', 3:'Marzo', 4:'Abril'
+        };
+
+        $.ajax({
+            method:'POST',
+            url:'ajax/estrategia.ajax.php',
+            data:{accion:'verDieta',idDieta},
+            beforeSend:function(){
+                // $('body').append($('<div id="overlay"><div class="overlay-content"><i class="fa fa-spinner fa-spin"></i> Cargando...</div></div>'))
+            },
+            success:function(resp){
+                let data =  JSON.parse(resp)
+
+                $('.insumosDieta').remove()
+                $('.stockInsumos').remove()
+
+                let stockInsumosValue = []
+                $('#tabsInsumos').html('')
+                $('#tab-insumos').html('')
+
+                $('.insumosContable').remove()
+
+                data.forEach((element,index) => {
+
+                    let insumo = element.insumo
+                    let idInsumo = element.idInsumo
+
+                    $('#trStock').append($(`
+                        <th class="stockInsumos">${insumo}</th>
+                    `))
+
+                    $('#trStockInicial').append($(`
+                        <td class="stockInsumos"><input class="form-control stockInsumosModal" idInsumo="${element.idInsumo}" type="number" onChange="setearStockInsumos()"  value="0"></td>
+                    `))
+
+
+                    stockInsumosValue.push(`{"${element.idInsumo}":0}`)
+
+
+                    /*------ CARGO DINAMICAMENTE LOS INSUMOS EN EL MODAL CON SU TABLA MENSUAL ---------*/
+                  
+                        let isActive = (index == 0) ? 'active' : ''
+                        let isClassActive = (index == 0) ? 'fade in active' : ''
+
+                        let tabInsumo = $(`<li class="${isActive}"><a href="#insumo${index}" data-toggle="pill">${insumo}</a></li>`)
+
+                        $('#tabsInsumos').append(tabInsumo)
+
+                        let divTab = document.createElement('DIV')
+                        divTab.setAttribute('id',`insumo${index}`)
+                        divTab.setAttribute('class',`tab-pane ${isClassActive}`)
+
+                        let h3Insumo = document.createElement('H3')
+                        h3Insumo.innerText = insumo 
+                        
+                        divTab.append(h3Insumo)
+
+                        let tableInsumo = document.createElement('TABLE')
+                        tableInsumo.setAttribute('class','table table-bordered insumosTable')
+
+                        let thead = document.createElement('THEAD')
+                        let tr = document.createElement('TR')
+                        let th = document.createElement('TH')
+                        let thNecesario = th.cloneNode(true)
+                        let thIngreso = th.cloneNode(true)
+                        let thPrecio = th.cloneNode(true)
+                        // let thAPagar = th.cloneNode(true)  
+                        thNecesario.innerText = 'Necesario' 
+                        thIngreso.innerText = 'Ingreso'
+                        thPrecio.innerText = 'Precio'   
+                        // thAPagar.innerText = 'A Pagar'   
+                        // tr.append(th,thNecesario,thIngreso,thPrecio,thAPagar)
+                        tr.append(th,thNecesario,thIngreso,thPrecio)
+                        thead.append(tr)    
+                        tableInsumo.append(thead)
+
+
+                        let input = document.createElement('INPUT')
+                        input.setAttribute('class','form-control input-sm')
+                        input.setAttribute('type','number')
+                        input.setAttribute('id-insumo',idInsumo)
+                        input.setAttribute('min','0')
+                        input.setAttribute('value','0')
+
+                        let i = 5;
+
+                        while (true) {
+
+                            let inputHidden = document.createElement('INPUT');
+                            inputHidden.setAttribute('type', 'hidden');
+                            inputHiddenIngreso = inputHidden.cloneNode(true);
+                            inputHiddenIngreso.setAttribute('name', `insumoIngreso${idInsumo}${i}`);
+                            
+                            inputHiddenPrecio = inputHidden.cloneNode(true);
+                            // inputHiddenAPagar = inputHidden.cloneNode(true);
+                            inputHiddenPrecio.setAttribute('name', `insumoPrecio${idInsumo}${i}`);
+                            // inputHiddenAPagar.setAttribute('name', `insumoAPagar${idInsumo}${i}`);
+
+
+                            // $('#inputsInsumos').append(inputHiddenIngreso,inputHiddenPrecio,inputHiddenAPagar)
+                            $('#inputsInsumos').append(inputHiddenIngreso,inputHiddenPrecio)
+                            
+                            let trInsumo = document.createElement('TR');
+                            let tdMonth = document.createElement('TD');
+                            tdMonth.setAttribute('style','font-weight:bold;padding:10px')
+
+                            tdMonth.innerText = months[i];
+                            trInsumo.append(tdMonth);
+
+                            for (let j = 0; j < 3; j++) {
+
+                                // let columnHeader = ['Necesario', 'Ingreso', 'Precio', 'APagar'][j];
+                                let columnHeader = ['Necesario', 'Ingreso', 'Precio'][j];
+                                let td = document.createElement('TD'); 
+                                td.setAttribute('style','width:150px')
+
+                                if(columnHeader == 'Necesario'){
+
+                                    td.setAttribute('class','form-control input-sm')
+                                    td.setAttribute('id', `insumo${columnHeader}${idInsumo}${i}`);
+                                    td.setAttribute('style','font-weight:bold;margin:5px;width:100px')
+
+
+                                }else{
+
+                                    let inputInsumo = input.cloneNode(true);
+
+                                    inputInsumo.setAttribute('id', `insumo${columnHeader}${idInsumo}${i}`);
+                                    // inputInsumo.setAttribute('name', `insumo${columnHeader}${idInsumo}[]`);
+        
+                                    if(columnHeader == 'Ingreso')
+                                        inputInsumo.classList.add('compraInsumos')
+                                    
+                                    // if(columnHeader == 'APagar')
+                                    //     inputInsumo.setAttribute('max','24')   
+
+                                    td.append(inputInsumo);
+
+                                }
+
+                                trInsumo.append(td);
+
+                            }
+
+                            tableInsumo.append(trInsumo);
+
+                            
+
+                            if (i === 12) {
+                                i = 1;  // Reinicia el índice a 1 después de llegar a 12
+                            } else if (i === 4) {
+                                break;  // Termina el bucle después de llegar a 4
+                            } else {
+                                i++;
+                            }
+
+                            divTab.append(tableInsumo)
+                            
+                            $('#tab-insumos').append(divTab)
+
+                        }
+                    
+                    //------ CARGO DINAMICAMENTE LOS INSUMOS EN LA TABLA CONTABLE ---------//
+
+                    let tbodyContable = document.getElementById('tbodyContable');
+
+                    let j = 5;
+                    while (true) {
+                        let trContable = document.createElement('TR');
+                        trContable.setAttribute('class','insumosContable')
+                        let tdInsumo = document.createElement('TD');
+                        tdInsumo.innerText = insumo;
+                        // tdInsumo.innerText = insumo;
+                        trContable.append(tdInsumo);
+
+                        for (let k = 0; k < 12; k++) {
+                            let td = document.createElement('TD');
+                            td.innerText = '0';
+                            td.setAttribute('class', `contableInsumo flujo`);
+                            td.setAttribute('month-data', (k + 1));
+                            td.setAttribute('id', `insumo${idInsumo}${j}Contable`);
+                            trContable.append(td);
+
+                            if (j === 12) {
+                                j = 1;
+                            } else if (j === 4) {
+                                break;
+                            } else {
+                                j++;
+                            }
+                        }
+
+                        let tdTotal = document.createElement('TD');
+                        tdTotal.setAttribute('id',`totalInsumo${idInsumo}`)
+                        tdTotal.innerText = 0
+                        tdTotal.setAttribute('style','font-weight:bold')
+                        trContable.append(tdTotal)
+                        tbodyContable.prepend(trContable);
+
+                        if (j === 4) {
+                            break;
+                        }
+                    }
+                    
+
+
+                });
+
+                $('input[name="stockInsumos"]').val(`[${stockInsumosValue}]`)
+                
+                // $('#overlay').remove()
+            }
+    
+        })
+
+    } else {
+        $('.insumosDieta').remove()
+    }
+} 
+
+let isSaved = '<?=$data['estrategia']?>'
+let isSeted = '<?=$data['estrategia']['seteado']?>'
+
+if(isSaved != '' && isSeted == '0'){
+
+  $('#dieta').val('<?=$data['estrategia']['idDieta']?>')
+  cargarInsumos()
+
+  let months = {
+      0:'Mayo', 1:'Junio', 2:'Julio', 3:'Agosto', 
+      4:'Septiembre', 5:'Octubre', 6:'Noviembre', 7:'Diciembre',
+      8:'Enero', 9:'Febrero', 10:'Marzo', 11:'Abril'
+  };
+
+  let correccionMeses = {
+    5:1,6:2,7:3,8:4,9:5,10:6,11:7,12:8,1:9,2:10,3:11,4:12
+    };
+
+
+
+  let stockInsumos = '<?=json_encode($data['estrategia']['stockInsumos'])?>'
+  stockInsumos = JSON.parse(stockInsumos.slice(1,-1))
+
+  // CARGA STOCK INSUMOS 
+
+  let index = 0
+
+  let compraInsumos = '<?=json_encode($data['estrategia']['compraInsumos'])?>'
+  compraInsumos = JSON.parse(compraInsumos)
+
+  let insumosName =  Object.keys(compraInsumos)
+
+  let insumosNameId = {}
+
+  let compraInsumosKey = '<?=json_encode($data['estrategia']['compraInsumosKey'])?>'
+  compraInsumosKey = JSON.parse(compraInsumosKey)
+
+  for (const key in compraInsumosKey) {
+
+    insumosNameId[insumosName[index]] = key
+    
+    index++
+
+  }
+
+  let cerealesPlan = '<?=json_encode($data['estrategia']['cerealesPlan'])?>'
+  cerealesPlan = JSON.parse(cerealesPlan.slice(1,-1))
+
+  let precioInsumoPlan = '<?=json_encode($data['estrategia']['precioPlan'])?>'
+  precioInsumoPlan = JSON.parse(precioInsumoPlan.slice(1,-1))
+
+  index = 0
+  let month = 1
+
+
+  // setTimeout(() => {
+    
+  //   for (const key in insumosNameId) {
+  
+  //     let trContable = document.createElement('TR');
+  //     let tdKey = document.createElement('TD');
+  //     tdKey.innerText = key
+  //     tdKey.setAttribute('style', 'font-weight:600;padding:10px');
+  //     trContable.append(tdKey)
+      
+  //     let obj = stockInsumos.find(item => item.hasOwnProperty(insumosNameId[key]));
+  //     let value = obj ? obj[insumosNameId[key]] : undefined;
+  
+  //     $('#trStock').append($(`<th>${key}</th>`))
+  //     console.log($('#trStock'))
+  //     $('#trStockInicial').append($(`<td><input class="form-control stockInicial" type="number" min="0" value="${value}"></td>`))
+  
+  //     let isActive = (index == 0) ? 'active' : '';
+  //     let isClassActive = (index == 0) ? 'fade in active' : '';
+  
+  //     let tabInsumo = $(`<li class="${isActive}"><a href="#insumo${index}" data-toggle="pill">${key}</a></li>`);
+  //     $('#tabsInsumos').append(tabInsumo);
+  
+  //     let divTab = document.createElement('DIV');
+  //     divTab.setAttribute('id', `insumo${index}`);
+  //     divTab.setAttribute('class', `tab-pane ${isClassActive}`);
+  
+  //     let h3Insumo = document.createElement('H3');
+  //     h3Insumo.innerText = key;
+  //     divTab.append(h3Insumo);
+  
+  //     let tableInsumo = document.createElement('TABLE');
+  //     tableInsumo.setAttribute('class', 'table table-bordered insumosTable');
+  
+  //     let thead = document.createElement('THEAD');
+  //     let tr = document.createElement('TR');
+  //     let th = document.createElement('TH');
+  //     let thNecesario = th.cloneNode(true);
+  //     let thIngreso = th.cloneNode(true);
+  //     let thPrecio = th.cloneNode(true);
+  //     let thAPagar = th.cloneNode(true);
+  //     thNecesario.innerText = 'Necesario';
+  //     thIngreso.innerText = 'Ingreso';
+  //     thPrecio.innerText = 'Precio';
+  //     // thAPagar.innerText = 'A Pagar';
+  //     tr.append(th, thNecesario, thIngreso, thPrecio);
+  //     thead.append(tr);
+  //     tableInsumo.append(thead);
+      
+  
+  //     let correccionCerealesPlan = {}
+  //     let correccionPrecioInsumoPlan = {}
+  
+  //     for (const key in cerealesPlan) {
+  
+  //       correccionCerealesPlan[key] = {}
+  //       correccionPrecioInsumoPlan[key] = {}
+  
+  //       Object.values(cerealesPlan[key]).forEach((el,index)=>{
+  
+  //         let month = correccionMeses[index + 1]
+  
+  //         correccionCerealesPlan[key][month] = el
+  //         correccionPrecioInsumoPlan[key][month] = precioInsumoPlan[key][index + 1]
+  
+  //       })
+        
+  //     }
+  
+  //     Object.values(correccionCerealesPlan[insumosNameId[key]]).forEach((element,index) => {
+  
+  //       let monthIndex = index + 1;
+  
+  //       let trInsumo = document.createElement('TR');
+  //       let tdMonth = document.createElement('TD');
+  //       tdMonth.setAttribute('style', 'font-weight:bold;padding:10px');
+  //       tdMonth.innerText = months[index];
+  //       trInsumo.append(tdMonth);
+          
+  //       for (let j = 0; j < 3; j++) {
+  //           let columnHeader = ['Necesario', 'Ingreso', 'Precio'][j];
+  //           let td = document.createElement('TD');
+  
+  //           let inputPlanificado = document.createElement('INPUT');
+  //           inputPlanificado.setAttribute('type', 'number');
+  //           inputPlanificado.setAttribute('class', 'form-control input-sm');
+  
+  //           if(columnHeader == 'Necesario'){
+  //             inputPlanificado.setAttribute('id', `insumoNecesarioPlan${insumosNameId[key]}_${monthIndex}`);
+  //             inputPlanificado.setAttribute('readOnly', `readOnly`);
+  //           }
+  
+  //           if(columnHeader == 'Ingreso'){
+  
+  //             inputPlanificado.setAttribute('id', `insumoPlan${insumosNameId[key]}_${monthIndex}`);
+  //             inputPlanificado.classList.add('compraInsumos');
+  //             inputPlanificado.setAttribute('value',element || 0)
+  
+  
+  //           }
+              
+  //           if(columnHeader == 'Precio'){
+  //             inputPlanificado.setAttribute('id', `insumoPrecioPlan${insumosNameId[key]}_${monthIndex}`);
+  //             inputPlanificado.setAttribute('value',correccionPrecioInsumoPlan[insumosNameId[key]][monthIndex] || 0)
+
+  //           }                
+  
+  //           td.append(inputPlanificado);
+  //           trInsumo.append(td);
+  //       }
+  
+  //       tableInsumo.append(trInsumo);
+  
+  //       divTab.append(tableInsumo);
+  //       $('#tab-insumos').append(divTab);
+  
+  //       // CARGO LOS SPAN DE PLAN Y REAL EN EL CONTABLE
+  
+  //       let tdSPan = document.createElement('TD');
+  //       let spanPlanificado = document.createElement('SPAN');
+  
+  //       spanPlanificado.setAttribute('class', 'planificado flujo');
+  //       spanPlanificado.setAttribute('id', `insumo${insumosNameId[key]}PlanContable_${monthIndex}`);
+          
+  //       tdSPan.append(spanPlanificado);
+  //       trContable.append(tdSPan);
+        
+  //     });
+  
+  //     let tdTotales = document.createElement('TD');
+  //     tdTotales.setAttribute('id',`totalInsumo${insumosNameId[key]}`)
+  //     tdTotales.setAttribute('style',`font-weight:bold`)
+  //     trContable.append(tdTotales); 
+  
+  //     $('#tbodyContable').prepend(trContable);
+  
+  //     index++
+        
+  //   } 
+
+  //   // $('#dieta').val('<?//=$data['estrategia']['idDieta']?>')
+
+    
+  //   // calculateStockAndTotals()
+  // }, 2000);
+
+} 
+
 let calcularPesoPromedio = (dataEstrategia = false,tipo = 'plan',debug = false)=>{
 
   let ingresoAccum = 0
@@ -653,8 +1098,7 @@ let calcularPesoPromedio = (dataEstrategia = false,tipo = 'plan',debug = false)=
       
     }, 1000);
 
-  } 
-  else {
+  } else {
     
     setTimeout(() => {
 
@@ -765,6 +1209,8 @@ let calculateStockAndTotals = () => {
     let dataDietaReal = '<?=$data['estrategia']['dietaReal']?>'
     let porcentajesDietaReal = (dataDietaReal != '') ? JSON.parse(dataDietaReal) : null
 
+    console.log(seteado)
+
     if(!seteado){
 
       idDieta = Number($('#dieta').val())
@@ -822,6 +1268,7 @@ let calculateStockAndTotals = () => {
         $('#avgKgVenta').val((ventaTotal > 0) ? (kgVentaTotal / ventaTotal).toFixed(2) : 0)
         
       } 
+
 
     } else {
   
@@ -988,7 +1435,7 @@ let seteado = '<?=$data['estrategia']['seteado']?>'
 
 let data = '<?=json_encode($data)?>'
 
-if(seteado){
+if(seteado != 0){
 
   let campania = '<?=$data['estrategia']['campania']?>'
 
