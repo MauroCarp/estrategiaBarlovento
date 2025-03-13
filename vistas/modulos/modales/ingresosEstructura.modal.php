@@ -70,8 +70,9 @@
                 $estructuraGastosAPReal = json_decode($data['estrategia']['gastosApagarReal'],true);
                 $estructuraIngresosAPReal = json_decode($data['estrategia']['ingresosApagarReal'],true);
 
-                foreach ($estructuraIndex as $index => $estructura): ?>
-                    
+                foreach ($estructuraIndex as $index => $estructura): 
+
+                  ?>
                     <div class="tab-pane <?=($index == 0) ? 'active' : ''?>" id="<?=$estructura?>">
 
                         <table class="table table-bordered">
@@ -86,17 +87,33 @@
                                 
                             <?php foreach ($months as $i => $month): 
                               
-                              if(!$data['estrategia']['seteado']){ ?>                                
+                              if(!$data['estrategia']['seteado']){
+                                $val = false;
+                                if($estructura == 'estructuraDirecto'){
+                                  $val = $estructuraDirecta;
+                                  $ap = $estructuraDirectaAP;
+                                }else if($estructura == 'estructuraIndirecto'){
+                                  $val = $estructuraIndirecta;
+                                  $ap = $estructuraIndirectaAP;
+                                }else if($estructura == 'gastosVarios'){  
+                                  $val = $estructuraGastos; 
+                                  $ap = $estructuraGastosAP;
+                                }else{
+                                  $val = $estructuraIngresos;
+                                  $ap = $estructuraIngresosAP;
+                                }
+
+                                ?>                                
 
                                 <tr class="monthRow">
                                     <td><?= $month ?></td>
-                                    <td><input class="form-control sm-input estructura" type="number" id="<?=$estructura?>_importe_<?= $i ?>" value="0"></td>
+                                    <td><input class="form-control sm-input estructura" type="number" id="<?=$estructura?>_importe_<?= $i ?>" value="<?=($val) ? $val[$i] : 0?>"></td>
                                     <td>
                                         <select class="form-control aPagar" onChange="cambiarColorApagar($(this))" id="<?=$estructura?>_aPagar_<?= $i ?>" style="font-weight:bold;color:green">
-                                            <option value="A" style="font-weight:bold;color:green">A</option>
-                                            <option value="B" style="font-weight:bold;color:blue">B</option>
-                                            <option value="C" style="font-weight:bold;color:rgb(227,216,0)">C</option>
-                                            <option value="D" style="font-weight:bold;color:red">D</option>
+                                            <option value="A" <?=($data['estrategia']) ? (($ap[$i] == 'A') ? 'selected' : ''): '' ?> style="font-weight:bold;color:green">A</option>
+                                            <option value="B" <?=($data['estrategia']) ? (($ap[$i] == 'B') ? 'selected' : ''): '' ?> style="font-weight:bold;color:blue">B</option>
+                                            <option value="C" <?=($data['estrategia']) ? (($ap[$i] == 'C') ? 'selected' : ''): '' ?> style="font-weight:bold;color:rgb(227,216,0)">C</option>
+                                            <option value="D" <?=($data['estrategia']) ? (($ap[$i] == 'D') ? 'selected' : ''): '' ?> style="font-weight:bold;color:red">D</option>
                                         </select>
                                     </td>
                                 </tr>
