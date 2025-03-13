@@ -276,7 +276,7 @@ class ControladorEstrategia{
 								  'aPagarVentas'=>$aPagarVentas);
 
 			$setearAnimales = ControladorEstrategia::ctrSetearAnimales($dataAnimales);
-						die;		  
+								  
 			$dataInsumos = array('idEstrategia'=>$idEstrategia['id'],'insumos'=>$insumos);
 
 			$setearInsumos = ControladorEstrategia::ctrSetearInsumos($dataInsumos);
@@ -293,9 +293,8 @@ class ControladorEstrategia{
 								  'ingresosExtraordinarios_aPagar'=>$ingresosExtraordinarios_aPagar);
 		
 			$setearEstrutura = ControladorEstrategia::ctrSetearEstructura($dataEstructura);
-
+		
 			if($setearAnimales == 'ok' && $setearInsumos == 'ok' && $setearEstrutura == 'ok'){
-			
 				echo'<script>
 
 					Swal.fire({
@@ -322,7 +321,8 @@ class ControladorEstrategia{
 	}
 
 	static public function ctrGuardarEstrategia($data){
-		var_dump($data);
+
+		
 		$ingresos = array();
 		$kgIngresos = array();
 		$precioIngresos = array();
@@ -444,11 +444,11 @@ class ControladorEstrategia{
 					'stockKgProm'=>$data['stockKgProm'],
 					'idDieta'=>$data['dieta'],
 					'adp'=>$data['adpv'],
-					'msPorce'=>$data['porcentMS'],
+					'msPorce'=>$data['porceMS'],
 					'campania'=>$data['selectCampania']);
 
 		$idEstrategia = ControladorEstrategia::ctrSetearCampania($data,true);
-		
+
 		$dataAnimales = array('idEstrategia'=>$idEstrategia['id'],
 							'ingresos'=>$ingresos,
 							'kgIngresos'=>$kgIngresos,
@@ -460,12 +460,10 @@ class ControladorEstrategia{
 							'aPagarVentas'=>$aPagarVentas);
 
 		$setearAnimales = ControladorEstrategia::ctrSetearAnimales($dataAnimales);
-		return $setearAnimales;
-					die;		  
+				  
 		$dataInsumos = array('idEstrategia'=>$idEstrategia['id'],'insumos'=>$insumos);
 
-		$setearInsumos = ControladorEstrategia::ctrSetearInsumos($dataInsumos);
-
+		$setearInsumos = ControladorEstrategia::ctrSetearInsumos($dataInsumos,true);
 
 		$dataEstructura = array('idEstrategia'=>$idEstrategia['id'],
 							'estructuraDirecto_importe'=>$estructuraDirecto_importe,
@@ -478,28 +476,14 @@ class ControladorEstrategia{
 							'ingresosExtraordinarios_aPagar'=>$ingresosExtraordinarios_aPagar);
 
 		$setearEstrutura = ControladorEstrategia::ctrSetearEstructura($dataEstructura);
-
+		
 		if($setearAnimales == 'ok' && $setearInsumos == 'ok' && $setearEstrutura == 'ok'){
 		
-			echo'<script>
-
-				Swal.fire({
-				position: "top-end",
-				icon: "success",
-				title: "Estrategia seteada correctamente",
-				showConfirmButton: false,
-				timer: 2500
-				})
-				.then(function(){
-					window.location = "index.php?ruta=inicio&campania=' . $_POST['selectCampania'] . '";
-				});
-			
-
-			</script>';
+			return 'ok';
 			
 		}else{
 
-			var_dump('error');
+			return 'error';
 		}
 
 	}
@@ -516,13 +500,16 @@ class ControladorEstrategia{
 
 		$tabla = 'movimientosanimales';
 
-		require_once "conexion.php";
+		$existeRegistro = ModeloEstrategia::mdlExisteRegistro($tabla,$data['idEstrategia']);
+		
+		if($existeRegistro[0][0] == 0){
+			$insert = true;
 
-		$stmt = Conexion::conectarEstrategia()->prepare("SELECT COUNT(*) FROM movimientosanimales WHERE idEstrategia = " . $data['idEstrategia'] . " LIMIT 1");
-		$stmt -> execute();
-		return $stmt -> fetchAll();
-		// die;
-		// return ModeloEstrategia::mdlSetearAnimales($tabla,$data);
+		} else {
+			$insert = false;
+		}
+	
+		return ModeloEstrategia::mdlSetearAnimales($tabla,$data,$insert);
 
 	}
 
@@ -530,15 +517,33 @@ class ControladorEstrategia{
 
 		$tabla = 'movimientosestructura';
 
-		return ModeloEstrategia::mdlSetearEstructura($tabla,$data);
+		$existeRegistro = ModeloEstrategia::mdlExisteRegistro($tabla,$data['idEstrategia']);
+		
+		if($existeRegistro[0][0] == 0){
+			$insert = true;
+
+		} else {
+			$insert = false;
+		}
+
+		return ModeloEstrategia::mdlSetearEstructura($tabla,$data,$insert);
 
 	}
 
-	static public function ctrSetearInsumos($data){
+	static public function ctrSetearInsumos($data,$guardar = false){
 
 		$tabla = 'movimientoscereales';
 
-		return ModeloEstrategia::mdlSetearInsumos($tabla,$data);
+		$existeRegistro = ModeloEstrategia::mdlExisteRegistro($tabla,$data['idEstrategia']);
+		
+		if($existeRegistro[0][0] == 0){
+			$insert = true;
+
+		} else {
+			$insert = false;
+		}
+
+		return ModeloEstrategia::mdlSetearInsumos($tabla,$data,$insert,$guardar);
 
 	}
 
@@ -618,105 +623,107 @@ class ControladorEstrategia{
 
 		if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-			$month = $_POST['month'];
+			if($_POST['btnCargaReal']){
 
-			$campania = $_POST['campaniaReal'];
-
-			$dataEstrategia = ControladorEstrategia::ctrMostrarEstrategia($campania);
-
-			$dataKeys = ['msReal', 'adpReal', 'ingresosReal', 'kgIngresosReal','precioKgIngresoReal','aPagarIngresoReal', 'ventasReal', 'kgVentasReal','precioKgVentaReal','aPagarVentaReal','estructuraDirectaImporteReal','estructuraDirectaAPagarReal','estructuraIndirectaImporteReal','estructuraIndirectaAPagarReal','gastosVariosImporteReal','gastosVariosPagarReal','ingresoExtraImporteReal','ingresoExtraAPagarReal','dietaReal'];
-			$data = [];
-
-			foreach ($dataKeys as $key) {
-
-				if (!is_null($dataEstrategia['estrategia'][$key])) {
-					$data[$key] = json_decode($dataEstrategia['estrategia'][$key], true);
-				} else {
-					$data[$key] = [];
-				}
-
-				$data[$key][$month] = $_POST[$key];
-
-			}
-
-			$data['cerealesReal'] = (!is_null($dataEstrategia['estrategia']['cerealesReal']) && $dataEstrategia['estrategia']['cerealesReal'] != 'null') ? json_decode($dataEstrategia['estrategia']['cerealesReal'],true) : array();
-
-			foreach ($_POST as $key => $value) {
-
-				if(strpos($key,'dietaReal') === 0){
-
-					$index = str_replace('dietaReal','',$key);
-
-					$data['dietaReal'][$month][$index] = $value;
-
-				}
-
+				$month = $_POST['month'];
 	
-				if(strpos($key,'insumoReal') === 0){
-
-					$index = str_replace('insumoReal','',$key);
-
-					$data['cerealesReal'][$month][$index] = $value;
-
-				}
-				
-				if(strpos($key,'precioInsumoReal') === 0){
-
-					$index = str_replace('precioInsumoReal','',$key);
-
-					$data['precioCerealesReal'][$month][$index] = $value;
-
-				}
-
-			}
-
-			$data['idEstrategia'] = $dataEstrategia['estrategia']['idEstrategia'];
+				$campania = $_POST['campaniaReal'];
 	
-			
-			$estrategiaReal = ModeloEstrategia::mdlEstrategiaReal('estrategias',$data);
-			$cerealesReal = ModeloEstrategia::mdlInsumosReal('movimientoscereales',$data,'cerealesReal');
-			$animalesReal = ModeloEstrategia::mdlAnimalesReal('movimientosanimales',$data);
-			$estructuraReal = ModeloEstrategia::mdlEstructuraReal('movimientosestructura',$data);
+				$dataEstrategia = ControladorEstrategia::ctrMostrarEstrategia($campania);
+	
+				$dataKeys = ['msReal', 'adpReal', 'ingresosReal', 'kgIngresosReal','precioKgIngresoReal','aPagarIngresoReal', 'ventasReal', 'kgVentasReal','precioKgVentaReal','aPagarVentaReal','estructuraDirectaImporteReal','estructuraDirectaAPagarReal','estructuraIndirectaImporteReal','estructuraIndirectaAPagarReal','gastosVariosImporteReal','gastosVariosPagarReal','ingresoExtraImporteReal','ingresoExtraAPagarReal','dietaReal'];
+				$data = [];
+	
+				foreach ($dataKeys as $key) {
+	
+					if (!is_null($dataEstrategia['estrategia'][$key])) {
+						$data[$key] = json_decode($dataEstrategia['estrategia'][$key], true);
+					} else {
+						$data[$key] = [];
+					}
+	
+					$data[$key][$month] = $_POST[$key];
+	
+				}
+	
+				$data['cerealesReal'] = (!is_null($dataEstrategia['estrategia']['cerealesReal']) && $dataEstrategia['estrategia']['cerealesReal'] != 'null') ? json_decode($dataEstrategia['estrategia']['cerealesReal'],true) : array();
+	
+				foreach ($_POST as $key => $value) {
+	
+					if(strpos($key,'dietaReal') === 0){
+	
+						$index = str_replace('dietaReal','',$key);
+	
+						$data['dietaReal'][$month][$index] = $value;
+	
+					}
+	
 		
-			if($estrategiaReal == 'ok' && $cerealesReal == 'ok' && $animalesReal == 'ok' && $estructuraReal == 'ok'){
-
-				echo'<script>
-
-					Swal.fire({
-					position: "top-end",
-					icon: "success",
-					title: "Estrategia Real mes de ' . ControladorEstrategia::getMonthName($month) . ' seteado correctamente.",
-					showConfirmButton: false,
-					timer: 2500
-					})
-					.then(function(){
-						window.location = "index.php?' . $campania . '";
-					});
+					if(strpos($key,'insumoReal') === 0){
+	
+						$index = str_replace('insumoReal','',$key);
+	
+						$data['cerealesReal'][$month][$index] = $value;
+	
+					}
+					
+					if(strpos($key,'precioInsumoReal') === 0){
+	
+						$index = str_replace('precioInsumoReal','',$key);
+	
+						$data['precioCerealesReal'][$month][$index] = $value;
+	
+					}
+	
+				}
+	
+				$data['idEstrategia'] = $dataEstrategia['estrategia']['idEstrategia'];
+		
 				
-
-				</script>';
-
-			} else {
-
-				echo'<script>
-
-					Swal.fire({
-					position: "top-end",
-					icon: "error",
-					title:  "Hubo un error en el seteo del mes de ' . ControladorEstrategia::getMonthName($month) . '",
-					showConfirmButton: false,
-					timer: 2500
-					})
-					.then(function(){
-						window.location = "index.php?ruta=inicio&campania=' . $campania . '";
-					});
+				$estrategiaReal = ModeloEstrategia::mdlEstrategiaReal('estrategias',$data);
+				$cerealesReal = ModeloEstrategia::mdlInsumosReal('movimientoscereales',$data,'cerealesReal');
+				$animalesReal = ModeloEstrategia::mdlAnimalesReal('movimientosanimales',$data);
+				$estructuraReal = ModeloEstrategia::mdlEstructuraReal('movimientosestructura',$data);
 			
+				if($estrategiaReal == 'ok' && $cerealesReal == 'ok' && $animalesReal == 'ok' && $estructuraReal == 'ok'){
 
-				</script>';
+					echo'<script>
+	
+						Swal.fire({
+						position: "top-end",
+						icon: "success",
+						title: "Estrategia Real mes de ' . ControladorEstrategia::getMonthName($month) . ' seteado correctamente.",
+						showConfirmButton: false,
+						timer: 2500
+						})
+						.then(function(){
+							window.location = "index.php?' . $campania . '";
+						});
+					
+	
+					</script>';
+	
+				} else {
+	
+					echo'<script>
+	
+						Swal.fire({
+						position: "top-end",
+						icon: "error",
+						title:  "Hubo un error en el seteo del mes de ' . ControladorEstrategia::getMonthName($month) . '",
+						showConfirmButton: false,
+						timer: 2500
+						})
+						.then(function(){
+							window.location = "index.php?ruta=inicio&campania=' . $campania . '";
+						});
+				
+	
+					</script>';
+				}
+				
 			}
-			
 
-			
 		}
 
 	}

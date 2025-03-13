@@ -130,12 +130,18 @@ class ModeloEstrategia{
 
 
 		$stmt = Conexion::conectarEstrategia()->prepare("UPDATE $tabla SET idDieta = :idDieta, stockInsumos = :stockInsumos, adpPlan = :adpPlan, msPlan = :msPlan, stockAnimales = :stockAnimales, stockKgProm = :stockKgProm, seteado = :seteado WHERE campania = :campania");
-
+	
 		$stmt -> bindParam(":idDieta", $data['idDieta'], PDO::PARAM_STR);
 		$stmt -> bindParam(":stockInsumos", $data['stockInsumos'], PDO::PARAM_STR);
 		$adpPlan = json_encode($data['adp']);
 		$msPlan = json_encode($data['msPorce']);
-		$stmt -> bindParam(":adpPlan", $adpPlan, PDO::PARAM_STR);
+		
+		if($guardar){
+			$adpPlan = substr(stripslashes($adpPlan),1,-1);
+			$msPlan = substr(stripslashes($msPlan),1,-1);
+		}
+
+		$stmt -> bindParam(":adpPlan",$adpPlan , PDO::PARAM_STR);
 		$stmt -> bindParam(":msPlan", $msPlan, PDO::PARAM_STR);
 		$stmt -> bindParam(":stockAnimales", $data['stockAnimales'], PDO::PARAM_STR);
 		$stmt -> bindParam(":stockKgProm", $data['stockKgProm'], PDO::PARAM_STR);
@@ -161,20 +167,43 @@ class ModeloEstrategia{
 
 	}
 
-	static public function mdlSetearAnimales($tabla,$data){
+	static public function mdlSetearAnimales($tabla,$data,$insert = true){
 
 
-		$stmt = Conexion::conectarEstrategia()->prepare("INSERT INTO $tabla(ingresosPlan, kgIngresosPlan,precioKgIngresosPlan,aPagarIngresosPlan, egresosPlan, kgEgresosPlan,preciokgEgresosPlan,aPagarEgresosPlan, idEstrategia) VALUES(:ingresosPlan, :kgIngresosPlan, :precioKgIngresosPlan,:aPagarIngresosPlan, :egresosPlan, :kgEgresosPlan,:preciokgEgresosPlan,:aPagarEgresosPlan,:idEstrategia)");
+		if($insert){
+			$stmt = Conexion::conectarEstrategia()->prepare("INSERT INTO $tabla(ingresosPlan, kgIngresosPlan,precioKgIngresosPlan,aPagarIngresosPlan, egresosPlan, kgEgresosPlan,preciokgEgresosPlan,aPagarEgresosPlan, idEstrategia) VALUES(:ingresosPlan, :kgIngresosPlan, :precioKgIngresosPlan,:aPagarIngresosPlan, :egresosPlan, :kgEgresosPlan,:preciokgEgresosPlan,:aPagarEgresosPlan,:idEstrategia)");
+		} else {
+			$stmt = Conexion::conectarEstrategia()->prepare("UPDATE $tabla SET 
+			ingresosPlan = :ingresosPlan,
+			kgIngresosPlan = :kgIngresosPlan,
+			precioKgIngresosPlan = :precioKgIngresosPlan,
+			aPagarIngresosPlan = :aPagarIngresosPlan,
+			egresosPlan = :egresosPlan,
+			kgEgresosPlan = :kgEgresosPlan,
+			preciokgEgresosPlan = :preciokgEgresosPlan,
+			aPagarEgresosPlan = :aPagarEgresosPlan
+			WHERE idEstrategia = :idEstrategia"
+			);
 
+		}
 
-		$stmt -> bindParam(":ingresosPlan", json_encode($data['ingresos']), PDO::PARAM_STR);
-		$stmt -> bindParam(":kgIngresosPlan", json_encode($data['kgIngresos']), PDO::PARAM_STR);
-		$stmt -> bindParam(":precioKgIngresosPlan", json_encode($data['precioKgIngresos']), PDO::PARAM_STR);
-		$stmt -> bindParam(":aPagarIngresosPlan", json_encode($data['aPagarIngresos']), PDO::PARAM_STR);
-		$stmt -> bindParam(":egresosPlan", json_encode($data['ventas']), PDO::PARAM_STR);
-		$stmt -> bindParam(":kgEgresosPlan", json_encode($data['kgVentas']), PDO::PARAM_STR);
-		$stmt -> bindParam(":preciokgEgresosPlan", json_encode($data['precioKgVentas']), PDO::PARAM_STR);
-		$stmt -> bindParam(":aPagarEgresosPlan", json_encode($data['aPagarVentas']), PDO::PARAM_STR);
+		$ingresos = json_encode($data['ingresos']);
+		$kgIngresos = json_encode($data['kgIngresos']);
+		$precioKgIngresos = json_encode($data['precioKgIngresos']);
+		$aPagarIngresos = json_encode($data['aPagarIngresos']);
+		$ventas = json_encode($data['ventas']);
+		$kgVentas = json_encode($data['kgVentas']);
+		$precioKgVentas = json_encode($data['precioKgVentas']);
+		$aPagarVentas = json_encode($data['aPagarVentas']);
+
+		$stmt -> bindParam(":ingresosPlan", $ingresos, PDO::PARAM_STR);
+		$stmt -> bindParam(":kgIngresosPlan", $kgIngresos, PDO::PARAM_STR);
+		$stmt -> bindParam(":precioKgIngresosPlan", $precioKgIngresos, PDO::PARAM_STR);
+		$stmt -> bindParam(":aPagarIngresosPlan", $aPagarIngresos, PDO::PARAM_STR);
+		$stmt -> bindParam(":egresosPlan", $ventas, PDO::PARAM_STR);
+		$stmt -> bindParam(":kgEgresosPlan", $kgVentas, PDO::PARAM_STR);
+		$stmt -> bindParam(":preciokgEgresosPlan", $precioKgVentas, PDO::PARAM_STR);
+		$stmt -> bindParam(":aPagarEgresosPlan", $aPagarVentas, PDO::PARAM_STR);
 		$stmt -> bindParam(":idEstrategia", $data['idEstrategia'], PDO::PARAM_STR);
 
 				
@@ -191,12 +220,27 @@ class ModeloEstrategia{
 
 	}
 
-	static public function mdlSetearInsumos($tabla,$data){
+	static public function mdlSetearInsumos($tabla,$data,$insert = true,$guardar = false){
 
-		$stmt = Conexion::conectarEstrategia()->prepare("INSERT INTO $tabla(cerealesPlan,precioPlan,idEstrategia) VALUES(:cerealesPlan,:precioPlan,:idEstrategia)");
+		if($insert){
 
-		$stmt -> bindParam(":cerealesPlan",json_encode($data['insumos']['cantidad']),PDO::PARAM_STR);
-		$stmt -> bindParam(":precioPlan",json_encode($data['insumos']['precio']),PDO::PARAM_STR);
+			$stmt = Conexion::conectarEstrategia()->prepare("INSERT INTO $tabla(cerealesPlan,precioPlan,idEstrategia) VALUES(:cerealesPlan,:precioPlan,:idEstrategia)");
+			
+		}else {
+			$stmt = Conexion::conectarEstrategia()->prepare("UPDATE $tabla SET 
+			cerealesPlan = :cerealesPlan,
+			precioPlan = :precioPlan
+			WHERE idEstrategia = :idEstrategia
+			");
+
+		}
+
+		$cantidadInsumo = json_encode($data['insumos']['cantidad']);
+		$precioInsumo = json_encode($data['insumos']['precio']);
+
+
+		$stmt -> bindParam(":cerealesPlan",$cantidadInsumo,PDO::PARAM_STR);
+		$stmt -> bindParam(":precioPlan",$precioInsumo,PDO::PARAM_STR);
 		$stmt -> bindParam(":idEstrategia",$data['idEstrategia'], PDO::PARAM_STR);
 
 		if($stmt -> execute()){
@@ -212,20 +256,43 @@ class ModeloEstrategia{
 
 	}
 
-	static public function mdlSetearEstructura($tabla,$data){
+	static public function mdlSetearEstructura($tabla,$data,$insert = true){
 
 
-		$stmt = Conexion::conectarEstrategia()->prepare("INSERT INTO $tabla(idEstrategia,directaImportePlan,indirectaImportePlan,gastosImportePlan,ingresosImportePlan,directaApagarPlan,indirectaApagarPlan,gastosApagarPlan,ingresosApagarPlan) VALUES(:idEstrategia,:directaImportePlan,:indirectaImportePlan,:gastosImportePlan,:ingresosImportePlan,:directaApagarPlan,:indirectaApagarPlan,:gastosApagarPlan,:ingresosApagarPlan)");
+		if($insert){
+			$stmt = Conexion::conectarEstrategia()->prepare("INSERT INTO $tabla(idEstrategia,directaImportePlan,indirectaImportePlan,gastosImportePlan,ingresosImportePlan,directaApagarPlan,indirectaApagarPlan,gastosApagarPlan,ingresosApagarPlan) VALUES(:idEstrategia,:directaImportePlan,:indirectaImportePlan,:gastosImportePlan,:ingresosImportePlan,:directaApagarPlan,:indirectaApagarPlan,:gastosApagarPlan,:ingresosApagarPlan)");
+		} else { 
+			$stmt = Conexion::conectarEstrategia()->prepare("UPDATE $tabla SET 
+			directaImportePlan = :directaImportePlan,
+			indirectaImportePlan = :indirectaImportePlan,
+			gastosImportePlan = :gastosImportePlan,
+			ingresosImportePlan = :ingresosImportePlan,
+			directaApagarPlan = :directaApagarPlan,
+			indirectaApagarPlan = :indirectaApagarPlan,
+			gastosApagarPlan = :gastosApagarPlan,
+			ingresosApagarPlan = :ingresosApagarPlan WHERE idEstrategia = :idEstrategia
+			");
+
+		}
+
+		$estructuraDirecto_importe = json_encode($data['estructuraDirecto_importe']);
+		$estructuraIndirecto_importe = json_encode($data['estructuraIndirecto_importe']);
+		$gastosVarios_importe = json_encode($data['gastosVarios_importe']);
+		$ingresosExtraordinarios_importe = json_encode($data['ingresosExtraordinarios_importe']);
+		$estructuraDirecto_aPagar = json_encode($data['estructuraDirecto_aPagar']);
+		$estructuraIndirecto_aPagar = json_encode($data['estructuraIndirecto_aPagar']);
+		$gastosVarios_aPagar = json_encode($data['gastosVarios_aPagar']);
+		$ingresosExtraordinarios_aPagar = json_encode($data['ingresosExtraordinarios_aPagar']);
 
 		$stmt -> bindParam(":idEstrategia",$data['idEstrategia'], PDO::PARAM_STR);
-		$stmt -> bindParam(":directaImportePlan",json_encode($data['estructuraDirecto_importe']),PDO::PARAM_STR);
-		$stmt -> bindParam(":indirectaImportePlan",json_encode($data['estructuraIndirecto_importe']),PDO::PARAM_STR);
-		$stmt -> bindParam(":gastosImportePlan",json_encode($data['gastosVarios_importe']),PDO::PARAM_STR);
-		$stmt -> bindParam(":ingresosImportePlan",json_encode($data['ingresosExtraordinarios_importe']),PDO::PARAM_STR);
-		$stmt -> bindParam(":directaApagarPlan",json_encode($data['estructuraDirecto_aPagar']),PDO::PARAM_STR);
-		$stmt -> bindParam(":indirectaApagarPlan",json_encode($data['estructuraIndirecto_aPagar']),PDO::PARAM_STR);
-		$stmt -> bindParam(":gastosApagarPlan",json_encode($data['gastosVarios_aPagar']),PDO::PARAM_STR);
-		$stmt -> bindParam(":ingresosApagarPlan",json_encode($data['ingresosExtraordinarios_aPagar']),PDO::PARAM_STR);
+		$stmt -> bindParam(":directaImportePlan",$estructuraDirecto_importe,PDO::PARAM_STR);
+		$stmt -> bindParam(":indirectaImportePlan",$estructuraIndirecto_importe,PDO::PARAM_STR);
+		$stmt -> bindParam(":gastosImportePlan",$gastosVarios_importe,PDO::PARAM_STR);
+		$stmt -> bindParam(":ingresosImportePlan",$ingresosExtraordinarios_importe,PDO::PARAM_STR);
+		$stmt -> bindParam(":directaApagarPlan",$estructuraDirecto_aPagar,PDO::PARAM_STR);
+		$stmt -> bindParam(":indirectaApagarPlan",$estructuraIndirecto_aPagar,PDO::PARAM_STR);
+		$stmt -> bindParam(":gastosApagarPlan",$gastosVarios_aPagar,PDO::PARAM_STR);
+		$stmt -> bindParam(":ingresosApagarPlan",$ingresosExtraordinarios_aPagar,PDO::PARAM_STR);
 
 		if($stmt -> execute()){
 		
@@ -409,6 +476,15 @@ class ModeloEstrategia{
 			return $stmt->errorInfo();
 		
 		};
+	}
+
+	static public function mdlExisteRegistro($tabla,$idEstrategia){
+
+		$stmt = Conexion::conectarEstrategia()->prepare("SELECT COUNT(*) FROM $tabla WHERE idEstrategia = :idEstrategia LIMIT 1");
+		$stmt -> bindParam(":idEstrategia", $idEstrategia , PDO::PARAM_STR);
+
+		$stmt -> execute();
+		return $stmt -> fetch();
 	}
 
 }

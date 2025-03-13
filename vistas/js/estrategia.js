@@ -138,6 +138,7 @@ const validarPorcentajesDieta = ()=>{
 
     }
 }
+
 function guardarDatos() {
 
      if($('#dieta').val() == '')
@@ -145,35 +146,38 @@ function guardarDatos() {
 
     const form = document.getElementById("formularioEstrategia");
     const formData = new FormData(form);
+    
+    let adpv = []
+    let porceMs = []
+
+    for (let index = 1; index <= 12; index++) {
+      
+        adpv.push($(`#adpv${index}`).val())
+        porceMs.push($(`#porcentMS${index}`).val())
+    }
 
     formData.append("accion", 'guardar');
+    formData.append("adpv", JSON.stringify(adpv));
+    formData.append("porceMS", JSON.stringify(porceMs));
+
     const data = Object.fromEntries(formData.entries());
-    console.log($('input[name="adpv[]"]').val())
+
     $.ajax({
         
         method: "POST",
         url:"ajax/estrategia.ajax.php",
         data: data,
         success:function(response){
-            console.log(response)
+
+            if(response == '"ok"'){
+                console.log('Guardado Automatico Correctamente')
+            } else{
+                console.log('Error al guardar') 
+            }
+
         }
 
     })
-    // fetch("ajax/estrategia.ajax.php", {
-    //     method: "POST",
-    //     headers: {
-    //         "Content-Type": "application/json",
-    //     },
-    //     body: formData
-    // })
-    // .then(response => {
-    //     if (!response.ok) {
-    //         throw new Error('Error en la respuesta del servidor');
-    //     }
-    //   return response.json();
-    // })
-    // .then(data => console.log("Datos guardados:", data))
-    // .catch(error => console.log("Error al guardar datos:", error));
 
 }
 
@@ -468,11 +472,18 @@ $('#selectCampania').on('change',function(){
 
 let select = document.getElementById('selectCampania');
 
-let year = select.options[0]
+let year = ''
 
-year = year.value.split('/')
+if(select.options[0] == undefined){
 
-year = Number(year[0])
+    year = new Date().getFullYear()
+    year--
+}else{
+
+    year = select.options[0].value.split('/') 
+    year = Number(year[0])
+
+} 
 
 let nextYear = year + 2;
       

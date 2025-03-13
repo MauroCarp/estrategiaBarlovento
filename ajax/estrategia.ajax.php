@@ -55,7 +55,8 @@ class AjaxEstrategia{
 
 		$data = $this->data;
 
-		echo $respuesta = ControladorEstrategia::ctrGuardarEstrategia($data);
+		$respuesta = ControladorEstrategia::ctrGuardarEstrategia($data);
+		echo json_encode($respuesta);
 
 		// header('Content-Type: application/json');
 

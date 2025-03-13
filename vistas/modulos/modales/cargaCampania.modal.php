@@ -32,21 +32,6 @@
 
               <select class="form-control" name="campania" id="campania">
 
-                <?php
-
-                  // $anioActual = date('Y');
-                  // $anioSiguiente = $anioActual + 1;
-                  // $anioActual--;
-                                    
-                  // for ($i=0; $i < 5; $i++) { 
-
-                  //   echo "<option value='" . ($anioActual + 1) . "'>" . ($anioActual + 1) . "</option>";
-                  //   $anioActual++;
-
-                  // }
-
-                ?>
-
               </select>
 
             </div>
