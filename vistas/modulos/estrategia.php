@@ -29,7 +29,9 @@
                     <?=$dietasOptions?>
 
                   </select>
-
+                  <!-- <script>
+                    $('#dieta').val(<?=$data['estrategia']['idDieta']?>)
+                  </script> -->
                 </div>
       
               </div>
@@ -168,7 +170,15 @@
 
                     foreach ($meses as $key => $mes) { ?>
 
-                      <td id="ingresoPlan<?=$key?>" >0</td>
+                      <?php
+                      $ingresosPlan = false;
+
+                      if($data['estrategia'])
+                        $ingresosPlan = json_decode($data['estrategia']['ingresosPlan'],true);
+                      
+                      ?>
+
+                      <td id="ingresoPlan<?=$key?>" ><?=($ingresosPlan) ?  $ingresosPlan[$key] : 0 ?></td>
     
                     <?php } 
                     
@@ -201,7 +211,15 @@
 
                     foreach ($meses as $key => $mes) { ?>
 
-                      <td id="kgIngresoPlan<?=$key?>" >0</td>
+                      <?php
+                      $kgIngresosPlan = false;
+
+                      if($data['estrategia'])
+                        $kgIngresosPlan = json_decode($data['estrategia']['kgIngresosPlan'],true);
+                      
+                      ?>
+
+                      <td id="kgIngresoPlan<?=$key?>" ><?=($kgIngresosPlan) ?  $kgIngresosPlan[$key] : 0 ?></td>
     
                     <?php } 
                     
@@ -236,8 +254,16 @@
 
                     foreach ($meses as $key => $mes) { ?>
 
-                      <td id="ventaPlan<?=$key?>" >0</td>
+                      <?php
+                        $egresosPlan = false;
 
+                        if($data['estrategia'])
+                          $egresosPlan = json_decode($data['estrategia']['egresosPlan'],true);
+                        
+                        ?>
+
+                        <td id="ventaPlan<?=$key?>" ><?=($egresosPlan) ?  $egresosPlan[$key] : 0 ?></td>
+                      
                     <?php } 
                     
                   } else {
@@ -269,7 +295,15 @@
 
                     foreach ($meses as $key => $mes) { ?>
 
-                      <td id="kgVentaPlan<?=$key?>" >0</td>
+                      <?php
+                        $kgEgresosPlan = false;
+
+                        if($data['estrategia'])
+                          $kgEgresosPlan = json_decode($data['estrategia']['kgEgresosPlan'],true);
+                        
+                        ?>
+
+                        <td id="kgVentaPlan<?=$key?>" ><?=($kgEgresosPlan) ?  $kgEgresosPlan[$key] : 0 ?></td>
 
                     <?php } 
                     
@@ -311,9 +345,17 @@
 
                 <?php if(!$data['estrategia']['seteado']){
 
-                  foreach ($meses as $key => $mes) { ?>
+                  foreach ($meses as $key => $mes) { 
 
-                    <td><input class="form-control input-sm" onchange="calcularPesoPromedio()" type="text" name="adpv[]" id="adpv<?=$key?>" value="0"></td>
+                    $value = 0;
+
+                    if($data['estrategia'])
+                      $adpv = json_decode($data['estrategia']['adpPlan'],true);
+                      $value = $adpv[$key-1];
+                    
+                  ?>
+
+                  <td><input class="form-control input-sm" onchange="calcularPesoPromedio()" type="text" name="adpv[]" id="adpv<?=$key?>" value="<?=$value?>"></td>
 
                   <?php } 
 
@@ -339,9 +381,16 @@
 
                 <?php if(!$data['estrategia']['seteado']){
 
-                  foreach ($meses as $key => $mes) { ?>
+                  foreach ($meses as $key => $mes) {
 
-                  <td><input class="form-control input-sm" onchange="calcularPesoPromedio()" type="text" name="porcentMS[]" id="porcentMS<?=$key?>" value="0"></td>
+                    $value = 0;
+
+                    if($data['estrategia'])
+                      $porceMS = json_decode($data['estrategia']['msPlan'],true);
+                      $value = $porceMS[$key-1];
+
+                  ?>
+                  <td><input class="form-control input-sm" onchange="calcularPesoPromedio()" type="text" name="porcentMS[]" id="porcentMS<?=$key?>" value="<?=$value?>"></td>
 
                   <?php } 
 
@@ -388,7 +437,7 @@
 
                     } else { ?>
 
-                      <td class="dietaSeleccionada"></td>
+                      <td class="dietaSeleccionada"><?=($data['estrategia']) ? $data['estrategia']['nombre'] : ''?></td>
                   
                   <?php
 
