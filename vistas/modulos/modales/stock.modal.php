@@ -54,7 +54,7 @@
                                             type="number" 
                                             onchange="calculateStockAndTotals();$(`input[name='stockAnimales']`).val($(this).val())"
                                             id="stockKgProm" 
-                                            value="<?=($data['estrategia']['seteado'] != 0) ? $data['estrategia']['stockKgProm'] : (($data['estrategia']) ? $data['estrategia']['stockKgProm'] : 0) ?>"/>
+                                            value="<?=($data['estrategia']['seteado'] != 0) ? $data['estrategia']['stockKgProm'] : (($data['estrategia']) ? $data['estrategia']['stockKgProm'] : 0) ?>" <?=($data['estrategia']['seteado'] != 0) ? 'readOnly' : ''?>/>
                                   </td>
 
                               </tr>
