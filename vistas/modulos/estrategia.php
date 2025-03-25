@@ -69,7 +69,7 @@
 
                   <label>&nbsp;</label>
 
-                  <button class="btn btn-primary btn-block" type="button" id="btnIngEgr" data-toggle="modal" data-target="#modalEstrategiaIngresoInsumos">Insumos</button>
+                  <button class="btn btn-primary btn-block" type="button" id="btnIngEgrInsumo" data-toggle="modal" data-target="#modalEstrategiaIngresoInsumos">Insumos</button>
 
                 </div>
                 
@@ -452,29 +452,48 @@
             </tbody>
 
           </table>
-
-          <input type="hidden" name="stockInsumos">
-          <input type="hidden" name="stockAnimales">
-          <input type="hidden" name="stockKgProm">
+        
+          <input type="hidden" name="stockInsumos" value="">
+          <input type="hidden" name="stockAnimales" value="<?=($data['estrategia']['stockAnimales']) ? $data['estrategia']['stockAnimales'] : 0 ?>">
+          <input type="hidden" name="stockKgProm" value="<?=($data['estrategia']['stockKgProm']) ? $data['estrategia']['stockKgProm'] : 0 ?>">
 
           <?php
-          for ($i = 1; $i <= 12; $i++) {
-            echo '<input type="hidden" name="ingreso' . $i . '">';
-            echo '<input type="hidden" name="kgIngreso' . $i . '">';
-            echo '<input type="hidden" name="venta' . $i . '">';
-            echo '<input type="hidden" name="kgVenta' . $i . '">';
-            echo '<input type="hidden" name="precioKgIngreso' . $i . '">';
-            echo '<input type="hidden" name="precioKgVenta' . $i . '">';
-            echo '<input type="hidden" name="aPagarIngreso' . $i . '">';
-            echo '<input type="hidden" name="aPagarVenta' . $i . '">';
-            echo '<input type="hidden" name="estructuraDirecto_importe_' . $i . '">';
-            echo '<input type="hidden" name="estructuraDirecto_aPagar_' . $i . '">';
-            echo '<input type="hidden" name="estructuraIndirecto_importe_' . $i . '">';
-            echo '<input type="hidden" name="estructuraIndirecto_aPagar_' . $i . '">';
-            echo '<input type="hidden" name="gastosVarios_importe_' . $i . '">';
-            echo '<input type="hidden" name="gastosVarios_aPagar_' . $i . '">';
-            echo '<input type="hidden" name="ingresosExtraordinarios_importe_' . $i . '">';
-            echo '<input type="hidden" name="ingresosExtraordinarios_aPagar_' . $i . '">';
+          $ingreso = json_decode($data['estrategia']['ingresosPlan'],true);
+          $kgIngreso = json_decode($data['estrategia']['kgIngresosPlan'],true);
+          $venta = json_decode($data['estrategia']['egresosPlan'],true);
+          $kgVenta = json_decode($data['estrategia']['kgEgresosPlan'],true);
+          $precioKgIngreso = json_decode($data['estrategia']['precioKgIngresosPlan'],true);
+          $precioKgVenta = json_decode($data['estrategia']['precioKgEgresosPlan'],true);
+          $aPagarIngreso = json_decode($data['estrategia']['aPagarIngresosPlan'],true);
+          $aPagarVenta = json_decode($data['estrategia']['aPagarEgresosPlan'],true);
+          $directaImportePlan = json_decode($data['estrategia']['directaImportePlan'],true);
+          $directaApagarPlan = json_decode($data['estrategia']['directaApagarPlan'],true);
+          $indirectaImportePlan = json_decode($data['estrategia']['indirectaImportePlan'],true);
+          $indirectaApagarPlan = json_decode($data['estrategia']['indirectaApagarPlan'],true);
+          $gastosImportePlan = json_decode($data['estrategia']['gastosImportePlan'],true);
+          $gastosApagarPlan = json_decode($data['estrategia']['gastosApagarPlan'],true);
+          $ingresosImportePlan = json_decode($data['estrategia']['ingresosImportePlan'],true);
+          $ingresosApagarPlan = json_decode($data['estrategia']['ingresosApagarPlan'],true);
+
+          for ($i = 1; $i <= 12; $i++) { ?>
+
+            <input type="hidden" name="ingreso<?=$i?>" value="<?=($ingreso != 'null' && $ingreso[$i]) ? $ingreso[$i] : 0?>">
+            <input type="hidden" name="kgIngreso<?=$i?>" value="<?=($kgIngreso != 'null' && $kgIngreso[$i]) ? $kgIngreso[$i] : 0?>">
+            <input type="hidden" name="venta<?=$i?>" value="<?=($venta != 'null' && $venta[$i]) ? $venta[$i] : 0?>">
+            <input type="hidden" name="kgVenta<?=$i?>" value="<?=($kgVenta != 'null' && $kgVenta[$i]) ? $kgVenta[$i] : 0?>">
+            <input type="hidden" name="precioKgIngreso<?=$i?>" value="<?=($precioKgIngreso != 'null' && $precioKgIngreso[$i]) ? $precioKgIngreso[$i] : 0?>">
+            <input type="hidden" name="precioKgVenta<?=$i?>" value="<?=($precioKgVenta != 'null' && $precioKgVenta[$i]) ? $precioKgVenta[$i] : 0?>">
+            <input type="hidden" name="aPagarIngreso<?=$i?>" value="<?=($aPagarIngreso != 'null' && $aPagarIngreso[$i]) ? $aPagarIngreso[$i] : 0?>">
+            <input type="hidden" name="aPagarVenta<?=$i?>" value="<?=($aPagarVenta != 'null' && $aPagarVenta[$i]) ? $aPagarVenta[$i] : 0?>">
+            <input type="hidden" name="estructuraDirecto_importe_<?=$i?>" value="<?=($directaImportePlan != 'null' && $directaImportePlan[$i]) ? $directaImportePlan[$i] : 0?>">
+            <input type="hidden" name="estructuraDirecto_aPagar_<?=$i?>" value="<?=($directaApagarPlan != 'null' && $directaApagarPlan[$i]) ? $directaApagarPlan[$i] : 0?>">
+            <input type="hidden" name="estructuraIndirecto_importe_<?=$i?>" value="<?=($indirectaImportePlan != 'null' && $indirectaImportePlan[$i]) ? $indirectaImportePlan[$i] : 0?>">
+            <input type="hidden" name="estructuraIndirecto_aPagar_<?=$i?>" value="<?=($indirectaApagarPlan != 'null' && $indirectaApagarPlan[$i]) ? $indirectaApagarPlan[$i] : 0?>">
+            <input type="hidden" name="gastosVarios_importe_<?=$i?>" value="<?=($gastosImportePlan != 'null' && $gastosImportePlan[$i]) ? $gastosImportePlan[$i] : 0?>">
+            <input type="hidden" name="gastosVarios_aPagar_<?=$i?>" value="<?=($gastosApagarPlan != 'null' && $gastosApagarPlan[$i]) ? $gastosApagarPlan[$i] : 0?>">
+            <input type="hidden" name="ingresosExtraordinarios_importe_<?=$i?>" value="<?=($ingresosImportePlan != 'null' && $ingresosImportePlan[$i]) ? $ingresosImportePlan[$i] : 0?>">
+            <input type="hidden" name="ingresosExtraordinarios_aPagar_<?=$i?>" value="<?=($ingresosApagarPlan != 'null' && $ingresosApagarPlan[$i]) ? $ingresosApagarPlan[$i] : 0?>">
+          <?php
           }
           ?>
           
@@ -757,7 +776,6 @@ if(isSaved != '' && isSeted == '0'){
 
   let stockInsumos = '<?=json_encode($data['estrategia']['stockInsumos'])?>'
   stockInsumos = JSON.parse(stockInsumos.slice(1,-1))
-
   // CARGA STOCK INSUMOS 
 
   let index = 0
@@ -792,20 +810,23 @@ if(isSaved != '' && isSeted == '0'){
 
   // setTimeout(() => {
     
-  //   for (const key in insumosNameId) {
-  
-  //     let trContable = document.createElement('TR');
+    for (const key in insumosNameId) {
+
+      // let trContable = document.createElement('TR');
   //     let tdKey = document.createElement('TD');
   //     tdKey.innerText = key
   //     tdKey.setAttribute('style', 'font-weight:600;padding:10px');
   //     trContable.append(tdKey)
       
-  //     let obj = stockInsumos.find(item => item.hasOwnProperty(insumosNameId[key]));
-  //     let value = obj ? obj[insumosNameId[key]] : undefined;
-  
-  //     $('#trStock').append($(`<th>${key}</th>`))
+          let obj = stockInsumos.find(item => item.hasOwnProperty(insumosNameId[key]));
+          let value = obj ? obj[insumosNameId[key]] : undefined;
+
+          console.log(value)
+          // $('input[idInsumo="'+insumosNameId[key]+'"]').val(value)
+
+        // $('#trStock').append($(`<th>${key}</th>`))
   //     console.log($('#trStock'))
-  //     $('#trStockInicial').append($(`<td><input class="form-control stockInicial" type="number" min="0" value="${value}"></td>`))
+        // $('#trStockInicial').append($(`<td><input class="form-control stockInicial" type="number" min="0" value="${value}"></td>`))
   
   //     let isActive = (index == 0) ? 'active' : '';
   //     let isClassActive = (index == 0) ? 'fade in active' : '';
@@ -843,8 +864,8 @@ if(isSaved != '' && isSeted == '0'){
   //     let correccionCerealesPlan = {}
   //     let correccionPrecioInsumoPlan = {}
   
-  //     for (const key in cerealesPlan) {
-  
+      for (const key in cerealesPlan) {
+          //console.log(cerealesPlan[key])
   //       correccionCerealesPlan[key] = {}
   //       correccionPrecioInsumoPlan[key] = {}
   
@@ -857,7 +878,7 @@ if(isSaved != '' && isSeted == '0'){
   
   //       })
         
-  //     }
+      }
   
   //     Object.values(correccionCerealesPlan[insumosNameId[key]]).forEach((element,index) => {
   
@@ -928,7 +949,7 @@ if(isSaved != '' && isSeted == '0'){
   
   //     index++
         
-  //   } 
+  }
 
   //   // $('#dieta').val('<?//=$data['estrategia']['idDieta']?>')
 
@@ -1208,8 +1229,6 @@ let calculateStockAndTotals = () => {
 
     let dataDietaReal = '<?=$data['estrategia']['dietaReal']?>'
     let porcentajesDietaReal = (dataDietaReal != '') ? JSON.parse(dataDietaReal) : null
-
-    console.log(seteado)
 
     if(!seteado){
 
