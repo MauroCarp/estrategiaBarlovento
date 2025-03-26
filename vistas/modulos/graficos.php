@@ -428,10 +428,11 @@ let calcularConsumos = async ()=>{
 
     //OBTENER LOS DATOS DE LA DIETA
     let dataEstrategia = '<?php echo json_encode($data['estrategia']);?>'
+    let dataEstrategiaSeteado = '<?php echo $data['estrategia']['seteado'];?>'
     
     let labels = ['Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre','Enero','Febrero','Marzo','Abril']
 
-    if(dataEstrategia == 'false'){
+    if(dataEstrategiaSeteado == '0'){
 
         let idDieta = $('#dieta').val()
 
@@ -567,7 +568,7 @@ let calcularConsumos = async ()=>{
 
                     $('.compraInsumos').each(function(){
 
-                        let masterId = $(this).attr('name').replace('insumo','').replace('[]','')
+                        let masterId = $(this).attr('id').replace('insumo','').replace('[]','')
 
                         let id = masterId.slice(-2)
                         

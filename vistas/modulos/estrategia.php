@@ -1133,7 +1133,7 @@ let calculateStockAndTotals = () => {
 
     let dataDietaReal = '<?=$data['estrategia']['dietaReal']?>'
     let porcentajesDietaReal = (dataDietaReal != '') ? JSON.parse(dataDietaReal) : null
-    console.log(seteado)
+
     if(seteado == 0){
 
       idDieta = Number($('#dieta').val())
