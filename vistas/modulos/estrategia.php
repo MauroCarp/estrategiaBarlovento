@@ -813,150 +813,52 @@ if(isSaved != '' && isSeted == '0'){
   setTimeout(() => {
     
     for (const key in insumosNameId) {
-
-      // let trContable = document.createElement('TR');
-  //     let tdKey = document.createElement('TD');
-  //     tdKey.innerText = key
-  //     tdKey.setAttribute('style', 'font-weight:600;padding:10px');
-  //     trContable.append(tdKey)
-      
+    
           let obj = stockInsumos.find(item => item.hasOwnProperty(insumosNameId[key]));
           let value = obj ? obj[insumosNameId[key]] : undefined;
-          console.log(value)
+
           $('input[idInsumo="'+insumosNameId[key]+'"]').val(value)
           $('input[name="stockInsumos"]').val(stockInsumosHidden.slice(1,-1))
 
-        // $('#trStock').append($(`<th>${key}</th>`))
-  //     console.log($('#trStock'))
-        // $('#trStockInicial').append($(`<td><input class="form-control stockInicial" type="number" min="0" value="${value}"></td>`))
-  
-  //     let isActive = (index == 0) ? 'active' : '';
-  //     let isClassActive = (index == 0) ? 'fade in active' : '';
-  
-  //     let tabInsumo = $(`<li class="${isActive}"><a href="#insumo${index}" data-toggle="pill">${key}</a></li>`);
-  //     $('#tabsInsumos').append(tabInsumo);
-  
-  //     let divTab = document.createElement('DIV');
-  //     divTab.setAttribute('id', `insumo${index}`);
-  //     divTab.setAttribute('class', `tab-pane ${isClassActive}`);
-  
-  //     let h3Insumo = document.createElement('H3');
-  //     h3Insumo.innerText = key;
-  //     divTab.append(h3Insumo);
-  
-  //     let tableInsumo = document.createElement('TABLE');
-  //     tableInsumo.setAttribute('class', 'table table-bordered insumosTable');
-  
-  //     let thead = document.createElement('THEAD');
-  //     let tr = document.createElement('TR');
-  //     let th = document.createElement('TH');
-  //     let thNecesario = th.cloneNode(true);
-  //     let thIngreso = th.cloneNode(true);
-  //     let thPrecio = th.cloneNode(true);
-  //     let thAPagar = th.cloneNode(true);
-  //     thNecesario.innerText = 'Necesario';
-  //     thIngreso.innerText = 'Ingreso';
-  //     thPrecio.innerText = 'Precio';
-  //     // thAPagar.innerText = 'A Pagar';
-  //     tr.append(th, thNecesario, thIngreso, thPrecio);
-  //     thead.append(tr);
-  //     tableInsumo.append(thead);
-      
-  
-  //     let correccionCerealesPlan = {}
-  //     let correccionPrecioInsumoPlan = {}
+          
+
+      let correccionCerealesPlan = {}
+      let correccionPrecioInsumoPlan = {}
   
       for (const key in cerealesPlan) {
-          //console.log(cerealesPlan[key])
-  //       correccionCerealesPlan[key] = {}
-  //       correccionPrecioInsumoPlan[key] = {}
+        correccionCerealesPlan[key] = {}
+        correccionPrecioInsumoPlan[key] = {}
   
-  //       Object.values(cerealesPlan[key]).forEach((el,index)=>{
+        Object.values(cerealesPlan[key]).forEach((el,index)=>{
   
-  //         let month = correccionMeses[index + 1]
+          let month = correccionMeses[index + 1]
   
-  //         correccionCerealesPlan[key][month] = el
-  //         correccionPrecioInsumoPlan[key][month] = precioInsumoPlan[key][index + 1]
+          correccionCerealesPlan[key][month] = el
+          correccionPrecioInsumoPlan[key][month] = precioInsumoPlan[key][index + 1]
   
-  //       })
+        })
         
       }
   
-  //     Object.values(correccionCerealesPlan[insumosNameId[key]]).forEach((element,index) => {
-  
-  //       let monthIndex = index + 1;
-  
-  //       let trInsumo = document.createElement('TR');
-  //       let tdMonth = document.createElement('TD');
-  //       tdMonth.setAttribute('style', 'font-weight:bold;padding:10px');
-  //       tdMonth.innerText = months[index];
-  //       trInsumo.append(tdMonth);
-          
-  //       for (let j = 0; j < 3; j++) {
-  //           let columnHeader = ['Necesario', 'Ingreso', 'Precio'][j];
-  //           let td = document.createElement('TD');
-  
-  //           let inputPlanificado = document.createElement('INPUT');
-  //           inputPlanificado.setAttribute('type', 'number');
-  //           inputPlanificado.setAttribute('class', 'form-control input-sm');
-  
-  //           if(columnHeader == 'Necesario'){
-  //             inputPlanificado.setAttribute('id', `insumoNecesarioPlan${insumosNameId[key]}_${monthIndex}`);
-  //             inputPlanificado.setAttribute('readOnly', `readOnly`);
-  //           }
-  
-  //           if(columnHeader == 'Ingreso'){
-  
-  //             inputPlanificado.setAttribute('id', `insumoPlan${insumosNameId[key]}_${monthIndex}`);
-  //             inputPlanificado.classList.add('compraInsumos');
-  //             inputPlanificado.setAttribute('value',element || 0)
-  
-  
-  //           }
-              
-  //           if(columnHeader == 'Precio'){
-  //             inputPlanificado.setAttribute('id', `insumoPrecioPlan${insumosNameId[key]}_${monthIndex}`);
-  //             inputPlanificado.setAttribute('value',correccionPrecioInsumoPlan[insumosNameId[key]][monthIndex] || 0)
 
-  //           }                
+      Object.values(correccionCerealesPlan[insumosNameId[key]]).forEach((element,index) => {
   
-  //           td.append(inputPlanificado);
-  //           trInsumo.append(td);
-  //       }
+        let monthIndex = index + 1;
+        let indexSinCorreccion = Object.keys(correccionMeses).find(key => correccionMeses[key] === monthIndex)
+        $(`#insumoIngreso${insumosNameId[key]}${indexSinCorreccion}`).val(element)
+        $(`#insumoPrecio${insumosNameId[key]}${indexSinCorreccion}`).val(correccionPrecioInsumoPlan[insumosNameId[key]][monthIndex])
+
+        $(`input[name="insumoIngreso${insumosNameId[key]}${indexSinCorreccion}`).val(element)
+        $(`input[name="insumoPrecio${insumosNameId[key]}${indexSinCorreccion}"]`).val(correccionPrecioInsumoPlan[insumosNameId[key]][monthIndex])
+
+
+      });
   
-  //       tableInsumo.append(trInsumo);
-  
-  //       divTab.append(tableInsumo);
-  //       $('#tab-insumos').append(divTab);
-  
-  //       // CARGO LOS SPAN DE PLAN Y REAL EN EL CONTABLE
-  
-  //       let tdSPan = document.createElement('TD');
-  //       let spanPlanificado = document.createElement('SPAN');
-  
-  //       spanPlanificado.setAttribute('class', 'planificado flujo');
-  //       spanPlanificado.setAttribute('id', `insumo${insumosNameId[key]}PlanContable_${monthIndex}`);
-          
-  //       tdSPan.append(spanPlanificado);
-  //       trContable.append(tdSPan);
-        
-  //     });
-  
-  //     let tdTotales = document.createElement('TD');
-  //     tdTotales.setAttribute('id',`totalInsumo${insumosNameId[key]}`)
-  //     tdTotales.setAttribute('style',`font-weight:bold`)
-  //     trContable.append(tdTotales); 
-  
-  //     $('#tbodyContable').prepend(trContable);
-  
-  //     index++
+      index++
         
   }
-
-  //   // $('#dieta').val('<?//=$data['estrategia']['idDieta']?>')
-
     
-  //   // calculateStockAndTotals()
+    calculateStockAndTotals()
   }, 2000);
 
 } 
@@ -1231,8 +1133,8 @@ let calculateStockAndTotals = () => {
 
     let dataDietaReal = '<?=$data['estrategia']['dietaReal']?>'
     let porcentajesDietaReal = (dataDietaReal != '') ? JSON.parse(dataDietaReal) : null
-
-    if(!seteado){
+    console.log(seteado)
+    if(seteado == 0){
 
       idDieta = Number($('#dieta').val())
 
@@ -1432,6 +1334,10 @@ let cambiarColorApagar = (el) => {
 
   let value = el.val()
 
+  let id = el.attr('id')
+
+  $('input[name="'+id+'"]').val(value)
+  
   if(value == 'B'){
 
     el.css('color','blue')
@@ -1449,6 +1355,8 @@ let cambiarColorApagar = (el) => {
     el.css('color','green')
 
   }
+
+
 
 }
 
