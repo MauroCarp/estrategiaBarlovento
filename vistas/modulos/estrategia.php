@@ -668,8 +668,8 @@ const cargarInsumos = ()=>{
                                         inputInsumo.classList.add('compraInsumos')
                                     
                                     // if(columnHeader == 'APagar')
-                                    //     inputInsumo.setAttribute('max','24')   
-
+                                    //     inputInsumo.setAttribute('max','24') 
+                                    
                                     td.append(inputInsumo);
 
                                 }
@@ -775,8 +775,10 @@ if(isSaved != '' && isSeted == '0'){
 
 
   let stockInsumos = '<?=json_encode($data['estrategia']['stockInsumos'])?>'
+  let stockInsumosHidden = '<?=json_encode($data['estrategia']['stockInsumos'])?>'
   stockInsumos = JSON.parse(stockInsumos.slice(1,-1))
   // CARGA STOCK INSUMOS 
+ 
 
   let index = 0
 
@@ -808,7 +810,7 @@ if(isSaved != '' && isSeted == '0'){
   let month = 1
 
 
-  // setTimeout(() => {
+  setTimeout(() => {
     
     for (const key in insumosNameId) {
 
@@ -820,9 +822,9 @@ if(isSaved != '' && isSeted == '0'){
       
           let obj = stockInsumos.find(item => item.hasOwnProperty(insumosNameId[key]));
           let value = obj ? obj[insumosNameId[key]] : undefined;
-
           console.log(value)
-          // $('input[idInsumo="'+insumosNameId[key]+'"]').val(value)
+          $('input[idInsumo="'+insumosNameId[key]+'"]').val(value)
+          $('input[name="stockInsumos"]').val(stockInsumosHidden.slice(1,-1))
 
         // $('#trStock').append($(`<th>${key}</th>`))
   //     console.log($('#trStock'))
@@ -955,7 +957,7 @@ if(isSaved != '' && isSeted == '0'){
 
     
   //   // calculateStockAndTotals()
-  // }, 2000);
+  }, 2000);
 
 } 
 
