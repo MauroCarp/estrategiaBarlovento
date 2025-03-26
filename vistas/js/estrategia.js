@@ -270,7 +270,7 @@ $(".ingEgrTable tbody input[type='number']").on("change", function() {
 $('#stockAnimales').on('change',function(){
 
     calculateStockAndTotals()
-    $('input[name="stockAnimales"]').val($(this).val())
+    $('input[name="stockAnimales"]').val(stock)
 
 })
 
