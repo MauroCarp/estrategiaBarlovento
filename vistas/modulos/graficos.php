@@ -570,9 +570,9 @@ let calcularConsumos = async ()=>{
 
                         let masterId = $(this).attr('id').replace('insumo','').replace('[]','')
 
-                        let id = masterId.slice(-2)
-                        
-                        let header = masterId.replace(id,'')
+                        let id = $(this).attr('id-insumo')
+
+                        let header = masterId.replace(/\d+/g, "")
 
                         if(typeof compraInsumos[id] === 'undefined'){
                             compraInsumos[id] = {};
@@ -596,7 +596,6 @@ let calcularConsumos = async ()=>{
                     let stock = {'planificado':{}}
 
                     let saldo = {'planificado':{}}
-
                     for (const insumo in compraInsumos) {
                         
                         for (const header in compraInsumos[insumo]) {
