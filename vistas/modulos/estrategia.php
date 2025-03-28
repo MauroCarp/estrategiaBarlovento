@@ -856,7 +856,7 @@ if(isSaved != '' && isSeted == '0'){
   
       index++
         
-  }
+    }
     
     calculateStockAndTotals()
   }, 2000);
@@ -1108,7 +1108,7 @@ let calcularPesoPromedio = (dataEstrategia = false,tipo = 'plan',debug = false)=
     
       }
 
-    }, 1500);
+    },  );
    
    
   }
@@ -1118,7 +1118,6 @@ let calcularPesoPromedio = (dataEstrategia = false,tipo = 'plan',debug = false)=
 let calculateStockAndTotals = () => {
 
   return new Promise((resolve,reject)=>{
-
 
     let stock = parseFloat($('#stockAnimales').val())
     let stockKgProm = parseFloat($('#stockKgProm').val())
@@ -1324,7 +1323,12 @@ let calculateStockAndTotals = () => {
     }
 
     calcularPesoPromedio(idDieta)
-    
+    calcularInsumosContableSeteado()
+    calcularAnimalesContableSeteado()
+    calcularEstructuraContableSeteado()
+    calcularFlujoDeFondoMensualSeteado()
+    calcularFlujoNetoSeteado()
+
     resolve()
   })
 
@@ -1373,6 +1377,9 @@ if(seteado != 0){
     method:'post',
     url:'ajax/estrategia.ajax.php',
     data:{accion:'mostrarEstrategia',campania},
+    beforeSend:()=>{
+      $('body').append($('<div id="overlay"><div class="overlay-content"><i class="fa fa-spinner fa-spin"></i> Cargando...</div></div>'))
+    },
     success:function(resp){
 
       let data = JSON.parse(resp)
@@ -1644,36 +1651,62 @@ if(seteado != 0){
         index++
           
       } 
-     
+      
+      calculateStockAndTotals()
+
+      let isReal = $('#ingReal1').html()
+
       setTimeout(() => {
-
-        let isReal = $('#stockReal1').html()
-
+      
         if(isReal != ''){
+
           calcularPesoPromedio(dataEstrategia,'real')
+
+          setTimeout(() => {  
+            $('#overlay').remove()        
+            calcularConsumos()
+          }, 2000);
+
         }
+
+      }, 2000);
+
+      
+
+  $('#overlay').remove()        
+      // setTimeout(() => {
+
+      //   let isReal = $('#ingReal 1').html()
+
+      //   if(isReal != ''){
+      //     calcularPesoPromedio(dataEstrategia,'real')
+      //   }
         
-      }, 700);
+      //   setTimeout(() => {  
+      //     $('#overlay').remove()        
+      //     calcularConsumos()
+      //   }, 5000);
+
+      // }, 500);
 
     }
 
-    
-    
   })
 
-  setTimeout(() => {
+  // setTimeout(() => {
 
-    calculateStockAndTotals()
-    calcularInsumosContableSeteado()
-    calcularAnimalesContableSeteado()
-    calcularEstructuraContableSeteado()
-    calcularFlujoDeFondoMensualSeteado()
-    calcularFlujoNetoSeteado()
-  }, 500);
+  //   calculateStockAndTotals()
+  //   calcularInsumosContableSeteado()
+  //   calcularAnimalesContableSeteado()
+  //   calcularEstructuraContableSeteado()
+  //   calcularFlujoDeFondoMensualSeteado()
+  //   calcularFlujoNetoSeteado()
+  // }, 200);
   
-  setTimeout(() => {
-    calcularConsumos()
-  }, 5000);
+  // setTimeout(() => {
+  //   calcularConsumos()
+
+  // }, 5000);
   
 }
   

@@ -266,7 +266,6 @@ $(".ingEgrTable tbody input[type='number']").on("change", function() {
     calculateStockAndTotals();
 });
 
-
 $('#stockAnimales').on('change',function(){
     let stock = $(this).val()
     calculateStockAndTotals()
@@ -414,7 +413,6 @@ $('.ingEgr').each(function(){
     })
 
 })
-
 
 $('#graficosTab').on('click',function(){
 

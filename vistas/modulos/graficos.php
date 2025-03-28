@@ -59,344 +59,175 @@
 
 <script>
 
+    const btnsZoomGrafico = document.querySelectorAll('.zoomGraficos')
 
-const btnsZoomGrafico = document.querySelectorAll('.zoomGraficos')
+    btnsZoomGrafico.forEach(element => {
 
-btnsZoomGrafico.forEach(element => {
+            element.addEventListener('click',()=>{
 
-        element.addEventListener('click',()=>{
+            switch (element.attributes['data-modal'].value) {
+                case `zGraficoVentas${campo}`:
+                    $(`#graficoVentaModal${campo}`).modal('show')
 
-          switch (element.attributes['data-modal'].value) {
-            case `zGraficoVentas${campo}`:
-                $(`#graficoVentaModal${campo}`).modal('show')
+                break;
+                
+                case `zGraficoVentas2${campo}`:
+                    $(`#graficoVenta2Modal${campo}`).modal('show')
 
-              break;
+                break;
+
+                case `zGraficoMargenVentas${campo}`:
+                    $(`#graficoMargenVentaModal${campo}`).modal('show')
+
+                break;
+
+                case `zGraficoGanaderia${campo}`:
+                    $(`#graficoGanaderiaModal${campo}`).modal('show')
+
+                break;
+
+                case `zGraficoEndeudamiento${campo}`:
+                    $(`#graficoDeudaBancariaModal${campo}`).modal('show')
+
+                break;
+
+                case `zGraficoSaldoIva${campo}`:
+                    $(`#graficoSaldoIvaModal${campo}`).modal('show')
+                    break;
+
+                case `zGraficoSueldos12${campo}`:
+                    $(`#graficoSueldo12Modal${campo}`).modal('show')
+                    break;
+
+                case `zGraficoSueldos12Honorarios${campo}`:
+                    $(`#graficoSueldo12HonorarioModal${campo}`).modal('show')
+                    break;
+
+                case `zGraficoBienesDeCambio${campo}`:
+                    $(`#graficoBienesDeCambioModal${campo}`).modal('show')
+                    break;
+
+                case `zGraficoBienesDeUso${campo}`:
+                    $(`#graficoBienesDeUsoModal${campo}`).modal('show')
+                    break;
+
+                case `zGraficoCargasSociales${campo}`:
+                    $(`#graficoCargasSocialesModal${campo}`).modal('show')
+                    break;
             
-            case `zGraficoVentas2${campo}`:
-                $(`#graficoVenta2Modal${campo}`).modal('show')
-
-              break;
-
-              case `zGraficoMargenVentas${campo}`:
-                $(`#graficoMargenVentaModal${campo}`).modal('show')
-
-              break;
-
-              case `zGraficoGanaderia${campo}`:
-                $(`#graficoGanaderiaModal${campo}`).modal('show')
-
-              break;
-
-              case `zGraficoEndeudamiento${campo}`:
-                $(`#graficoDeudaBancariaModal${campo}`).modal('show')
-
-              break;
-
-              case `zGraficoSaldoIva${campo}`:
-                $(`#graficoSaldoIvaModal${campo}`).modal('show')
+                default:
                 break;
+            }
+            
+            })
 
-              case `zGraficoSueldos12${campo}`:
-                $(`#graficoSueldo12Modal${campo}`).modal('show')
-                break;
+    });
 
-              case `zGraficoSueldos12Honorarios${campo}`:
-                $(`#graficoSueldo12HonorarioModal${campo}`).modal('show')
-                break;
+    let generarGraficoBar = (idDiv,configuracion,opcion,update = false)=>{
 
-              case `zGraficoBienesDeCambio${campo}`:
-                $(`#graficoBienesDeCambioModal${campo}`).modal('show')
-                break;
-
-              case `zGraficoBienesDeUso${campo}`:
-                $(`#graficoBienesDeUsoModal${campo}`).modal('show')
-                break;
-
-              case `zGraficoCargasSociales${campo}`:
-                $(`#graficoCargasSocialesModal${campo}`).modal('show')
-                break;
-          
-            default:
-              break;
-          }
-          
-        })
-
-});
-
-let generarGraficoBar = (idDiv,configuracion,opcion,update = false)=>{
-
-    let barChart = document.getElementById(idDiv).getContext('2d');      
+        let barChart = document.getElementById(idDiv).getContext('2d');      
 
 
-    let grafico;
+        let grafico;
 
-    switch (opcion) {
-    case null:
+        switch (opcion) {
+        case null:
 
-        grafico = new Chart(barChart, opciones(configuracion))
+            grafico = new Chart(barChart, opciones(configuracion))
+            
+            break;
+            
+        case 'atZero':
+            
+            grafico = new Chart(barChart, opcionesAtZero(configuracion))
+            
+            break;
+            
+        case 'skipFalse':
+            
+            grafico = new Chart(barChart, opcionesSkipFalse(configuracion))
+            
+            break;
         
-        break;
-        
-    case 'atZero':
-        
-        grafico = new Chart(barChart, opcionesAtZero(configuracion))
-        
-        break;
-        
-    case 'skipFalse':
-        
-        grafico = new Chart(barChart, opcionesSkipFalse(configuracion))
-        
-        break;
+        case 'noOption':
+            if(!update){
+                grafico = new Chart(barChart, configuracion)
+            } else {
+                update.update(); 
+            }
     
-    case 'noOption':
+            break;
+            
+        default:
+            
+            grafico = new Chart(barChart, opciones(configuracion))
+        
+            break;
+
+        }
+
+        window[idDiv] = grafico
+
+        return grafico;
+
+    }
+
+    let generarGraficoEstrategia = (plan,real,divId,labels,typeChart,format = true, update = false)=>{
+
+        if(format){
+
+            plan = plan.substring(1).slice(0,-1)
+            plan = JSON.parse(plan)
+    
+            if(real == 'null'){
+
+                real = [] 
+
+            } else {
+
+                real = real.substring(1).slice(0,-1)
+                real = JSON.parse(real)
+            
+            } 
+
+            dataPlan = []
+            dataReal = []
+        
+            for (const key in plan) {
+                dataPlan.push(plan[key])
+            }
+            for (const key in real) {
+                dataReal.push(real[key])
+            }
+
+        } else {
+            dataPlan = plan
+            dataReal = real
+        }
+
+        let configIngresos = {}
+
         if(!update){
-            grafico = new Chart(barChart, configuracion)
-        } else {
-            update.update(); 
-        }
-   
-        break;
-        
-    default:
-        
-        grafico = new Chart(barChart, opciones(configuracion))
-    
-        break;
-
-    }
-
-    window[idDiv] = grafico
-
-    return grafico;
-
-}
-
-let generarGraficoEstrategia = (plan,real,divId,labels,typeChart,format = true, update = false)=>{
-
-    if(format){
-
-        plan = plan.substring(1).slice(0,-1)
-        plan = JSON.parse(plan)
- 
-        if(real == 'null'){
-
-            real = [] 
-
-        } else {
-
-            real = real.substring(1).slice(0,-1)
-            real = JSON.parse(real)
-        
-        } 
-
-        dataPlan = []
-        dataReal = []
-    
-        for (const key in plan) {
-            dataPlan.push(plan[key])
-        }
-        for (const key in real) {
-            dataReal.push(real[key])
-        }
-
-    } else {
-        dataPlan = plan
-        dataReal = real
-    }
-
-    let configIngresos = {}
-
-    if(!update){
-        
-        configIngresos = {
-            type: typeChart,
-            data: {
-                labels: labels,
-                datasets: [
-                {
-                    label: 'Planificado',
-                    borderColor: 'rgba(0,255,0,.8)',
-                    backgroundColor: 'rgb(0,255,0)',
-                    data: dataPlan
-                }
-                ,
-                {
-                    label: 'Real',
-                    borderColor: 'rgba(0,0,255,.8)',
-                    backgroundColor: 'rgb(0,0,255)',
-                    data: dataReal,
-                }
-                ]
-            },
-            options: {
-                scaleShowValues: true,
-                plugins: {
-                    legend: {
-                        labels: {
-                        
-                            boxWidth: 5, 
-                        }
-                    }
-                }
-            }
             
-        }
-
-    } else {
-        update.data.datasets[0].data = plan
-    }
-        
-    return generarGraficoBar(divId,configIngresos,'noOption',update)
-
-}
-
-
-let generarGraficoEstrategiaInsumos = (stockPlan,saldoPlan,stockReal,saldoReal,divId,labels,insumosName,update = false)=>{
-
-    dataStockPlan = {}
-
-    for (const mes in stockPlan) {
-        
-        for (const insumo in stockPlan[mes]) {
-
-            if(dataStockPlan[insumo] == undefined){
-
-                dataStockPlan[insumo] = [stockPlan[mes][insumo]]
-
-            } else {
-
-                dataStockPlan[insumo].push(stockPlan[mes][insumo])
-            }
-
-
-        }
-
-    }
-    
-    dataSaldoPlan = {}
-
-    for (const mes in saldoPlan) {
-        
-        for (const insumo in saldoPlan[mes]) {
-
-            if(dataSaldoPlan[insumo] == undefined){
-
-                dataSaldoPlan[insumo] = [saldoPlan[mes][insumo]]
-
-            } else {
-
-                dataSaldoPlan[insumo].push(saldoPlan[mes][insumo])
-            }
-
-
-        }
-
-    }
-
-    dataSaldoReal = {}
-
-    if(Object.keys(saldoReal).length > 0){
-
-        for (const mes in saldoReal) {
-            
-            for (const insumo in saldoReal[mes]) {
-    
-                if(dataSaldoReal[insumo] == undefined){
-    
-                    dataSaldoReal[insumo] = [saldoReal[mes][insumo]]
-    
-                } else {
-    
-                    dataSaldoReal[insumo].push(saldoReal[mes][insumo])
-                }
-    
-    
-            }
-    
-        }
-
-    }
-
-    dataStockReal = {}
-
-    if(Object.keys(stockReal).length > 0){
-
-        for (const mes in stockReal) {
-
-            for (const insumo in stockReal[mes]) {
-
-                if(dataStockReal[insumo] == undefined){
-
-                    dataStockReal[insumo] = [stockReal[mes][insumo]]
-
-                } else {
-
-                    dataStockReal[insumo].push(stockReal[mes][insumo])
-                }
-
-
-            }
-
-        }
-
-    }
-
-    dataa = ''
-
-    i = 0
-    let colors = ['255,0,0','0,255,0','0,0,255','255,255,0','255,0,255','0,255,255','50,255,200','255,50,250']
-
-    for (const key in dataStockPlan) {
-      
-        dataa += `{"type": "line","label": "Stock ${insumosName[key]} Plan","borderColor": "rgb(${colors[i]})","backgroundColor": "rgb(0,255,0)","data": [${dataStockPlan[key]}],"hidden":true},`
-
-        i++
-        
-    }  
-
-    i = 0
-
-    for (const key in dataSaldoPlan) {
-      
-        dataa += `{"type": "bar","label": "Saldo ${insumosName[key]} Plan","borderColor": "rgb(0,100,10)","backgroundColor": "rgba(${colors[i]},.8)","borderWidth": "2","data": [${dataSaldoPlan[key]}],"hidden":true},`
-
-        i++
-        
-    }  
-
-    i = 0
-
-    for (const key in dataSaldoReal) {
-      
-        dataa += `{"type": "bar","label": "Saldo ${insumosName[key]} Real","borderColor": "rgb(0,0,255)","backgroundColor": "rgba(${colors[i]},.5)","borderWidth": "2","data": [${dataSaldoReal[key]}],"hidden":true},`
-
-        i++
-        
-    }  
-
-    i = 0
-
-    for (const key in dataStockReal) {
-      
-        dataa += `{"type": "line","label": "Stock ${insumosName[key]} Real","borderColor": "rgb(${colors[i]})","backgroundColor": "rgb(0,0,255)","data": [${dataStockReal[key]}],"hidden":true},`
-
-        i++
-        
-    }  
-
-    dataa = JSON.parse('[' + dataa.slice(0,-1) + ']')
-
-    let config = {}
-
-    if(!update){
-        config = {
-                type: 'line',
+            configIngresos = {
+                type: typeChart,
                 data: {
                     labels: labels,
-                    datasets: 
-                    dataa,
+                    datasets: [
+                    {
+                        label: 'Planificado',
+                        borderColor: 'rgba(0,255,0,.8)',
+                        backgroundColor: 'rgb(0,255,0)',
+                        data: dataPlan
+                    }
+                    ,
+                    {
+                        label: 'Real',
+                        borderColor: 'rgba(0,0,255,.8)',
+                        backgroundColor: 'rgb(0,0,255)',
+                        data: dataReal,
+                    }
+                    ]
                 },
                 options: {
                     scaleShowValues: true,
@@ -409,617 +240,799 @@ let generarGraficoEstrategiaInsumos = (stockPlan,saldoPlan,stockReal,saldoReal,d
                         }
                     }
                 }
+                
             }
-    } else {
-        update.data.datasets[0].data = dataa
+
+        } else {
+            update.data.datasets[0].data = plan
+        }
+            
+        return generarGraficoBar(divId,configIngresos,'noOption',update)
+
     }
-   
+
+
+    let generarGraficoEstrategiaInsumos = (stockPlan,saldoPlan,stockReal,saldoReal,divId,labels,insumosName,update = false)=>{
+
+        dataStockPlan = {}
+
+        for (const mes in stockPlan) {
+            
+            for (const insumo in stockPlan[mes]) {
+
+                if(dataStockPlan[insumo] == undefined){
+
+                    dataStockPlan[insumo] = [stockPlan[mes][insumo]]
+
+                } else {
+
+                    dataStockPlan[insumo].push(stockPlan[mes][insumo])
+                }
+
+
+            }
+
+        }
         
-    return generarGraficoBar(divId,config,'noOption',update)
+        dataSaldoPlan = {}
+
+        for (const mes in saldoPlan) {
+            
+            for (const insumo in saldoPlan[mes]) {
+
+                if(dataSaldoPlan[insumo] == undefined){
+
+                    dataSaldoPlan[insumo] = [saldoPlan[mes][insumo]]
+
+                } else {
+
+                    dataSaldoPlan[insumo].push(saldoPlan[mes][insumo])
+                }
 
 
-}
+            }
 
-let chartIngresosPrueba = false;
+        }
 
-let calcularConsumos = async ()=>{
+        dataSaldoReal = {}
 
-    await calculateStockAndTotals()
+        if(Object.keys(saldoReal).length > 0){
 
-    //OBTENER LOS DATOS DE LA DIETA
-    let dataEstrategia = '<?php echo json_encode($data['estrategia']);?>'
-    let dataEstrategiaSeteado = '<?php echo $data['estrategia']['seteado'];?>'
-    
-    let labels = ['Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre','Enero','Febrero','Marzo','Abril']
+            for (const mes in saldoReal) {
+                
+                for (const insumo in saldoReal[mes]) {
+        
+                    if(dataSaldoReal[insumo] == undefined){
+        
+                        dataSaldoReal[insumo] = [saldoReal[mes][insumo]]
+        
+                    } else {
+        
+                        dataSaldoReal[insumo].push(saldoReal[mes][insumo])
+                    }
+        
+        
+                }
+        
+            }
 
-    if(dataEstrategiaSeteado == '0'){
+        }
 
-        let idDieta = $('#dieta').val()
+        dataStockReal = {}
 
-        if(idDieta != ''){
-    
-            $.ajax({
-                method:'POST',
-                url:'ajax/estrategia.ajax.php',
-                data:{
-                    idDieta:idDieta,
-                    accion:'verDieta'
-                },
-                beforeSend:function(){
-                    $('body').append($('<div id="overlay"><div class="overlay-content"><i class="fa fa-spinner fa-spin"></i> Cargando...</div></div>'))
-                },
-                success:function(resp){
-    
-                    let insumos = JSON.parse(resp)
+        if(Object.keys(stockReal).length > 0){
 
-                    // INGRESOS
+            for (const mes in stockReal) {
 
-                        let dataIngresos = []
+                for (const insumo in stockReal[mes]) {
 
-                        $('.ingreso').each(function(){
+                    if(dataStockReal[insumo] == undefined){
 
-                            dataIngresos.push($(this).val())
+                        dataStockReal[insumo] = [stockReal[mes][insumo]]
 
-                        })
+                    } else {
 
-                        let divId = 'ingresosChart'
-
-                        if(typeof window.chartIngresos !== undefined && !window.chartIngresos)
-                            window.chartIngresos = generarGraficoEstrategia(dataIngresos,[],divId,labels,'bar',false)
-                        else
-                            generarGraficoEstrategia(dataIngresos,[],divId,labels,'bar',false,window.chartIngresos)
-
-
-                    // VENTAS
-                        
-                        let dataVentas = []
-
-                        $('.venta').each(function(){
-
-                            dataVentas.push($(this).val())
-
-                        })
-
-                        divId = 'egresosChart'
-
-                        if(typeof window.chartEgresos !== undefined && !window.chartEgresos)
-                            window.chartEgresos = generarGraficoEstrategia(dataVentas,[],divId,labels,'bar',false)
-                        else
-                            generarGraficoEstrategia(dataVentas,[],divId,labels,'bar',false,window.chartEgresos)
-                        
-                    
-                    // KG PROM
-                        let dataKgProm = []
-
-                        $('.kgPromPlan').each(function(){
-
-                            dataKgProm.push(Number($(this).html()))
-
-                        })
-
-                        divId = 'kgPromChart'
-
-                        if(typeof window.chartKgProm !== undefined && !window.chartKgProm)
-                            window.chartKgProm = generarGraficoEstrategia(dataKgProm,[],divId,labels,'line',false)
-                        else
-                            generarGraficoEstrategia(dataKgProm,[],divId,labels,'line',false,window.chartKgProm)
-                        
-
-                    // SALDOS Y STOCK
-
-                    let dataConsumos = {'planificado':[]}
-
-                    let index = 1
-
-                    $('.kgPromPlan').each(function(){
-
-                        let kgProm = Number($(this).html()) 
-                        let consMS = Number($(`#consumoMSPlan${index}`).html()) 
-                        dataConsumos['planificado'].push({'kgProm':kgProm,'consMS':consMS})
-                        index++
-
-                    })
-
-                    let consumoDeInsumos = {'planificado':{},'real':{}}
-
-                    for (let index = 0; index <= 11; index++) {
-                        // INDEX = MESES
-                        let kgProm = dataConsumos['planificado'][index]['kgProm']
-                        let consMS = dataConsumos['planificado'][index]['consMS']
-
-                        let stockMesPlan = Number($(`#stockPlan${index + 1}`).html())
-
-                        consumoDeInsumos['planificado'][index] = {}
-
-                        for (const key in insumos) {
-                            
-                            let consumoInsumo = (insumos[key]['porcentaje'] * consMS) / 100 
-
-
-                            consumoDeInsumos['planificado'][index][insumos[key]['idInsumo']] = {
-                                                                            'consumo':consumoInsumo,
-                                                                            'consumoTotal': consumoInsumo * stockMesPlan * 30 //dias del mes
-                                                                        }
-
-                        }
-
+                        dataStockReal[insumo].push(stockReal[mes][insumo])
                     }
 
 
-                    let stockInicialInsumosData = [] 
+                }
 
-                    $('.stockInsumosModal').each(function(){
+            }
 
-                        let idInsumo = $(this).attr('idInsumo')
-                        let cant = $(this).val()
+        }
 
-                        stockInicialInsumosData.push({[idInsumo]:cant})
+        dataa = ''
 
+        i = 0
+        let colors = ['255,0,0','0,255,0','0,0,255','255,255,0','255,0,255','0,255,255','50,255,200','255,50,250']
+
+        for (const key in dataStockPlan) {
+        
+            dataa += `{"type": "line","label": "Stock ${insumosName[key]} Plan","borderColor": "rgb(${colors[i]})","backgroundColor": "rgb(0,255,0)","data": [${dataStockPlan[key]}],"hidden":true},`
+
+            i++
+            
+        }  
+
+        i = 0
+
+        for (const key in dataSaldoPlan) {
+        
+            dataa += `{"type": "bar","label": "Saldo ${insumosName[key]} Plan","borderColor": "rgb(0,100,10)","backgroundColor": "rgba(${colors[i]},.8)","borderWidth": "2","data": [${dataSaldoPlan[key]}],"hidden":true},`
+
+            i++
+            
+        }  
+
+        i = 0
+
+        for (const key in dataSaldoReal) {
+        
+            dataa += `{"type": "bar","label": "Saldo ${insumosName[key]} Real","borderColor": "rgb(0,0,255)","backgroundColor": "rgba(${colors[i]},.5)","borderWidth": "2","data": [${dataSaldoReal[key]}],"hidden":true},`
+
+            i++
+            
+        }  
+
+        i = 0
+
+        for (const key in dataStockReal) {
+        
+            dataa += `{"type": "line","label": "Stock ${insumosName[key]} Real","borderColor": "rgb(${colors[i]})","backgroundColor": "rgb(0,0,255)","data": [${dataStockReal[key]}],"hidden":true},`
+
+            i++
+            
+        }  
+
+
+        dataa = JSON.parse('[' + dataa.slice(0,-1) + ']')
+
+        let config = {}
+
+        if(!update){
+            config = {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: 
+                        dataa,
+                    },
+                    options: {
+                        scaleShowValues: true,
+                        plugins: {
+                            legend: {
+                                labels: {
+                                
+                                    boxWidth: 5, 
+                                }
+                            }
+                        }
+                    }
+                }
+        } else {
+            update.data.datasets[0].data = dataa
+        }
+    
+            
+        return generarGraficoBar(divId,config,'noOption',update)
+
+
+    }
+
+    let chartIngresosPrueba = false;
+
+    let calcularConsumos = async ()=>{
+
+        await calculateStockAndTotals()
+
+        // setTimeout(() => {
+            
+            //OBTENER LOS DATOS DE LA DIETA
+            let dataEstrategia = '<?php echo json_encode($data['estrategia']);?>'
+            let dataEstrategiaSeteado = '<?php echo $data['estrategia']['seteado'];?>'
+            
+            let labels = ['Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre','Enero','Febrero','Marzo','Abril']
+    
+            if(dataEstrategiaSeteado == '0'){
+    
+                let idDieta = $('#dieta').val()
+    
+                if(idDieta != ''){
+            
+                    $.ajax({
+                        method:'POST',
+                        url:'ajax/estrategia.ajax.php',
+                        data:{
+                            idDieta:idDieta,
+                            accion:'verDieta'
+                        },
+                        beforeSend:function(){
+                            $('body').append($('<div id="overlay"><div class="overlay-content"><i class="fa fa-spinner fa-spin"></i> Cargando...</div></div>'))
+                        },
+                        success:function(resp){
+            
+                            let insumos = JSON.parse(resp)
+    
+                            // INGRESOS
+    
+                                let dataIngresos = []
+    
+                                $('.ingreso').each(function(){
+    
+                                    dataIngresos.push($(this).val())
+    
+                                })
+    
+                                let divId = 'ingresosChart'
+    
+                                if(typeof window.chartIngresos !== undefined && !window.chartIngresos)
+                                    window.chartIngresos = generarGraficoEstrategia(dataIngresos,[],divId,labels,'bar',false)
+                                else
+                                    generarGraficoEstrategia(dataIngresos,[],divId,labels,'bar',false,window.chartIngresos)
+    
+    
+                            // VENTAS
+    
+                                let dataVentas = []
+    
+                                $('.venta').each(function(){
+    
+                                    dataVentas.push($(this).val())
+    
+                                })
+    
+                                divId = 'egresosChart'
+    
+                                if(typeof window.chartEgresos !== undefined && !window.chartEgresos)
+                                    window.chartEgresos = generarGraficoEstrategia(dataVentas,[],divId,labels,'bar',false)
+                                else
+                                    generarGraficoEstrategia(dataVentas,[],divId,labels,'bar',false,window.chartEgresos)
+                                
+                            
+                            // KG PROM
+                                let dataKgProm = []
+    
+                                $('.kgPromPlan').each(function(){
+    
+                                    dataKgProm.push(Number($(this).html()))
+    
+                                })
+    
+                                divId = 'kgPromChart'
+    
+                                if(typeof window.chartKgProm !== undefined && !window.chartKgProm)
+                                    window.chartKgProm = generarGraficoEstrategia(dataKgProm,[],divId,labels,'line',false)
+                                else
+                                    generarGraficoEstrategia(dataKgProm,[],divId,labels,'line',false,window.chartKgProm)
+                                
+    
+                            // SALDOS Y STOCK
+    
+                            let dataConsumos = {'planificado':[]}
+    
+                            let index = 1
+    
+                            $('.kgPromPlan').each(function(){
+    
+                                let kgProm = Number($(this).html()) 
+                                let consMS = Number($(`#consumoMSPlan${index}`).html()) 
+                                dataConsumos['planificado'].push({'kgProm':kgProm,'consMS':consMS})
+                                index++
+    
+                            })
+    
+                            let consumoDeInsumos = {'planificado':{},'real':{}}
+    
+                            for (let index = 0; index <= 11; index++) {
+                                // INDEX = MESES
+                                let kgProm = dataConsumos['planificado'][index]['kgProm']
+                                let consMS = dataConsumos['planificado'][index]['consMS']
+    
+                                let stockMesPlan = Number($(`#stockPlan${index + 1}`).html())
+    
+                                consumoDeInsumos['planificado'][index] = {}
+    
+                                for (const key in insumos) {
+                                    
+                                    let consumoInsumo = (insumos[key]['porcentaje'] * consMS) / 100 
+    
+    
+                                    consumoDeInsumos['planificado'][index][insumos[key]['idInsumo']] = {
+                                                                                    'consumo':consumoInsumo,
+                                                                                    'consumoTotal': consumoInsumo * stockMesPlan * 30 //dias del mes
+                                                                                }
+    
+                                }
+    
+                            }
+    
+    
+                            let stockInicialInsumosData = [] 
+    
+                            $('.stockInsumosModal').each(function(){
+    
+                                let idInsumo = $(this).attr('idInsumo')
+                                let cant = $(this).val()
+    
+                                stockInicialInsumosData.push({[idInsumo]:cant})
+    
+                            })
+    
+                            const stockInicialInsumos = stockInicialInsumosData.reduce((acc, obj) => {
+                                const key = Object.keys(obj)[0]; // Obtener la clave del objeto
+                                const value = obj[key]; // Obtener el valor asociado a esa clave
+                                acc[key] = value; // Asignar al acumulador el nuevo par clave-valor
+                                return acc; // Devolver el acumulador
+                            }, {});
+                            
+                            let compraInsumos = {}
+    
+                            $('.compraInsumos').each(function(){
+    
+                                let masterId = $(this).attr('id').replace('insumo','').replace('[]','')
+    
+                                let id = $(this).attr('id-insumo')
+    
+                                let header = masterId.replace(/\d+/g, "")
+    
+                                if(typeof compraInsumos[id] === 'undefined'){
+                                    compraInsumos[id] = {};
+                                }
+    
+                                if(typeof compraInsumos[id][header] === 'undefined'){
+                                    compraInsumos[id][header] = [];
+                                }
+    
+                                compraInsumos[id][header].push($(this).val());
+    
+                            })
+    
+                            for (const key in compraInsumos) {
+                                
+                                if(key == 'Ingreso')
+                                    compraInsumos[key][0] = Number(compraInsumos[key][0]) + Number(stockInicialInsumos[key])  
+    
+                            }
+    
+                            let stock = {'planificado':{}}
+    
+                            let saldo = {'planificado':{}}
+    
+                            for (const insumo in compraInsumos) {
+                                
+                                for (const header in compraInsumos[insumo]) {
+    
+                                    if(header == 'Ingreso'){
+    
+                                        for (const mes in compraInsumos[insumo][header]) {
+    
+                                            if(stock.planificado[mes] == undefined){
+    
+                                                stock.planificado[mes] = {}
+                                                saldo.planificado[mes] = {}
+    
+    
+                                                if(mes == 0){
+    
+                                                    stock.planificado[mes][insumo] = Number(stockInicialInsumos[insumo]) + Number(compraInsumos[insumo][header][mes])
+                                                    saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes][insumo]['consumoTotal'])
+    
+                                                } else {
+    
+                                                    stock.planificado[mes][insumo] = Number(saldo.planificado[mes - 1][insumo]) + Number(compraInsumos[insumo][header][mes])
+                                                    saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes][insumo]['consumoTotal'])
+    
+                                                }
+    
+                                            } else {
+    
+                                                if(mes == 0){
+    
+                                                    stock.planificado[mes][insumo] = Number(stockInicialInsumos[insumo]) + Number(compraInsumos[insumo][header][mes])
+                                                    saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes][insumo]['consumoTotal'])
+    
+                                                } else {
+    
+                                                    stock.planificado[mes][insumo] = Number(saldo.planificado[mes - 1][insumo]) + Number(compraInsumos[insumo][header][mes])
+                                                    saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes][insumo]['consumoTotal'])
+    
+                                                }
+    
+                                            }
+    
+                                        }
+    
+                                    }
+    
+                                }
+    
+                            }
+    
+                            let insumosNameId = {}
+    
+                            for (const key in insumos) {
+    
+                                insumosNameId[insumos[key]['idInsumo']] = insumos[key]['insumo']
+                                
+                            }
+    
+                            if(typeof window.chartSaldosStock == undefined || !window.chartSaldosStock){
+    
+                                divId = 'stockSaldosChart'  
+                                window.chartSaldosStock = generarGraficoEstrategiaInsumos(stock['planificado'],saldo['planificado'],[],[],divId,labels,insumosNameId)
+    
+                                divId = 'stockSaldosZoomChart'
+                                window.chartSaldosStockZoom = generarGraficoEstrategiaInsumos(stock['planificado'],saldo['planificado'],[],[],divId,labels,insumosNameId)
+    
+                            } else {
+    
+                                divId = 'stockSaldosChart'
+    
+                                window.chartSaldosStock.destroy()
+    
+                                window.chartSaldosStock = generarGraficoEstrategiaInsumos(stock['planificado'],saldo['planificado'],[],[],divId,labels,insumosNameId)
+    
+                                divId = 'stockSaldosZoomChart'
+    
+                                window.chartSaldosStockZoom.destroy()
+    
+                                window.chartSaldosStockZoom = generarGraficoEstrategiaInsumos(stock['planificado'],saldo['planificado'],[],[],divId,labels,insumosNameId)
+    
+                            }
+        
+                        }
+                        
+            
                     })
-
+    
+                    $('#overlay').remove()
+    
+                } else {
+                    
+                    new swal({
+            
+                        type: "error",
+                        title: "Se debe seleccionar una Dieta",
+                        showConfirmButton: true,
+                        confirmButtonText: "Cerrar"
+            
+                    })
+                    .then(()=>{
+                        $('a[href="#estrategia"]').click()
+                        $('#overlay').remove()
+                    });
+                }
+    
+            } else {
+    
+                // INGRESOS
+                    let ingresosPlan = '<?php echo json_encode($data['estrategia']['ingresosPlan']);?>'
+                    let ingresosReal = '<?php echo json_encode($data['estrategia']['ingresosReal']);?>'
+                    let divId = 'ingresosChart'
+    
+                    generarGraficoEstrategia(ingresosPlan,ingresosReal,divId,labels,'bar')
+    
+                // EGRESOS
+                
+                    let egresosPlan = '<?php echo json_encode($data['estrategia']['egresosPlan']);?>'
+                    let egresosReal = '<?php echo json_encode($data['estrategia']['ventasReal']);?>'
+    
+                    divId = 'egresosChart'
+    
+                    generarGraficoEstrategia(egresosPlan,egresosReal,divId,labels,'bar')
+    
+                // KG PROM
+    
+                    let kgPromPlan = []
+                    let kgPromReal = []
+                    
+                    for (let index = 0; index <= 11; index++) {
+    
+                        kgPromPlan.push($(`#kgPromPlan${index + 1}`).html())
+    
+                        if($(`#kgPromReal${index + 1}`).html() != '')
+                            kgPromReal.push($(`#kgPromReal${index + 1}`).html().replace(' | ',''))
+                        
+                    }
+    
+                    divId = 'kgPromChart'
+    
+                    generarGraficoEstrategia(kgPromPlan,kgPromReal,divId,labels,'line',false)
+    
+                // STOCK Y SALDOS 
+    
+    
+                    // PLANIFICACION 
+    
+                    let insumos = '<?php echo json_encode(explode(',',str_replace(']','',str_replace('[','',$data['estrategia']['insumos'])))); ?>'
+    
+                    let porcentajes = '<?php echo json_encode(explode(',',str_replace('[','',str_replace(']','',($data['estrategia']['porcentajes']))))); ?>'
+    
+                    insumos = JSON.parse(insumos)
+                    porcentajes = JSON.parse(porcentajes)
+    
+                    let insumosPorcentaje = {}
+    
+                    for (const key in insumos) {
+                
+                        insumosPorcentaje[insumos[key]] = porcentajes[key]
+    
+                    }
+    
+                    // DIETA REAL
+    
+                    let insumosPorcentajeReal = '<?php echo json_encode($data['estrategia']['dietaReal']);?>'
+    
+                    if(insumosPorcentajeReal != '' && insumosPorcentajeReal != 'null'){
+    
+                        insumosPorcentajeReal = JSON.parse(insumosPorcentajeReal.substring(1).slice(0,-1))
+    
+                    } else {
+    
+                        insumosPorcentajeReal = []
+                    
+                    }
+    
+                    let dataInsumos = {'planificado':[]}
+    
+                    let index = 1
+    
+                    $('.kgPromPlan').each(function(){
+    
+                        let kgProm = Number($(this).html()) 
+                        let consMS = Number($(`#consumoMSPlan${index}`).html()) 
+                        dataInsumos['planificado'].push({'kgProm':kgProm,'consMS':consMS})
+                        index++
+    
+                    })
+    
+                    index = 1
+    
+                    let a = []
+    
+                    $('.kgPromReal').each(function(){
+    
+                        let kgProm = $(this).html()
+                        let consMS = $(`#consumoMSReal${index}`).html() 
+    
+                        if(kgProm != ''){
+    
+                            kgProm = Number(kgProm.replace('| ','')) 
+                            consMS = Number(consMS.replace('| ','')) 
+            
+                            a.push({'kgProm':kgProm,'consMS':consMS})
+    
+                        }
+    
+                        index++
+    
+                    })
+    
+                    dataInsumos['real'] = a
+    
+                    
+                    let consumoDeInsumos = {'planificado':{},'real':{}}
+    
+                    for (let index = 0; index <= 11; index++) {
+                        // INDEX = MESES
+                        let kgProm = dataInsumos['planificado'][index]['kgProm']
+                        let consMS = dataInsumos['planificado'][index]['consMS']
+    
+                        let stockMesPlan = Number($(`#stockPlan${index + 1}`).html())
+    
+                        let kgPromReal = dataInsumos['real']?.index?.['kgProm']
+                        let consMSReal = dataInsumos['real']?.[index]?.['consMS']
+                        let stockMesReal = $(`#stockReal${index + 1}`).html()
+    
+    
+                        consumoDeInsumos['planificado'][index] = {}
+    
+                        for (const key in insumosPorcentaje) {
+                            
+                            let consumoInsumo = (insumosPorcentaje[key] * consMS) / 100 
+    
+    
+                            consumoDeInsumos['planificado'][index][key] = {
+                                                                            'consumo':consumoInsumo,
+                                                                            'consumoTotal': consumoInsumo * stockMesPlan * 30 //dias del mes
+                                                                        }
+    
+                        }
+    
+                        if(stockMesReal != '' && stockMesReal != null){
+    
+                            consumoDeInsumos['real'][index] = {}
+    
+                            stockMesReal = Number(stockMesReal.replace('| ',''))
+    
+                            for (const key in insumosPorcentajeReal) {
+    
+    
+                                for (const i in insumosPorcentajeReal[key]) {
+                                
+                                    let consumoInsumoReal = (insumosPorcentajeReal[key][i] * consMSReal) / 100 
+                                    
+                                        consumoDeInsumos['real'][index][i] = {
+                                                                                'consumo':consumoInsumoReal,
+                                                                                'consumoTotal': consumoInsumoReal * stockMesReal * 30 //dias del mes
+                                                                                }
+                                }
+                                
+                            }
+    
+                        }
+    
+                    }
+    
+                    let stockInicialInsumosData = '<?php echo json_encode($data['estrategia']['stockInsumos']); ?>'
+    
+                    stockInicialInsumosData = stockInicialInsumosData.substring(1).slice(0,-1)
+                    stockInicialInsumosData = JSON.parse(stockInicialInsumosData)
+    
                     const stockInicialInsumos = stockInicialInsumosData.reduce((acc, obj) => {
                         const key = Object.keys(obj)[0]; // Obtener la clave del objeto
                         const value = obj[key]; // Obtener el valor asociado a esa clave
                         acc[key] = value; // Asignar al acumulador el nuevo par clave-valor
                         return acc; // Devolver el acumulador
                     }, {});
-                    
-                    let compraInsumos = {}
-
-                    $('.compraInsumos').each(function(){
-
-                        let masterId = $(this).attr('id').replace('insumo','').replace('[]','')
-
-                        let id = $(this).attr('id-insumo')
-
-                        let header = masterId.replace(/\d+/g, "")
-
-                        if(typeof compraInsumos[id] === 'undefined'){
-                            compraInsumos[id] = {};
+    
+                    compraInsumos = '<?php echo json_encode($data['estrategia']['compraInsumosKey'],JSON_NUMERIC_CHECK)?>'
+    
+                    compraInsumos = JSON.parse(compraInsumos,(key,value)=>{
+                        if(key == '1'){
+                            return String(value - 100000)
+                        } else {
+                            return value
                         }
-
-                        if(typeof compraInsumos[id][header] === 'undefined'){
-                            compraInsumos[id][header] = [];
-                        }
-
-                        compraInsumos[id][header].push($(this).val());
-
                     })
-
+       
+                    let dataCompraInsumos = compraInsumos
+        
                     for (const key in compraInsumos) {
                         
-                        if(key == 'Ingreso')
-                            compraInsumos[key][0] = Number(compraInsumos[key][0]) + Number(stockInicialInsumos[key])  
-
+                        dataCompraInsumos[key][1] = Number(dataCompraInsumos[key][1]) + Number(stockInicialInsumos[key])  
+    
                     }
-
-                    let stock = {'planificado':{}}
-
-                    let saldo = {'planificado':{}}
-                    for (const insumo in compraInsumos) {
-                        
-                        for (const header in compraInsumos[insumo]) {
-
-                            if(header == 'Ingreso'){
-
-                                for (const mes in compraInsumos[insumo][header]) {
-
-                                    if(stock.planificado[mes] == undefined){
-
-                                        stock.planificado[mes] = {}
-                                        saldo.planificado[mes] = {}
-
-
-                                        if(mes == 0){
-
-                                            stock.planificado[mes][insumo] = Number(stockInicialInsumos[insumo]) + Number(compraInsumos[insumo][header][mes])
-                                            saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes][insumo]['consumoTotal'])
-
-                                        } else {
-
-                                            stock.planificado[mes][insumo] = Number(saldo.planificado[mes - 1][insumo]) + Number(compraInsumos[insumo][header][mes])
-                                            saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes][insumo]['consumoTotal'])
-
-                                        }
-
-                                    } else {
-
-                                        if(mes == 0){
-
-                                            stock.planificado[mes][insumo] = Number(stockInicialInsumos[insumo]) + Number(compraInsumos[insumo][header][mes])
-                                            saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes][insumo]['consumoTotal'])
-
-                                        } else {
-
-                                            stock.planificado[mes][insumo] = Number(saldo.planificado[mes - 1][insumo]) + Number(compraInsumos[insumo][header][mes])
-                                            saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes][insumo]['consumoTotal'])
-
-                                        }
-
-                                    }
-
+    
+                    compraInsumosReal = '<?php echo json_encode($data['estrategia']['compraInsumosKeyReal'])?>'
+    
+                    compraInsumosReal = JSON.parse(compraInsumosReal)
+    
+                    let dataCompraInsumosReal = JSON.parse(JSON.stringify(compraInsumosReal))
+    
+                    let stock = {'planificado':{},
+                                'real':{}
                                 }
-
-                            }
-
-                        }
-
-                    }
-
-                    let insumosNameId = {}
-
-                    for (const key in insumos) {
-
-                        insumosNameId[insumos[key]['idInsumo']] = insumos[key]['insumo']
-                        
-                    }
-
-
-                    if(typeof window.chartSaldosStock == undefined || !window.chartSaldosStock){
-
-                        divId = 'stockSaldosChart'  
-                        window.chartSaldosStock = generarGraficoEstrategiaInsumos(stock['planificado'],saldo['planificado'],[],[],divId,labels,insumosNameId)
-
-                        divId = 'stockSaldosZoomChart'
-                        window.chartSaldosStockZoom = generarGraficoEstrategiaInsumos(stock['planificado'],saldo['planificado'],[],[],divId,labels,insumosNameId)
-
-                    } else {
-
-                        divId = 'stockSaldosChart'
-
-                        window.chartSaldosStock.destroy()
-
-                        window.chartSaldosStock = generarGraficoEstrategiaInsumos(stock['planificado'],saldo['planificado'],[],[],divId,labels,insumosNameId)
-
-                        divId = 'stockSaldosZoomChart'
-
-                        window.chartSaldosStockZoom.destroy()
-
-                        window.chartSaldosStockZoom = generarGraficoEstrategiaInsumos(stock['planificado'],saldo['planificado'],[],[],divId,labels,insumosNameId)
-
-                    }
-
-                    
-                }
-                
     
-            })
-
-            $('#overlay').remove()
-
-        } else {
-            
-            new swal({
+                    let saldo = {'planificado':{},
+                                    'real':{}
+                                }
     
-                type: "error",
-                title: "Se debe seleccionar una Dieta",
-                showConfirmButton: true,
-                confirmButtonText: "Cerrar"
+                    for (const insumo in dataCompraInsumos) {
     
-            })
-            .then(()=>{
-                $('a[href="#estrategia"]').click()
-                $('#overlay').remove()
-            });
-        }
-
-    } else {
-
-        // INGRESOS
-            let ingresosPlan = '<?php echo json_encode($data['estrategia']['ingresosPlan']);?>'
-            let ingresosReal = '<?php echo json_encode($data['estrategia']['ingresosReal']);?>'
-            let divId = 'ingresosChart'
-
-            generarGraficoEstrategia(ingresosPlan,ingresosReal,divId,labels,'bar')
-
-        // EGRESOS
+                        for (const mes in dataCompraInsumos[insumo]) {
+    
+                            if(stock.planificado[mes] == undefined){
+    
+                                stock.planificado[mes] = {}
+                                saldo.planificado[mes] = {}
+    
+                                if(stock.planificado[mes][insumo] == undefined){
+    
+                                    if(mes == 1){
         
-            let egresosPlan = '<?php echo json_encode($data['estrategia']['egresosPlan']);?>'
-            let egresosReal = '<?php echo json_encode($data['estrategia']['ventasReal']);?>'
-
-            divId = 'egresosChart'
-
-            generarGraficoEstrategia(egresosPlan,egresosReal,divId,labels,'bar')
-
-        // KG PROM
-
-            let kgPromPlan = []
-            let kgPromReal = []
-            
-            for (let index = 0; index <= 11; index++) {
-
-                kgPromPlan.push($(`#kgPromPlan${index + 1}`).html())
-
-                if($(`#kgPromReal${index + 1}`).html() != '')
-                    kgPromReal.push($(`#kgPromReal${index + 1}`).html().replace(' | ',''))
-                
-            }
-
-            divId = 'kgPromChart'
-
-            generarGraficoEstrategia(kgPromPlan,kgPromReal,divId,labels,'line',false)
-
-        // STOCK Y SALDOS 
-
-
-            // PLANIFICACION 
-
-            let insumos = '<?php echo json_encode(explode(',',str_replace(']','',str_replace('[','',$data['estrategia']['insumos'])))); ?>'
-
-            let porcentajes = '<?php echo json_encode(explode(',',str_replace('[','',str_replace(']','',($data['estrategia']['porcentajes']))))); ?>'
-
-            insumos = JSON.parse(insumos)
-            porcentajes = JSON.parse(porcentajes)
-
-            let insumosPorcentaje = {}
-
-            for (const key in insumos) {
-           
-                insumosPorcentaje[insumos[key]] = porcentajes[key]
-
-            }
-
-            // DIETA REAL
-
-            let insumosPorcentajeReal = '<?php echo json_encode($data['estrategia']['dietaReal']);?>'
-
-            if(insumosPorcentajeReal != '' && insumosPorcentajeReal != 'null'){
-
-                insumosPorcentajeReal = JSON.parse(insumosPorcentajeReal.substring(1).slice(0,-1))
-
-            } else {
-
-                insumosPorcentajeReal = []
-            
-            }
-
-            let dataInsumos = {'planificado':[]}
-
-            let index = 1
-
-            $('.kgPromPlan').each(function(){
-
-                let kgProm = Number($(this).html()) 
-                let consMS = Number($(`#consumoMSPlan${index}`).html()) 
-                dataInsumos['planificado'].push({'kgProm':kgProm,'consMS':consMS})
-                index++
-
-            })
-
-            index = 1
-
-            let a = []
-
-            $('.kgPromReal').each(function(){
-
-                let kgProm = $(this).html()
-                let consMS = $(`#consumoMSReal${index}`).html() 
-
-                if(kgProm != ''){
-
-                    kgProm = Number(kgProm.replace('| ','')) 
-                    consMS = Number(consMS.replace('| ','')) 
-       
-                    a.push({'kgProm':kgProm,'consMS':consMS})
-
-                }
-
-                index++
-
-            })
-
-            dataInsumos['real'] = a
-
-            
-            let consumoDeInsumos = {'planificado':{},'real':{}}
-
-            for (let index = 0; index <= 11; index++) {
-                // INDEX = MESES
-                let kgProm = dataInsumos['planificado'][index]['kgProm']
-                let consMS = dataInsumos['planificado'][index]['consMS']
-
-                let stockMesPlan = Number($(`#stockPlan${index + 1}`).html())
-
-                let kgPromReal = dataInsumos['real']?.index?.['kgProm']
-                let consMSReal = dataInsumos['real']?.[index]?.['consMS']
-                let stockMesReal = $(`#stockReal${index + 1}`).html()
-
-
-                consumoDeInsumos['planificado'][index] = {}
-
-                for (const key in insumosPorcentaje) {
-                    
-                    let consumoInsumo = (insumosPorcentaje[key] * consMS) / 100 
-
-
-                    consumoDeInsumos['planificado'][index][key] = {
-                                                                    'consumo':consumoInsumo,
-                                                                    'consumoTotal': consumoInsumo * stockMesPlan * 30 //dias del mes
-                                                                }
-
-                }
-
-                if(stockMesReal != '' && stockMesReal != null){
-
-                    consumoDeInsumos['real'][index] = {}
-
-                    stockMesReal = Number(stockMesReal.replace('| ',''))
-
-                    for (const key in insumosPorcentajeReal) {
-
-
-                        for (const i in insumosPorcentajeReal[key]) {
+                                        stock.planificado[mes][insumo] = Number(stockInicialInsumos[insumo]) + Number(dataCompraInsumos[insumo][mes])
+                                        saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes - 1][insumo]['consumoTotal'])
+        
+                                    } else {
+        
+                                        stock.planificado[mes][insumo] = Number(saldo.planificado[mes - 1][insumo]) + Number(dataCompraInsumos[insumo][mes])
+                                        saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes - 1][insumo]['consumoTotal'])
+        
+                                    }
+    
+                                }
+    
+                            } else {
+    
+                                if(mes == 1){
+    
+                                    stock.planificado[mes][insumo] = Number(stockInicialInsumos[insumo]) + Number(dataCompraInsumos[insumo][mes])
+        
+                                    saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes - 1][insumo]['consumoTotal'])
+    
+                                } else {
+    
+                                    stock.planificado[mes][insumo] = Number(saldo.planificado[mes - 1][insumo]) + Number(dataCompraInsumos[insumo][mes])
+    
+                                    saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes - 1][insumo]['consumoTotal'])
+    
+                                }
+    
+                            }
+    
+                        }
+    
+                    }
+              
+                    console.log(dataCompraInsumosReal)
+    
+                    for (const insumo in dataCompraInsumosReal) {
                         
-                            let consumoInsumoReal = (insumosPorcentajeReal[key][i] * consMSReal) / 100 
-                            
-                                consumoDeInsumos['real'][index][i] = {
-                                                                        'consumo':consumoInsumoReal,
-                                                                        'consumoTotal': consumoInsumoReal * stockMesReal * 30 //dias del mes
-                                                                        }
+                        for (const mes in dataCompraInsumosReal[insumo]) {
+                            console.log(dataCompraInsumosReal[insumo])
+                            if(stock.real[mes] == undefined){
+    
+                                stock.real[mes] = {}
+                                saldo.real[mes] = {}
+    
+                                if(mes == 0){
+    
+                                    
+                                    stock.real[mes][insumo] = Number(stockInicialInsumos[insumo]) + Number(dataCompraInsumosReal[insumo][mes])
+                                    saldo.real[mes][insumo] = (consumoDeInsumos['real'][mes] == undefined) ? 0 : Number(stock.real[mes][insumo]) - Number(consumoDeInsumos['real'][mes][insumo]['consumoTotal'])
+                                    console.log(consumoDeInsumos['real'][mes],stock.real[mes][insumo],consumoDeInsumos['real'][mes][insumo]['consumoTotal'])
+                                    console.log(saldo.real[mes][insumo])
+    
+                                } else {
+    
+                                    stock.real[mes][insumo] = Number(saldo.real[mes][insumo]) + Number(dataCompraInsumosReal[insumo][mes])
+                                    saldo.real[mes][insumo] = (consumoDeInsumos['real'][mes] == undefined) ? 0 : Number(stock.real[mes][insumo]) - Number(consumoDeInsumos['real'][mes][insumo]['consumoTotal'])
+    
+                                }
+    
+                            } else {
+    
+                                if(mes == 0){
+    
+                                    stock.real[mes][insumo] = Number(stockInicialInsumos[insumo]) + Number(dataCompraInsumosReal[insumo][mes])
+                                    saldo.real[mes][insumo] = (consumoDeInsumos['real'][mes] == undefined) ? 0 : Number(stock.real[mes][insumo]) - Number(consumoDeInsumos['real'][mes][insumo]['consumoTotal'])
+                                    console.log(saldo.real[mes][insumo])
+    
+                                } else {
+    
+                                    stock.real[mes][insumo] = Number(saldo.real[mes][insumo]) + Number(dataCompraInsumosReal[insumo][mes])
+                                    saldo.real[mes][insumo] = (consumoDeInsumos['real'][mes] == undefined) ? 0 : Number(stock.real[mes][insumo]) - Number(consumoDeInsumos['real'][mes][insumo]['consumoTotal'])
+    
+    
+                                }
+    
+                            }
                         }
+    
+                    }
+                    console.log(saldo.real)
+    
+                    let insumosName = '<?php echo json_encode($data['estrategia']['compraInsumos']);?>'
+    
+                    let i = 0
+    
+                    insumosName =  Object.keys(JSON.parse(insumosName))
+    
+                    let insumosNameId = {}
+    
+                    for (const key in compraInsumos) {
+    
+                        insumosNameId[key] = insumosName[i]
                         
+                        i++
+    
                     }
-
-                }
-
+    
+                    divId = 'stockSaldosChart'
+    
+                    generarGraficoEstrategiaInsumos(stock['planificado'],saldo['planificado'],stock['real'],saldo['real'],divId,labels,insumosNameId)
+    
+                    divId = 'stockSaldosZoomChart'
+    
+                    generarGraficoEstrategiaInsumos(stock['planificado'],saldo['planificado'],stock['real'],saldo['real'],divId,labels,insumosNameId)
+    
             }
 
-            let stockInicialInsumosData = '<?php echo json_encode($data['estrategia']['stockInsumos']); ?>'
-
-            stockInicialInsumosData = stockInicialInsumosData.substring(1).slice(0,-1)
-            stockInicialInsumosData = JSON.parse(stockInicialInsumosData)
-
-            const stockInicialInsumos = stockInicialInsumosData.reduce((acc, obj) => {
-                const key = Object.keys(obj)[0]; // Obtener la clave del objeto
-                const value = obj[key]; // Obtener el valor asociado a esa clave
-                acc[key] = value; // Asignar al acumulador el nuevo par clave-valor
-                return acc; // Devolver el acumulador
-            }, {});
-
-            compraInsumos = '<?php echo json_encode($data['estrategia']['compraInsumosKey'])?>'
-
-            compraInsumos = JSON.parse(compraInsumos)
-
-            // let dataCompraInsumos = JSON.parse(JSON.stringify(compraInsumos))
-            let dataCompraInsumos = compraInsumos
- 
-            for (const key in compraInsumos) {
-                
-                dataCompraInsumos[key][1] = Number(dataCompraInsumos[key][1]) + Number(stockInicialInsumos[key])  
-
-            }
-
-            compraInsumosReal = '<?php echo json_encode($data['estrategia']['compraInsumosKeyReal'])?>'
-
-            compraInsumosReal = JSON.parse(compraInsumosReal)
-
-            let dataCompraInsumosReal = JSON.parse(JSON.stringify(compraInsumosReal))
-
-            // for (const key in compraInsumosReal) {
-                
-            //     compraInsumosReal[key][0] = Number(compraInsumosReal[key][0]) + Number(stockInicialInsumos[key])  
-
-            // }
-
-            let stock = {'planificado':{},
-                         'real':{}
-                        }
-
-            let saldo = {'planificado':{},
-                            'real':{}
-                        }
-
-            for (const insumo in dataCompraInsumos) {
-                
-                for (const mes in dataCompraInsumos[insumo]) {
-
-                    if(stock.planificado[mes] == undefined){
-
-                        stock.planificado[mes] = {}
-                        saldo.planificado[mes] = {}
-
-
-                        if(mes == 1){
-
-                            stock.planificado[mes][insumo] = Number(stockInicialInsumos[insumo]) + Number(dataCompraInsumos[insumo][mes])
-                            saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes - 1][insumo]['consumoTotal'])
-
-                        } else {
-
-                            stock.planificado[mes][insumo] = Number(saldo.planificado[mes - 1][insumo]) + Number(dataCompraInsumos[insumo][mes])
-                            saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes - 1][insumo]['consumoTotal'])
-
-                        }
-
-                    } else {
-
-                        if(mes == 1){
-
-                            stock.planificado[mes][insumo] = Number(stockInicialInsumos[insumo]) + Number(dataCompraInsumos[insumo][mes])
-                            saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes - 1][insumo]['consumoTotal'])
-
-                        } else {
-
-                            stock.planificado[mes][insumo] = Number(saldo.planificado[mes - 1][insumo]) + Number(dataCompraInsumos[insumo][mes])
-                            saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes - 1][insumo]['consumoTotal'])
-
-                        }
-
-                    }
-
-                }
-
-            }
-
-            for (const insumo in dataCompraInsumosReal) {
-                
-                for (const mes in dataCompraInsumosReal[insumo]) {
-
-                    if(stock.real[mes] == undefined){
-
-                        stock.real[mes] = {}
-                        saldo.real[mes] = {}
-
-                        if(mes == 0){
-
-                            stock.real[mes][insumo] = Number(stockInicialInsumos[insumo]) + Number(dataCompraInsumosReal[insumo][mes])
-                            saldo.real[mes][insumo] = (consumoDeInsumos['real'][mes] == undefined) ? 0 : Number(stock.real[mes][insumo]) - Number(consumoDeInsumos['real'][mes][insumo]['consumoTotal'])
-
-
-                        } else {
-
-                            stock.real[mes][insumo] = Number(saldo.real[mes][insumo]) + Number(dataCompraInsumosReal[insumo][mes])
-                            saldo.real[mes][insumo] = (consumoDeInsumos['real'][mes] == undefined) ? 0 : Number(stock.real[mes][insumo]) - Number(consumoDeInsumos['real'][mes][insumo]['consumoTotal'])
-
-                        }
-
-                    } else {
-
-                        if(mes == 0){
-
-                            stock.real[mes][insumo] = Number(stockInicialInsumos[insumo]) + Number(dataCompraInsumosReal[insumo][mes])
-                            saldo.real[mes][insumo] = (consumoDeInsumos['real'][mes] == undefined) ? 0 : Number(stock.real[mes][insumo]) - Number(consumoDeInsumos['real'][mes][insumo]['consumoTotal'])
-
-                        } else {
-
-                            stock.real[mes][insumo] = Number(saldo.real[mes][insumo]) + Number(dataCompraInsumosReal[insumo][mes])
-                            saldo.real[mes][insumo] = (consumoDeInsumos['real'][mes] == undefined) ? 0 : Number(stock.real[mes][insumo]) - Number(consumoDeInsumos['real'][mes][insumo]['consumoTotal'])
-
-
-                        }
-
-                    }
-                }
-
-            }
-
-            let insumosName = '<?php echo json_encode($data['estrategia']['compraInsumos']);?>'
-
-            let i = 0
-
-            insumosName =  Object.keys(JSON.parse(insumosName))
-
-            let insumosNameId = {}
-
-            for (const key in compraInsumos) {
-
-                insumosNameId[key] = insumosName[i]
-                
-                i++
-
-            }
-
-            divId = 'stockSaldosChart'
-
-            generarGraficoEstrategiaInsumos(stock['planificado'],saldo['planificado'],stock['real'],saldo['real'],divId,labels,insumosNameId)
-
-            divId = 'stockSaldosZoomChart'
-
-            generarGraficoEstrategiaInsumos(stock['planificado'],saldo['planificado'],stock['real'],saldo['real'],divId,labels,insumosNameId)
+        // }, 2000);
 
     }
-
-}
 
 </script>
 
