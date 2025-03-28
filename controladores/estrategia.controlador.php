@@ -623,7 +623,7 @@ class ControladorEstrategia{
 
 		if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-			if($_POST['btnCargaReal']){
+			if(array_key_exists('btnCargaReal',$_POST)){
 
 				$month = $_POST['month'];
 	
@@ -679,7 +679,6 @@ class ControladorEstrategia{
 	
 				$data['idEstrategia'] = $dataEstrategia['estrategia']['idEstrategia'];
 		
-				
 				$estrategiaReal = ModeloEstrategia::mdlEstrategiaReal('estrategias',$data);
 				$cerealesReal = ModeloEstrategia::mdlInsumosReal('movimientoscereales',$data,'cerealesReal');
 				$animalesReal = ModeloEstrategia::mdlAnimalesReal('movimientosanimales',$data);
