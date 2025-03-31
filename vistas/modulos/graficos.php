@@ -908,43 +908,59 @@
                     let saldo = {'planificado':{},
                                     'real':{}
                                 }
+                                
+                    let dataCompraInsumosCorrec = {};
+                    let mapping = [5, 6, 7, 8, 9, 10, 11, 12, 1, 2, 3, 4]; // Mapeo de propiedades
+
+                    for (let key in dataCompraInsumos) {
+
+                        for (let i = 1; i <= 12; i++) {
+                            
+                            if(dataCompraInsumosCorrec[key] == undefined){
+                                dataCompraInsumosCorrec[key] = {}
+                            }
+
+                            dataCompraInsumosCorrec[key][i] =  dataCompraInsumos[key][mapping[i - 1]];
+                        }
+                    }
+
+                    for (const insumo in dataCompraInsumosCorrec) {
     
-                    for (const insumo in dataCompraInsumos) {
-    
-                        for (const mes in dataCompraInsumos[insumo]) {
-    
+                        for (const mes in dataCompraInsumosCorrec[insumo]) {
+                            
                             if(stock.planificado[mes] == undefined){
     
                                 stock.planificado[mes] = {}
                                 saldo.planificado[mes] = {}
     
                                 if(stock.planificado[mes][insumo] == undefined){
-    
+
                                     if(mes == 1){
-        
-                                        stock.planificado[mes][insumo] = Number(stockInicialInsumos[insumo]) + Number(dataCompraInsumos[insumo][mes])
+                                        
+                                        stock.planificado[mes][insumo] = Number(stockInicialInsumos[insumo]) + Number(dataCompraInsumosCorrec[insumo][mes])
                                         saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes - 1][insumo]['consumoTotal'])
         
                                     } else {
         
-                                        stock.planificado[mes][insumo] = Number(saldo.planificado[mes - 1][insumo]) + Number(dataCompraInsumos[insumo][mes])
+                                        stock.planificado[mes][insumo] = Number(saldo.planificado[mes - 1][insumo]) + Number(dataCompraInsumosCorrec[insumo][mes])
                                         saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes - 1][insumo]['consumoTotal'])
+
         
                                     }
-    
+                                    
                                 }
     
                             } else {
-    
+                                
                                 if(mes == 1){
     
-                                    stock.planificado[mes][insumo] = Number(stockInicialInsumos[insumo]) + Number(dataCompraInsumos[insumo][mes])
+                                    stock.planificado[mes][insumo] = Number(stockInicialInsumos[insumo]) + Number(dataCompraInsumosCorrec[insumo][mes])
         
                                     saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes - 1][insumo]['consumoTotal'])
     
                                 } else {
     
-                                    stock.planificado[mes][insumo] = Number(saldo.planificado[mes - 1][insumo]) + Number(dataCompraInsumos[insumo][mes])
+                                    stock.planificado[mes][insumo] = Number(saldo.planificado[mes - 1][insumo]) + Number(dataCompraInsumosCorrec[insumo][mes])
     
                                     saldo.planificado[mes][insumo] = Number(stock.planificado[mes][insumo]) - Number(consumoDeInsumos['planificado'][mes - 1][insumo]['consumoTotal'])
     
@@ -955,13 +971,11 @@
                         }
     
                     }
-              
-                    console.log(dataCompraInsumosReal)
-    
+                    
                     for (const insumo in dataCompraInsumosReal) {
                         
                         for (const mes in dataCompraInsumosReal[insumo]) {
-                            console.log(dataCompraInsumosReal[insumo])
+
                             if(stock.real[mes] == undefined){
     
                                 stock.real[mes] = {}
@@ -972,8 +986,6 @@
                                     
                                     stock.real[mes][insumo] = Number(stockInicialInsumos[insumo]) + Number(dataCompraInsumosReal[insumo][mes])
                                     saldo.real[mes][insumo] = (consumoDeInsumos['real'][mes] == undefined) ? 0 : Number(stock.real[mes][insumo]) - Number(consumoDeInsumos['real'][mes][insumo]['consumoTotal'])
-                                    console.log(consumoDeInsumos['real'][mes],stock.real[mes][insumo],consumoDeInsumos['real'][mes][insumo]['consumoTotal'])
-                                    console.log(saldo.real[mes][insumo])
     
                                 } else {
     
@@ -988,7 +1000,6 @@
     
                                     stock.real[mes][insumo] = Number(stockInicialInsumos[insumo]) + Number(dataCompraInsumosReal[insumo][mes])
                                     saldo.real[mes][insumo] = (consumoDeInsumos['real'][mes] == undefined) ? 0 : Number(stock.real[mes][insumo]) - Number(consumoDeInsumos['real'][mes][insumo]['consumoTotal'])
-                                    console.log(saldo.real[mes][insumo])
     
                                 } else {
     
@@ -1002,7 +1013,6 @@
                         }
     
                     }
-                    console.log(saldo.real)
     
                     let insumosName = '<?php echo json_encode($data['estrategia']['compraInsumos']);?>'
     
