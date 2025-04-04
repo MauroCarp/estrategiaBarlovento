@@ -423,7 +423,7 @@
     let chartIngresosPrueba = false;
 
     let calcularConsumos = async ()=>{
-
+        console.log('calcularConsumos')
         await calculateStockAndTotals()
 
         // setTimeout(() => {
@@ -434,10 +434,11 @@
             
             let labels = ['Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre','Enero','Febrero','Marzo','Abril']
     
+            console.log(dataEstrategiaSeteado)
             if(dataEstrategiaSeteado == '0'){
     
                 let idDieta = $('#dieta').val()
-    
+                console.log('entro por aca')
                 if(idDieta != ''){
             
                     $.ajax({
@@ -451,7 +452,7 @@
                             $('body').append($('<div id="overlay"><div class="overlay-content"><i class="fa fa-spinner fa-spin"></i> Cargando...</div></div>'))
                         },
                         success:function(resp){
-            
+                            console.log('respuesta del ajax')
                             let insumos = JSON.parse(resp)
     
                             // INGRESOS
@@ -471,7 +472,7 @@
                                 else
                                     generarGraficoEstrategia(dataIngresos,[],divId,labels,'bar',false,window.chartIngresos)
     
-    
+                                console.log('deberia haber generado los charts de ingresos')
                             // VENTAS
     
                                 let dataVentas = []
