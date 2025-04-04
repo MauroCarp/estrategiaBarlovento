@@ -251,7 +251,6 @@
 
     }
 
-
     let generarGraficoEstrategiaInsumos = (stockPlan,saldoPlan,stockReal,saldoReal,divId,labels,insumosName,update = false)=>{
 
         dataStockPlan = {}
