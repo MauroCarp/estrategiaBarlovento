@@ -745,7 +745,6 @@ let calcularFlujoDeFondoMensualSeteado = ()=>{
 
     })
 
-    let isReal = ($(`#ingReal1`).html()) ? true : false
 
     $('.flujoReal').each(function(){
 
@@ -759,6 +758,8 @@ let calcularFlujoDeFondoMensualSeteado = ()=>{
             month = id.split('_')
             month = month[1]
         } 
+
+        let isReal = ($(`#ingReal${month}`).html()) ? true : false
 
         if(month !== undefined){
         

@@ -118,8 +118,7 @@ function encrypt_decrypt($action, $string){
   
   <!-- Bootstrap 3.3.7 -->
   <script src="vistas/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-  <script src="vistas/js/contable.js"></script>
- 
+
   <!-- FastClick -->
   <script src="vistas/bower_components/fastclick/lib/fastclick.js"></script>
   
@@ -214,6 +213,7 @@ CUERPO DOCUMENTO
   <script src="vistas/js/plantilla.js"></script>
   <script src="vistas/js/usuarios.js"></script>
   <script src="vistas/js/estrategia.js"></script>
+  <script src="vistas/js/contable.js"></script>
 
 </body>
 </html>
