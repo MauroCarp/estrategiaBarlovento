@@ -1369,7 +1369,7 @@ let seteado = '<?=$data['estrategia']['seteado']?>'
 let data = '<?=json_encode($data)?>'
 
 if(seteado != 0){
-
+  console.log('entro por aca')
   let campania = '<?=$data['estrategia']['campania']?>'
 
   $.ajax({
@@ -1383,7 +1383,7 @@ if(seteado != 0){
     success:function(resp){
 
       let data = JSON.parse(resp)
-
+      
       let months = {
             0:'Mayo', 1:'Junio', 2:'Julio', 3:'Agosto', 
             4:'Septiembre', 5:'Octubre', 6:'Noviembre', 7:'Diciembre',
@@ -1655,13 +1655,18 @@ if(seteado != 0){
       calculateStockAndTotals()
 
       let isReal = $('#ingReal1').html()
-
+      let isSetted = data.estrategia.seteado
+      console.log(isSetted)
       setTimeout(() => {
       
-        if(isReal != ''){
+        if(isSetted == 1){
+          
+          if(isReal != ''){
 
-          calcularPesoPromedio(dataEstrategia,'real')
-
+            calcularPesoPromedio(dataEstrategia,'real')
+            
+          }
+          
           setTimeout(() => {  
             $('#overlay').remove()        
             calcularConsumos()
