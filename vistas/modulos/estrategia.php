@@ -984,7 +984,7 @@ let calcularPesoPromedio = (dataEstrategia = false,tipo = 'plan',debug = false)=
         success:function(resp){
 
           let respuesta = JSON.parse(resp)
-          
+          console.log('aca entro 1')
           let objMonths = {1:5,2:6,3:7,4:8,5:9,6:10,7:11,8:12,9:1,10:2,11:3,12:4}
 
           for (const key in respuesta) {
@@ -1000,13 +1000,13 @@ let calcularPesoPromedio = (dataEstrategia = false,tipo = 'plan',debug = false)=
               let consumoInsumo = (respuesta[key].porcentaje * consMS) / 100 
 
               let totalConsumoMensual = consumoInsumo * stockMesPlan * 30 //dias del mes
-
               if($(`#insumoNecesario${respuesta[key].idInsumo}${objMonths[index]}`).length == 0){
-
-                $(`#insumoNecesarioPlan${respuesta[key].idInsumo}_${objMonths[index]}`).html(totalConsumoMensual.toLocaleString('de-DE'))
-
+                console.log('plan')
+                
+                $(`#insumoNecesarioPlan${respuesta[key].idInsumo}_${index}`).html(totalConsumoMensual.toLocaleString('de-DE'))
+                console.log(objMonths[index])
+                
               } else {
-
                 $(`#insumoNecesario${respuesta[key].idInsumo}${objMonths[index]}`).html(totalConsumoMensual.toLocaleString('de-DE'))
 
               }
@@ -1314,10 +1314,10 @@ let calculateStockAndTotals = () => {
 
         let consumoInsumo = ((porcentajesDietaReal == null || porcentajesDietaReal == undefined) || porcentajesDietaReal[index] == null) ? 0 : (porcentajesDietaReal[index].porcentaje * consMS) / 100 
 
-        let totalConsumoMensual = consumoInsumo * stockMesPlan * 30 //dias del mes
+        let totalConsumoMensual = consumoInsumo * stockMesPlan * 30 //dias del mes  
   
-  
-  
+        // console.log('aca entro cuando es real')
+        // console.log(totalConsumoMensual)
       } 
         
     }
@@ -1369,7 +1369,7 @@ let seteado = '<?=$data['estrategia']['seteado']?>'
 let data = '<?=json_encode($data)?>'
 
 if(seteado != 0){
-  console.log('entro por aca')
+  // console.log('entro por aca')
   let campania = '<?=$data['estrategia']['campania']?>'
 
   $.ajax({
@@ -1383,7 +1383,7 @@ if(seteado != 0){
     success:function(resp){
 
       let data = JSON.parse(resp)
-      
+
       let months = {
             0:'Mayo', 1:'Junio', 2:'Julio', 3:'Agosto', 
             4:'Septiembre', 5:'Octubre', 6:'Noviembre', 7:'Diciembre',
@@ -1577,6 +1577,7 @@ if(seteado != 0){
               spanReal.setAttribute('class', 'real');
 
               if(columnHeader == 'Necesario'){
+                console.log('entro aca')
                 spanPlanificado.setAttribute('id', `insumoNecesarioPlan${insumosNameId[key]}_${monthIndex}`);
                 spanReal.setAttribute('id', `insumoNecesarioReal${insumosNameId[key]}_${monthIndex}`);
               }
@@ -1656,7 +1657,7 @@ if(seteado != 0){
 
       let isReal = $('#ingReal1').html()
       let isSetted = data.estrategia.seteado
-      console.log(isSetted)
+
       setTimeout(() => {
       
         if(isSetted == 1){
