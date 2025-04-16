@@ -636,7 +636,7 @@ class ControladorEstrategia{
 	
 				foreach ($dataKeys as $key) {
 	
-					if (!is_null($dataEstrategia['estrategia'][$key])) {
+					if (isset($dataEstrategia['estrategia'][$key]) && !is_null($dataEstrategia['estrategia'][$key])) {
 						$data[$key] = json_decode($dataEstrategia['estrategia'][$key], true);
 					} else {
 						$data[$key] = [];
