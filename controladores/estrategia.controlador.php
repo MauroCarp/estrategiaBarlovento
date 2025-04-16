@@ -294,6 +294,7 @@ class ControladorEstrategia{
 			$setearEstrutura = ControladorEstrategia::ctrSetearEstructura($dataEstructura);
 		
 			if($setearAnimales == 'ok' && $setearInsumos == 'ok' && $setearEstrutura == 'ok'){
+				
 				echo'<script>
 
 					Swal.fire({
@@ -501,7 +502,7 @@ class ControladorEstrategia{
 
 		$existeRegistro = ModeloEstrategia::mdlExisteRegistro($tabla,$data['idEstrategia']);
 		
-		if($existeRegistro[0][0] == 0){
+		if(isset($existeRegistro[0][0]) && $existeRegistro[0][0] == 0){
 			$insert = true;
 
 		} else {
@@ -518,7 +519,7 @@ class ControladorEstrategia{
 
 		$existeRegistro = ModeloEstrategia::mdlExisteRegistro($tabla,$data['idEstrategia']);
 		
-		if($existeRegistro[0][0] == 0){
+		if(isset($existeRegistro[0][0]) && $existeRegistro[0][0] == 0){
 			$insert = true;
 
 		} else {
@@ -535,7 +536,7 @@ class ControladorEstrategia{
 
 		$existeRegistro = ModeloEstrategia::mdlExisteRegistro($tabla,$data['idEstrategia']);
 		
-		if($existeRegistro[0][0] == 0){
+		if(isset($existeRegistro[0][0]) && $existeRegistro[0][0] == 0){
 			$insert = true;
 
 		} else {

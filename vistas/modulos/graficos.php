@@ -178,8 +178,8 @@
 
             plan = plan.substring(1).slice(0,-1)
             plan = JSON.parse(plan)
-    
-            if(real == 'null'){
+            
+            if(real == 'null' || real == '[]'){
 
                 real = [] 
 
@@ -385,7 +385,7 @@
             
         }  
 
-
+        console.log(dataa)
         dataa = JSON.parse('[' + dataa.slice(0,-1) + ']')
 
         let config = {}
@@ -764,7 +764,7 @@
     
                     let insumosPorcentajeReal = '<?php echo (isset($data['estrategia']['dietaReal'])) ? json_encode($data['estrategia']['dietaReal']) : '[]';?>'
     
-                    if(insumosPorcentajeReal != '' && insumosPorcentajeReal != 'null'){
+                    if(insumosPorcentajeReal != '' && insumosPorcentajeReal != 'null' && insumosPorcentajeReal != '[]'){
     
                         insumosPorcentajeReal = JSON.parse(insumosPorcentajeReal.substring(1).slice(0,-1))
     
