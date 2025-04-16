@@ -430,7 +430,7 @@
             
             //OBTENER LOS DATOS DE LA DIETA
             let dataEstrategia = '<?php echo json_encode($data['estrategia']);?>'
-            let dataEstrategiaSeteado = '<?php echo $data['estrategia']['seteado'];?>'
+            let dataEstrategiaSeteado = '<?php echo (!empty($data['estrategia']) && $data['estrategia']['seteado']) ? $data['estrategia']['seteado'] : '0'?>'
             
             let labels = ['Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre','Enero','Febrero','Marzo','Abril']
     
@@ -707,16 +707,16 @@
             } else {
     
                 // INGRESOS
-                    let ingresosPlan = '<?php echo json_encode($data['estrategia']['ingresosPlan']);?>'
-                    let ingresosReal = '<?php echo json_encode($data['estrategia']['ingresosReal']);?>'
+                    let ingresosPlan = '<?php echo (isset($data['estrategia']['ingresosPlan'])) ? json_encode($data['estrategia']['ingresosPlan'],true) : '[]';?>'
+                    let ingresosReal = '<?php echo (isset($data['estrategia']['ingresosReal'])) ? json_encode($data['estrategia']['ingresosReal'],true) : '[]';?>'
                     let divId = 'ingresosChart'
     
                     generarGraficoEstrategia(ingresosPlan,ingresosReal,divId,labels,'bar')
     
                 // EGRESOS
                 
-                    let egresosPlan = '<?php echo json_encode($data['estrategia']['egresosPlan']);?>'
-                    let egresosReal = '<?php echo json_encode($data['estrategia']['ventasReal']);?>'
+                    let egresosPlan = '<?php echo (isset($data['estrategia']['egresosPlan'])) ? json_encode($data['estrategia']['egresosPlan'],true) : '[]';?>'
+                    let egresosReal = '<?php echo (isset($data['estrategia']['ventasReal'])) ? json_encode($data['estrategia']['ventasReal'],true) : '[]';?>'
     
                     divId = 'egresosChart'
     
@@ -745,9 +745,9 @@
     
                     // PLANIFICACION 
     
-                    let insumos = '<?php echo json_encode(explode(',',str_replace(']','',str_replace('[','',$data['estrategia']['insumos'])))); ?>'
+                    let insumos = '<?php echo (isset($data['estrategia']['insumos'])) ? json_encode(explode(',',str_replace(']','',str_replace('[','',$data['estrategia']['insumos'])))) : '[]'; ?>'
     
-                    let porcentajes = '<?php echo json_encode(explode(',',str_replace('[','',str_replace(']','',($data['estrategia']['porcentajes']))))); ?>'
+                    let porcentajes = '<?php echo (isset($data['estrategia']['porcentajes'])) ? json_encode(explode(',',str_replace('[','',str_replace(']','',($data['estrategia']['porcentajes']))))) : '[]'; ?>'
     
                     insumos = JSON.parse(insumos)
                     porcentajes = JSON.parse(porcentajes)
@@ -762,7 +762,7 @@
     
                     // DIETA REAL
     
-                    let insumosPorcentajeReal = '<?php echo json_encode($data['estrategia']['dietaReal']);?>'
+                    let insumosPorcentajeReal = '<?php echo (isset($data['estrategia']['dietaReal'])) ? json_encode($data['estrategia']['dietaReal']) : '[]';?>'
     
                     if(insumosPorcentajeReal != '' && insumosPorcentajeReal != 'null'){
     
@@ -865,7 +865,7 @@
     
                     }
     
-                    let stockInicialInsumosData = '<?php echo json_encode($data['estrategia']['stockInsumos']); ?>'
+                    let stockInicialInsumosData = '<?php echo (isset($data['estrategia']['stockInsumos'])) ? json_encode($data['estrategia']['stockInsumos']) : '[]'; ?>'
     
                     stockInicialInsumosData = stockInicialInsumosData.substring(1).slice(0,-1)
                     stockInicialInsumosData = JSON.parse(stockInicialInsumosData)
@@ -877,7 +877,7 @@
                         return acc; // Devolver el acumulador
                     }, {});
     
-                    compraInsumos = '<?php echo json_encode($data['estrategia']['compraInsumosKey'],JSON_NUMERIC_CHECK)?>'
+                    compraInsumos = '<?php echo (isset($data['estrategia']['compraInsumosKey'])) ? json_encode($data['estrategia']['compraInsumosKey'],JSON_NUMERIC_CHECK) : '[]'?>'
     
                     compraInsumos = JSON.parse(compraInsumos,(key,value)=>{
                         if(key == '1'){
@@ -895,7 +895,7 @@
     
                     }
     
-                    compraInsumosReal = '<?php echo json_encode($data['estrategia']['compraInsumosKeyReal'])?>'
+                    compraInsumosReal = '<?php echo (isset($data['estrategia']['compraInsumosKeyReal'])) ? json_encode($data['estrategia']['compraInsumosKeyReal']) : '[]'?>'
     
                     compraInsumosReal = JSON.parse(compraInsumosReal)
     
@@ -1014,7 +1014,7 @@
     
                     }
     
-                    let insumosName = '<?php echo json_encode($data['estrategia']['compraInsumos']);?>'
+                    let insumosName = '<?php echo isset($data['estrategia']['compraInsumos']) ? json_encode($data['estrategia']['compraInsumos']) : '[]';?>'
     
                     let i = 0
     

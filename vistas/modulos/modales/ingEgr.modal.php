@@ -51,8 +51,10 @@
 
               <tbody>
 
-              <?php if(!$data['estrategia']['seteado']){ ?>
-                <?php 
+              <?php
+              
+              if(empty($data['estrategia']) || !$data['estrategia']['seteado']){
+                
                 $months = [
                   1 => 'Mayo', 2 => 'Junio', 3 => 'Julio', 4 => 'Agosto', 
                   5 => 'Septiembre', 6 => 'Octubre', 7 => 'Noviembre', 8 => 'Diciembre',
@@ -121,27 +123,27 @@
                         </select>
                       </div>
                     </td>
-                    <td><input class="form-control stock" type="text" id="stock<?= $index ?>" value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?> readOnly></td>
+                    <td><input class="form-control stock" type="text" id="stock<?= $index ?>" value="0" <?=(!empty($data['estrategia']) && $data['estrategia']['seteado']) ? 'readOnly' : ''?> readOnly></td>
                   </tr>
                 <?php endforeach;?>
                   
 
                 <tr style="font-weight:bolder;">
                   <td><b>Total</b></td>
-                  <td><input class="form-control total" type="text" name="" id="totalIngreso" readOnly value="0" <?php ($data['estrategia']['seteado']) ? 'readOnly' : '' ?>></td>
-                  <td><input class="form-control total" type="text" name="" id="totalKgIngreso" readOnly value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>></tdkgIngreso1>
-                  <td><input class="form-control total" type="text" name="" id="totalVenta" readOnly value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>></td>
-                  <td><input class="form-control total" type="text" name="" id="totalKgVenta" readOnly value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>></td>
+                  <td><input class="form-control total" type="text" name="" id="totalIngreso" readOnly value="0" <?php (!empty($data['estrategia']) && $data['estrategia']['seteado']) ? 'readOnly' : '' ?>></td>
+                  <td><input class="form-control total" type="text" name="" id="totalKgIngreso" readOnly value="0" <?=(!empty($data['estrategia']) && $data['estrategia']['seteado']) ? 'readOnly' : ''?>></tdkgIngreso1>
+                  <td><input class="form-control total" type="text" name="" id="totalVenta" readOnly value="0" <?=(!empty($data['estrategia']) && $data['estrategia']['seteado']) ? 'readOnly' : ''?>></td>
+                  <td><input class="form-control total" type="text" name="" id="totalKgVenta" readOnly value="0" <?=(!empty($data['estrategia']) && $data['estrategia']['seteado']) ? 'readOnly' : ''?>></td>
                   <td></td>
                   <td></td>
-                  <td><input class="form-control total" type="text" name="" id="totalStock" readOnly value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>></td>
+                  <td><input class="form-control total" type="text" name="" id="totalStock" readOnly value="0" <?=(!empty($data['estrategia']) && $data['estrategia']['seteado']) ? 'readOnly' : ''?>></td>
                 </tr>
                 <tr>
                   <td style="font-weight:bolder;"><b>Promedio</b></td>
-                  <td><input class="form-control" type="text" name="" id="avgIngreso" readOnly value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>></td>
-                  <td><input class="form-control" type="text" name="" id="avgKgIngreso" readOnly value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>></tdkgIngreso1>
-                  <td><input class="form-control" type="text" name="" id="avgVenta" readOnly value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>></td>
-                  <td><input class="form-control" type="text" name="" id="avgKgVenta" readOnly value="0" <?=($data['estrategia']['seteado']) ? 'readOnly' : ''?>></td>
+                  <td><input class="form-control" type="text" name="" id="avgIngreso" readOnly value="0" <?=(!empty($data['estrategia']) && $data['estrategia']['seteado']) ? 'readOnly' : ''?>></td>
+                  <td><input class="form-control" type="text" name="" id="avgKgIngreso" readOnly value="0" <?=(!empty($data['estrategia']) && $data['estrategia']['seteado']) ? 'readOnly' : ''?>></tdkgIngreso1>
+                  <td><input class="form-control" type="text" name="" id="avgVenta" readOnly value="0" <?=(!empty($data['estrategia']) && $data['estrategia']['seteado']) ? 'readOnly' : ''?>></td>
+                  <td><input class="form-control" type="text" name="" id="avgKgVenta" readOnly value="0" <?=(!empty($data['estrategia']) && $data['estrategia']['seteado']) ? 'readOnly' : ''?>></td>
                 </tr>
 
               <?php } else { 
@@ -152,34 +154,34 @@
                   9 => 'Enero', 10 => 'Febrero', 11 => 'Marzo', 12 => 'Abril'
                 ];
                 
-                $kgIngresosPlan = json_decode($data['estrategia']['kgIngresosPlan'],true);
-                $precioKgIngresoPlan = json_decode($data['estrategia']['precioKgIngresosPlan'],true);
-                $aPagarIngresoPlan = json_decode($data['estrategia']['aPagarIngresosPlan'],true);
-                $kgEgresosPlan = json_decode($data['estrategia']['kgEgresosPlan'],true);
-                $precioKgEgresoPlan = json_decode($data['estrategia']['precioKgEgresosPlan'],true);
-                $aPagarEgresoPlan = json_decode($data['estrategia']['aPagarEgresosPlan'],true);
-                $kgIngresosReal = json_decode($data['estrategia']['kgIngresosReal'],true);
-                $kgEgresosReal = json_decode($data['estrategia']['kgVentasReal'],true);
-                $egresosReal = json_decode($data['estrategia']['ventasReal'],true);
-                $precioKgIngresoReal = json_decode($data['estrategia']['precioKgIngresosReal'],true);
-                $aPagarIngresoReal = json_decode($data['estrategia']['aPagarIngresosReal'],true);
-                $precioKgEgresoReal = json_decode($data['estrategia']['precioKgEgresosReal'],true);
-                $aPagarEgresoReal = json_decode($data['estrategia']['aPagarEgresosReal'],true);
+                $kgIngresosPlan = (!empty($data['estrategia']) && isset($data['estrategia']['kgIngresosPlan'])) ? json_decode($data['estrategia']['kgIngresosPlan'], true) : [];
+                $precioKgIngresoPlan = (!empty($data['estrategia']) && isset($data['estrategia']['precioKgIngresosPlan'])) ? json_decode($data['estrategia']['precioKgIngresosPlan'], true) : [];
+                $aPagarIngresoPlan = (!empty($data['estrategia']) && isset($data['estrategia']['aPagarIngresosPlan'])) ? json_decode($data['estrategia']['aPagarIngresosPlan'], true) : [];
+                $kgEgresosPlan = (!empty($data['estrategia']) && isset($data['estrategia']['kgEgresosPlan'])) ? json_decode($data['estrategia']['kgEgresosPlan'], true) : [];
+                $precioKgEgresoPlan = (!empty($data['estrategia']) && isset($data['estrategia']['precioKgEgresosPlan'])) ? json_decode($data['estrategia']['precioKgEgresosPlan'], true) : [];
+                $aPagarEgresoPlan = (!empty($data['estrategia']) && isset($data['estrategia']['aPagarEgresosPlan'])) ? json_decode($data['estrategia']['aPagarEgresosPlan'], true) : [];
+                $kgIngresosReal = isset($data['estrategia']['kgIngresosReal']) ? json_decode($data['estrategia']['kgIngresosReal'],true) : [];
+                $kgEgresosReal = isset($data['estrategia']['kgVentasReal']) ? json_decode($data['estrategia']['kgVentasReal'],true) : [];
+                $egresosReal = isset($data['estrategia']['ventasReal']) ? json_decode($data['estrategia']['ventasReal'],true) : [];
+                $precioKgIngresoReal = isset($data['estrategia']['precioKgIngresosReal']) ? json_decode($data['estrategia']['precioKgIngresosReal'],true) : [];
+                $aPagarIngresoReal = isset($data['estrategia']['aPagarIngresosReal']) ? json_decode($data['estrategia']['aPagarIngresosReal'],true) : [];
+                $precioKgEgresoReal = isset($data['estrategia']['precioKgEgresosReal']) ? json_decode($data['estrategia']['precioKgEgresosReal'],true) : [];
+                $aPagarEgresoReal = isset($data['estrategia']['aPagarEgresosReal']) ? json_decode($data['estrategia']['aPagarEgresosReal'],true) : [];
 
                 foreach ($months as $index => $month): ?>
                   <tr class="monthRow">
                       <td><?= $month ?></td>
-                      <td><span class="ingEgr planificado ingreso" id="ingreso<?= $index ?>"><?=$ingresosPlan[$index] ?></span><span id="ingresoReal<?= $index ?>" class="real"><?=(isset($ingresosReal[$index])) ? ' | ' . $ingresosReal[$index] : '' ?></span></td>
-                      <td><span class="planificado kgIngreso" id="kgIngreso<?= $index ?>"><?=$kgIngresosPlan[$index] ?></span><span id="kgIngresoReal<?= $index ?>" class="real"><?=(isset($kgIngresosReal[$index])) ? ' | ' . $kgIngresosReal[$index] : '' ?></span></td>
-                      <td><span class="ingEgr planificado venta" id="venta<?= $index ?>"><?=$egresosPlan[$index] ?></span><span id="ventaReal<?= $index ?>" class="real"><?=(isset($egresosReal[$index])) ? ' | ' . $egresosReal[$index] : '' ?></span></td>
-                      <td><span class="planificado kgVenta" id="kgVenta<?= $index ?>"><?=$kgEgresosPlan[$index] ?></span><span id="kgVentaReal<?= $index ?>" class="real"><?=(isset($kgEgresosReal[$index])) ? ' | ' . $kgEgresosReal[$index] : '' ?></span></td>
+                      <td><span class="ingEgr planificado ingreso" id="ingreso<?= $index ?>"><?=(isset($ingresosPlan[$index])) ? $ingresosPlan[$index] : 0 ?></span><span id="ingresoReal<?= $index ?>" class="real"><?=(isset($ingresosReal[$index])) ? ' | ' . $ingresosReal[$index] : '' ?></span></td>
+                      <td><span class="planificado kgIngreso" id="kgIngreso<?= $index ?>"><?=(isset($kgIngresosPlan[$index])) ? $kgIngresosPlan[$index] : 0 ?></span><span id="kgIngresoReal<?= $index ?>" class="real"><?=(isset($kgIngresosReal[$index])) ? ' | ' . $kgIngresosReal[$index] : '' ?></span></td>
+                      <td><span class="ingEgr planificado venta" id="venta<?= $index ?>"><?=(isset($egresosPlan[$index])) ? $egresosPlan[$index] : 0 ?></span><span id="ventaReal<?= $index ?>" class="real"><?=(isset($egresosReal[$index])) ? ' | ' . $egresosReal[$index] : '' ?></span></td>
+                      <td><span class="planificado kgVenta" id="kgVenta<?= $index ?>"><?=(isset($kgEgresosPlan[$index])) ? $kgEgresosPlan[$index] : 0 ?></span><span id="kgVentaReal<?= $index ?>" class="real"><?=(isset($kgEgresosReal[$index])) ? ' | ' . $kgEgresosReal[$index] : '' ?></span></td>
                       <td class="celda-doble">  
                           <div class="celda-izquierda">
-                            <span class="planificado precioKgIngreso" id="precioKgIngreso<?= $index ?>" style="float:left"><?=$precioKgIngresoPlan[$index]?></span>
+                            <span class="planificado precioKgIngreso" id="precioKgIngreso<?= $index ?>" style="float:left"><?=(isset($precioKgIngresoPlan[$index])) ? $precioKgIngresoPlan[$index] : 0?></span>
                             <span id="precioKgIngresoReal<?= $index ?>" class="real"><?=(isset($precioKgIngresoReal[$index])) ? ' | ' . $precioKgIngresoReal[$index] : '' ?></span>
                           </div>
                           <div class="celda-derecha">
-                            <span class="planificado precioKgVenta" id="precioKgVenta<?= $index ?>" style="float:left"><?=$precioKgEgresoPlan[$index]?></span>
+                            <span class="planificado precioKgVenta" id="precioKgVenta<?= $index ?>" style="float:left"><?=(isset($precioKgEgresoPlan[$index])) ? $precioKgEgresoPlan[$index] : 0?></span>
                             <span id="precioKgVentaReal<?= $index ?>" class="real"><?=(isset($precioKgEgresoReal[$index])) ? ' | ' . $precioKgEgresoReal[$index] : '' ?></span>
                           </div>
                       </td>
@@ -187,26 +189,42 @@
                         <div class="celda-doble">
 
                           <div class="celda-izquierda">
-                            <span class="planificado aPagar" id="aPagarIngreso<?= $index ?>" style="float:left;font-weight:bold;color:<?=($aPagarIngresoPlan[$index] == 'A') ? 
-                              'green' 
-                              : 
-                              (($aPagarIngresoPlan[$index] == 'B') ? 'blue' : (($aPagarIngresoPlan[$index] == 'D') ? 'red' : 'rgb(277,215,0)'))?>"><?=$aPagarIngresoPlan[$index]?></span>
+                            <span class="planificado aPagar" id="aPagarIngreso<?= $index ?>" style="float:left;font-weight:bold;color:<?=
+                            (isset($aPagarIngresoPlan[$index])) ? 
+                              ($aPagarIngresoPlan[$index] == 'A') ? 
+                                'green' 
+                                : 
+                                (($aPagarIngresoPlan[$index] == 'B') ? 'blue' : (($aPagarIngresoPlan[$index] == 'D') ? 'red' : 'rgb(277,215,0)'))
+                                : 'green'
+                              
+                              ?>">
+                              <?=(isset($aPagarIngresoPlan[$index])) ? $aPagarIngresoPlan[$index] : 'A'?></span>
 
-                            <span id="aPagarIngresoReal<?= $index ?>" class="real" style="font-weight:bold;color:<?=($aPagarIngresoReal[$index] == 'A') ? 
+                            <span id="aPagarIngresoReal<?= $index ?>" class="real" style="font-weight:bold;color:
+                            <?=(isset($aPagarIngresoReal[$index]) && $aPagarIngresoReal[$index] == 'A') ? 
                               'green' 
                               : 
-                              (($aPagarIngresoReal[$index] == 'B') ? 'blue' : (($aPagarIngresoReal[$index] == 'D') ? 'red' : 'rgb(277,215,0)'))?>"><?=(isset($aPagarIngresoReal[$index])) ? ' | ' . $aPagarIngresoReal[$index] : '' ?></span>
+                              ((isset($aPagarIngresoReal[$index]) && $aPagarIngresoReal[$index] == 'B') ? 'blue' : ((isset($aPagarIngresoReal[$index]) && $aPagarIngresoReal[$index] == 'D') ? 'red' : 'rgb(277,215,0)'))?>"><?=(isset($aPagarIngresoReal[$index])) ? ' | ' . $aPagarIngresoReal[$index] : '' ?></span>
 
                           </div>
                           <div class="celda-derecha">
-                            <span class="planificado aPagar" id="aPagarVenta<?= $index ?>" style="float:left;font-weight:bold;color:<?=($aPagarEgresoPlan[$index] == 'A') ? 
+                            <span class="planificado aPagar" id="aPagarVenta<?= $index ?>" style="float:left;font-weight:bold;color:<?=
+                              (isset($aPagarEgresoPlan[$index])) ? 
+                                ($aPagarEgresoPlan[$index] == 'A') ? 
+                                  'green'
+                                  : 
+                                  (($aPagarEgresoPlan[$index] == 'B') ? 'blue' : (($aPagarEgresoPlan[$index] == 'D') ? 'red' : 'rgb(277,215,0)'))
+                                  : 'green'?>">
+                                
+                              <?=(isset($aPagarEgresoPlan[$index])) ? $aPagarEgresoPlan[$index] : 'A'?></span>
+                              <span id="aPagarVentaReal<?= $index ?>" class="real" style="font-weight:bold;color:<?=
+                              (isset($aPagarEgresoPlan[$index])) ? 
+                              ($aPagarEgresoPlan[$index] == 'A') ? 
                               'green'
                               : 
-                              (($aPagarEgresoPlan[$index] == 'B') ? 'blue' : (($aPagarEgresoPlan[$index] == 'D') ? 'red' : 'rgb(277,215,0)'))?>"><?=$aPagarEgresoPlan[$index]?></span>
-                              <span id="aPagarVentaReal<?= $index ?>" class="real" style="font-weight:bold;color:<?=($aPagarEgresoPlan[$index] == 'A') ? 
-                              'green'
-                              : 
-                              (($aPagarEgresoPlan[$index] == 'B') ? 'blue' : (($aPagarEgresoPlan[$index] == 'D') ? 'red' : 'rgb(277,215,0)'))?>"><?=(isset($aPagarEgresoReal[$index])) ? ' | ' . $aPagarEgresoReal[$index] : '' ?></span>
+                              (($aPagarEgresoPlan[$index] == 'B') ? 'blue' : (($aPagarEgresoPlan[$index] == 'D') ? 'red' : 'rgb(277,215,0)'))
+                              : 'green'?>">
+                              <?=(isset($aPagarEgresoReal[$index])) ? ' | ' . $aPagarEgresoReal[$index] : '' ?></span>
                           </div>
                           
                         </div>
@@ -217,23 +235,23 @@
                   
                   <?php endforeach; ?>
 
-              <tr style="font-weight:bolder;">
-                  <td><b>Total</b></td>
-                  <td class="total" id="totalIngreso"></td>
-                  <td class="total" id="totalKgIngreso"></td>
-                  <td class="total" id="totalVenta"></td>
-                  <td class="total" id="totalKgVenta"></td>
-                  <td></td>
-                  <td></td>
-                  <td class="total" id="totalStock"></td>
-              </tr>
-              <tr>
-                  <td style="font-weight:bolder;"><b>Promedio</b></td>
-                  <td id="avgIngreso"></td>
-                  <td id="avgKgIngreso"></td>
-                  <td id="avgVenta"></td>
-                  <td id="avgKgVenta"></td>
-              </tr>
+                  <tr style="font-weight:bolder;">
+                      <td><b>Total</b></td>
+                      <td class="total" id="totalIngreso"></td>
+                      <td class="total" id="totalKgIngreso"></td>
+                      <td class="total" id="totalVenta"></td>
+                      <td class="total" id="totalKgVenta"></td>
+                      <td></td>
+                      <td></td>
+                      <td class="total" id="totalStock"></td>
+                  </tr>
+                  <tr>
+                      <td style="font-weight:bolder;"><b>Promedio</b></td>
+                      <td id="avgIngreso"></td>
+                      <td id="avgKgIngreso"></td>
+                      <td id="avgVenta"></td>
+                      <td id="avgKgVenta"></td>
+                  </tr>
 
               <?php } ?>
                 

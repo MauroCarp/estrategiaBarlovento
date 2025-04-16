@@ -62,7 +62,7 @@
                     $preFixes = '';     
                   }
 
-                  if (!$data['estrategia']['seteado']) { 
+                  if (!empty($data['estrategia']) && !$data['estrategia']['seteado']) { 
                   ?>
                   
                   <td class="contable<?=$preFixes?> <?=$class?>" month-data="<?=$key?>" id="<?= $idPrefixes['plan'] . $key ?>">0</td>

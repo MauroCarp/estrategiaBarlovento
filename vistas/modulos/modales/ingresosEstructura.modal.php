@@ -52,23 +52,23 @@
 
                 $estructuraIds = ['directa','indirecta','gastos','ingresos'];
 
-                $estructuraDirecta = json_decode($data['estrategia']['directaImportePlan'],true);
-                $estructuraIndirecta = json_decode($data['estrategia']['indirectaImportePlan'],true);
-                $estructuraGastos = json_decode($data['estrategia']['gastosImportePlan'],true);
-                $estructuraIngresos = json_decode($data['estrategia']['ingresosImportePlan'],true);
-                $estructuraDirectaAP = json_decode($data['estrategia']['directaApagarPlan'],true);
-                $estructuraIndirectaAP = json_decode($data['estrategia']['indirectaApagarPlan'],true);
-                $estructuraGastosAP = json_decode($data['estrategia']['gastosApagarPlan'],true);
-                $estructuraIngresosAP = json_decode($data['estrategia']['ingresosApagarPlan'],true);
+                $estructuraDirecta = (isset($data['estrategia']['directaImportePlan'])) ? json_decode($data['estrategia']['directaImportePlan'],true) : [];
+                $estructuraIndirecta = (isset($data['estrategia']['indirectaImportePlan'])) ? json_decode($data['estrategia']['indirectaImportePlan'],true) : [];
+                $estructuraGastos = (isset($data['estrategia']['gastosImportePlan'])) ? json_decode($data['estrategia']['gastosImportePlan'],true) : [];
+                $estructuraIngresos = (isset($data['estrategia']['ingresosImportePlan'])) ? json_decode($data['estrategia']['ingresosImportePlan'],true) : [];
+                $estructuraDirectaAP = (isset($data['estrategia']['directaApagarPlan'])) ? json_decode($data['estrategia']['directaApagarPlan'],true) : [];
+                $estructuraIndirectaAP = (isset($data['estrategia']['indirectaApagarPlan'])) ? json_decode($data['estrategia']['indirectaApagarPlan'],true) : [];
+                $estructuraGastosAP = (isset($data['estrategia']['gastosApagarPlan'])) ? json_decode($data['estrategia']['gastosApagarPlan'],true) : [];
+                $estructuraIngresosAP = (isset($data['estrategia']['ingresosApagarPlan'])) ? json_decode($data['estrategia']['ingresosApagarPlan'],true) : [];
 
-                $estructuraDirectaReal = json_decode($data['estrategia']['directaImporteReal'],true);
-                $estructuraIndirectaReal = json_decode($data['estrategia']['indirectaImporteReal'],true);
-                $estructuraGastosReal = json_decode($data['estrategia']['gastosImporteReal'],true);
-                $estructuraIngresosReal = json_decode($data['estrategia']['ingresosImporteReal'],true);
-                $estructuraDirectaAPReal = json_decode($data['estrategia']['directaApagarReal'],true);
-                $estructuraIndirectaAPReal = json_decode($data['estrategia']['indirectaApagarReal'],true);
-                $estructuraGastosAPReal = json_decode($data['estrategia']['gastosApagarReal'],true);
-                $estructuraIngresosAPReal = json_decode($data['estrategia']['ingresosApagarReal'],true);
+                $estructuraDirectaReal = (isset($data['estrategia']['directaImporteReal'])) ? json_decode($data['estrategia']['directaImporteReal'],true) : [];
+                $estructuraIndirectaReal = (isset($data['estrategia']['indirectaImporteReal'])) ? json_decode($data['estrategia']['indirectaImporteReal'],true) : [];
+                $estructuraGastosReal = (isset($data['estrategia']['gastosImporteReal'])) ? json_decode($data['estrategia']['gastosImporteReal'],true) : [];
+                $estructuraIngresosReal = (isset($data['estrategia']['ingresosImporteReal'])) ? json_decode($data['estrategia']['ingresosImporteReal'],true) : [];
+                $estructuraDirectaAPReal = (isset($data['estrategia']['directaApagarReal'])) ? json_decode($data['estrategia']['directaApagarReal'],true) : [];
+                $estructuraIndirectaAPReal = (isset($data['estrategia']['indirectaApagarReal'])) ? json_decode($data['estrategia']['indirectaApagarReal'],true) : [];
+                $estructuraGastosAPReal = (isset($data['estrategia']['gastosApagarReal'])) ? json_decode($data['estrategia']['gastosApagarReal'],true) : [];
+                $estructuraIngresosAPReal = (isset($data['estrategia']['ingresosApagarReal'])) ? json_decode($data['estrategia']['ingresosApagarReal'],true) : [];
 
                 foreach ($estructuraIndex as $index => $estructura): 
 
@@ -87,7 +87,7 @@
                                 
                             <?php foreach ($months as $i => $month): 
                               
-                              if(!$data['estrategia']['seteado']){
+                              if(empty($data['estrategia']) || !$data['estrategia']['seteado']){
                                 $val = false;
                                 if($estructura == 'estructuraDirecto'){
                                   $val = $estructuraDirecta;
@@ -127,23 +127,23 @@
                                 if ($estructuraIds[$index] == 'directa'){
                                   $importe = $estructuraDirecta[$i];
                                   $aPagar = $estructuraDirectaAP[$i];
-                                  $importeReal = $estructuraDirectaReal[$i];
-                                  $aPagarReal = $estructuraDirectaAPReal[$i];
+                                  $importeReal = (isset($estructuraDirectaReal[$i])) ? $estructuraDirectaReal[$i] : 0;
+                                  $aPagarReal = (isset($estructuraDirectaAPReal[$i])) ? $estructuraDirectaAPReal[$i] : '';
                                 } else if($estructuraIds[$index] == 'indirecta'){
                                   $importe = $estructuraIndirecta[$i];
                                   $aPagar = $estructuraIndirectaAP[$i];
-                                  $importeReal = $estructuraIndirectaReal[$i];
-                                  $aPagarReal = $estructuraIndirectaAPReal[$i];
+                                  $importeReal = isset($estructuraIndirectaReal[$i]) ? $estructuraIndirectaReal[$i] : 0;
+                                  $aPagarReal = isset($estructuraIndirectaAPReal[$i]) ? $estructuraIndirectaAPReal[$i] : '';
                                 } else if($estructuraIds[$index] == 'gastos'){
                                   $importe = $estructuraGastos[$i];
                                   $aPagar = $estructuraGastosAP[$i];
-                                  $importeReal = $estructuraGastosReal[$i];
-                                  $aPagarReal = $estructuraGastosAPReal[$i];
+                                  $importeReal = isset($estructuraGastosReal[$i]) ? $estructuraGastosReal[$i] : 0;
+                                  $aPagarReal = isset($estructuraGastosAPReal[$i]) ? $estructuraGastosAPReal[$i] : '';
                                 } else { 
                                   $importe = $estructuraIngresos[$i];
                                   $aPagar = $estructuraIngresosAP[$i];
-                                  $importeReal = $estructuraIngresosReal[$i];
-                                  $aPagarReal = $estructuraIngresosAPReal[$i];
+                                  $importeReal = isset($estructuraIngresosReal[$i]) ? $estructuraIngresosReal[$i] : 0;
+                                  $aPagarReal = isset($estructuraIngresosAPReal[$i]) ? $estructuraIngresosAPReal[$i] : '';
                                 }
                               
                                 ?>

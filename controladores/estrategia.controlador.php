@@ -71,10 +71,9 @@ class ControladorEstrategia{
 
 		$respuesta = ModeloEstrategia::mdlMostrarEstrategia($tabla,$campania);
 
-		
 		$insumos = ControladorEstrategia::ctrMostrarInsumos();
 		
-		if(!is_null($respuesta['cerealesPlan']) && $respuesta['cerealesPlan']){	
+		if(isset($respuesta['cerealesPlan']) && !is_null($respuesta['cerealesPlan']) && $respuesta['cerealesPlan']){	
 
 			$arr_cerealesPlan = json_decode($respuesta['cerealesPlan'],true);
 
@@ -92,7 +91,7 @@ class ControladorEstrategia{
 		}
 		
 
-		if(!is_null($respuesta['cerealesReal'])){
+		if(isset($respuesta['cerealesReal']) && !is_null($respuesta['cerealesReal'])){
 
 			$arr_cerealesRealData = json_decode($respuesta['cerealesReal'],true);
 

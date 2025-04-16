@@ -46,15 +46,16 @@
                               <tbody>
                               
                               <tr id="trStockInicial">
-
-                                  <td><input class="form-control stockInicial" type="number" id="stockAnimales" value="<?=($data['estrategia']['seteado'] != 0) ? $data['stockAnimales'] : (($data['estrategia']) ? $data['estrategia']['stockAnimales'] : 0)?>" <?=($data['estrategia']['seteado'] != 0) ? 'readOnly' : ''?>></td>
+                                
+                                  <td><input class="form-control stockInicial" type="number" id="stockAnimales" value="<?=(!empty($data['estrategia']) && $data['estrategia']['seteado'] != 0) ? $data['estrategia']['stockAnimales'] : 
+                                  (($data['estrategia']) ? $data['estrategia']['stockAnimales'] : 0)?>" <?=(!empty($data['estrategia']) && $data['estrategia']['seteado'] != 0) ? 'readOnly' : ''?>></td>
 
                                   <td><input 
                                             class="form-control stockInicial" 
                                             type="number" 
                                             onchange="calculateStockAndTotals();$(`input[name='stockKgProm']`).val($(this).val())"
                                             id="stockKgProm" 
-                                            value="<?=($data['estrategia']['seteado'] != 0) ? $data['estrategia']['stockKgProm'] : (($data['estrategia']) ? $data['estrategia']['stockKgProm'] : 0) ?>" <?=($data['estrategia']['seteado'] != 0) ? 'readOnly' : ''?>/>
+                                            value="<?=(!empty($data['estrategia']) && $data['estrategia']['seteado'] != 0) ? $data['estrategia']['stockKgProm'] : (($data['estrategia']) ? $data['estrategia']['stockKgProm'] : 0) ?>" <?=(!empty($data['estrategia']) && $data['estrategia']['seteado'] != 0) ? 'readOnly' : ''?>/>
                                   </td>
 
                               </tr>

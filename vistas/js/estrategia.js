@@ -181,8 +181,8 @@ function guardarDatos() {
 
 }
 
-if($('#dieta').length == 1)
-    setInterval(guardarDatos, 10000);
+// if($('#dieta').length == 1)
+    // setInterval(guardarDatos, 10000);
 
 
 $('.stockInicial').each(function(){
@@ -200,7 +200,6 @@ $('.stockInicial').each(function(){
 })
 
 $('#dieta').on('change',function(){
-
     cargarInsumos()
 
 })

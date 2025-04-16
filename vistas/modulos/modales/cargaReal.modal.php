@@ -27,9 +27,9 @@
           <div class="modal-body">
 
             <div class="box-body" id="cargaRealModal">
-
+  
               <input type="hidden" class="form-control real" id="monthReal" name="month">
-              <input type="hidden" class="form-control" name="campaniaReal" value="<?=$data['estrategia']['campania']?>">
+              <input type="hidden" class="form-control" name="campaniaReal" value="<?=(isset($data['estrategia']['campania'])) ? $data['estrategia']['campania'] : ''?>">
 
               <div class="row">
 
