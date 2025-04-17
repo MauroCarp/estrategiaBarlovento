@@ -745,7 +745,7 @@ class ControladorEstrategia{
 
 				if($resultado == 'ok'){
 
-					$url = "index.php?ruta=inicio&asd=asd&campania=" . urlencode($buscarCampania);
+					$url = "index.php?ruta=inicio&campania=" . urlencode($buscarCampania);
 
 					echo'<script>
 						console.log("' . $url .'")

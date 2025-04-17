@@ -385,7 +385,6 @@
             
         }  
 
-        console.log(dataa)
         dataa = JSON.parse('[' + dataa.slice(0,-1) + ']')
 
         let config = {}

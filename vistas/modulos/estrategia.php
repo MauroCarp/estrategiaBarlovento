@@ -982,13 +982,12 @@ let calcularPesoPromedio = (dataEstrategia = false,tipo = 'plan',debug = false)=
 
       let data = {idDieta,'accion':'verDieta'}
 
-      // console.log(dataEstrategia)
       $.ajax({
         method:'POST',
         url:'ajax/estrategia.ajax.php',
         data,
         success:function(resp){
-          console.log(resp)
+
           let respuesta = JSON.parse(resp)
           let objMonths = {1:5,2:6,3:7,4:8,5:9,6:10,7:11,8:12,9:1,10:2,11:3,12:4}
 
@@ -1319,8 +1318,6 @@ let calculateStockAndTotals = () => {
 
         let totalConsumoMensual = consumoInsumo * stockMesPlan * 30 //dias del mes  
   
-        // console.log('aca entro cuando es real')
-        // console.log(totalConsumoMensual)
       } 
         
     }
