@@ -12,6 +12,7 @@
           <div class="row">
 
             <?php 
+
             if (empty($data['estrategia']) || ((isset($data['estrategia']['seteado']) && !$data['estrategia']['seteado']))) { 
             ?>
 
@@ -763,8 +764,8 @@ let isSeted = '<?=(!empty($data['estrategia']) && $data['estrategia']['seteado']
 if(isSaved != '' && isSeted == '0'){
 
   
-  // $('#dieta').val('<?//=$data['estrategia']['idDieta']?>')
-  // cargarInsumos()
+  $('#dieta').val('<?=$data['estrategia']['idDieta']?>')
+  cargarInsumos()
 
   let months = {
       0:'Mayo', 1:'Junio', 2:'Julio', 3:'Agosto', 

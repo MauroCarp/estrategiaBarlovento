@@ -460,7 +460,7 @@ class ControladorEstrategia{
 							'aPagarVentas'=>$aPagarVentas);
 
 		$setearAnimales = ControladorEstrategia::ctrSetearAnimales($dataAnimales);
-				  
+
 		$dataInsumos = array('idEstrategia'=>$idEstrategia['id'],'insumos'=>$insumos);
 
 		$setearInsumos = ControladorEstrategia::ctrSetearInsumos($dataInsumos,true);
@@ -501,8 +501,8 @@ class ControladorEstrategia{
 		$tabla = 'movimientosanimales';
 
 		$existeRegistro = ModeloEstrategia::mdlExisteRegistro($tabla,$data['idEstrategia']);
-		
-		if(isset($existeRegistro[0][0]) && $existeRegistro[0][0] == 0){
+
+		if((isset($existeRegistro[0][0]) && $existeRegistro[0][0] == 0) || $existeRegistro[0] == 0){
 			$insert = true;
 
 		} else {
@@ -519,7 +519,7 @@ class ControladorEstrategia{
 
 		$existeRegistro = ModeloEstrategia::mdlExisteRegistro($tabla,$data['idEstrategia']);
 		
-		if(isset($existeRegistro[0][0]) && $existeRegistro[0][0] == 0){
+		if((isset($existeRegistro[0][0]) && $existeRegistro[0][0] == 0) || $existeRegistro[0] == 0){
 			$insert = true;
 
 		} else {
@@ -536,7 +536,7 @@ class ControladorEstrategia{
 
 		$existeRegistro = ModeloEstrategia::mdlExisteRegistro($tabla,$data['idEstrategia']);
 		
-		if(isset($existeRegistro[0][0]) && $existeRegistro[0][0] == 0){
+		if((isset($existeRegistro[0][0]) && $existeRegistro[0][0] == 0) || $existeRegistro[0] == 0){
 			$insert = true;
 
 		} else {

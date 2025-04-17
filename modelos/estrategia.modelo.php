@@ -85,8 +85,6 @@ class ModeloEstrategia{
 				INNER JOIN movimientosestructura ON $tabla.id = movimientosestructura.idEstrategia 
 				INNER JOIN dietas ON $tabla.idDieta = dietas.id 
 				WHERE $tabla.id = (select MAX($tabla.id) from $tabla)");
-				
-
 			}
 
 			$stmt->setFetchMode(PDO::FETCH_ASSOC);
