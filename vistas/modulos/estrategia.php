@@ -607,7 +607,7 @@ const cargarInsumos = ()=>{
                         // let thAPagar = th.cloneNode(true)  
                         thNecesario.innerText = 'Necesario' 
                         thIngreso.innerText = 'Ingreso'
-                        thPrecio.innerText = 'Precio'   
+                        thPrecio.innerText = '$/Kg'   
                         // thAPagar.innerText = 'A Pagar'   
                         // tr.append(th,thNecesario,thIngreso,thPrecio,thAPagar)
                         tr.append(th,thNecesario,thIngreso,thPrecio)
@@ -997,6 +997,10 @@ let calcularPesoPromedio = (dataEstrategia = false,tipo = 'plan',debug = false)=
             for (let index = 1; index <= 12; index++) {
 
               let stockMesPlan = Number($(`#stockPlan${index}`).html())
+              // consumoMSPlan1
+              // let consMS = Number($(`#porcentMS${index}`).val())
+              // if(isNaN(consMS))
+                consMS = Number($(`#consumoMSPlan${index}`).html())
 
               let consMS = Number($(`#porcentMS${index}`).val())
               if(isNaN(consMS))
@@ -1530,7 +1534,7 @@ if(seteado != 0 && seteado != '0'){
         let thAPagar = th.cloneNode(true);
         thNecesario.innerText = 'Necesario';
         thIngreso.innerText = 'Ingreso';
-        thPrecio.innerText = 'Precio';
+        thPrecio.innerText = '$/Kg';
         // thAPagar.innerText = 'A Pagar';
         tr.append(th, thNecesario, thIngreso, thPrecio);
         thead.append(tr);
