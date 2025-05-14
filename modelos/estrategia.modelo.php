@@ -55,6 +55,17 @@ class ModeloEstrategia{
 		
 	}
 
+	static public function mdlPorceMSInsumo($tabla,$idInsumo){
+
+		$stmt = Conexion::conectarEstrategia()->prepare("SELECT porceMS FROM $tabla WHERE id = :id");
+		$stmt -> bindParam(":id", $idInsumo, PDO::PARAM_STR);
+
+		$stmt -> execute();
+
+		return $stmt -> fetch();
+		
+	}
+
 	static public function mdlMostrarEstrategia($tabla,$campania){
 
 		if($campania == 'campanias'){

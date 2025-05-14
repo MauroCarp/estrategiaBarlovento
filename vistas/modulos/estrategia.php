@@ -605,8 +605,8 @@ const cargarInsumos = ()=>{
                         let thIngreso = th.cloneNode(true)
                         let thPrecio = th.cloneNode(true)
                         // let thAPagar = th.cloneNode(true)  
-                        thNecesario.innerText = 'Necesario' 
-                        thIngreso.innerText = 'Ingreso'
+                        thNecesario.innerText = 'Necesario TC' 
+                        thIngreso.innerText = 'Ingreso TC'
                         thPrecio.innerText = '$/Kg'   
                         // thAPagar.innerText = 'A Pagar'   
                         // tr.append(th,thNecesario,thIngreso,thPrecio,thAPagar)
@@ -1002,19 +1002,22 @@ let calcularPesoPromedio = (dataEstrategia = false,tipo = 'plan',debug = false)=
               // if(isNaN(consMS))
                 consMS = Number($(`#consumoMSPlan${index}`).html())
 
-              let consMS = Number($(`#porcentMS${index}`).val())
-              if(isNaN(consMS))
-                consMS = Number($(`#msPlan${index}`).html())
-
               let consumoInsumo = (respuesta[key].porcentaje * consMS) / 100 
 
               let totalConsumoMensual = consumoInsumo * stockMesPlan * 30 //dias del mes
+              
+              // LO PASO A MATERIA TAL CUAL AGREGANDO LA DIFERENCIA DEL PORCENTAJE DE MATERIA SECA
+              // EJ SI EL MAIZ TIENE UN 87% DE MS , LE VOY A AGREGAR UN 13% MAS
+              let porceMSsumar = 100 - Number(respuesta[key].porceMS) 
+
+              totalConsumoMensual = totalConsumoMensual + (totalConsumoMensual * porceMSsumar) / 100
+
               if($(`#insumoNecesario${respuesta[key].idInsumo}${objMonths[index]}`).length == 0){
 
-                $(`#insumoNecesarioPlan${respuesta[key].idInsumo}_${index}`).html(totalConsumoMensual.toLocaleString('de-DE'))
+                $(`#insumoNecesarioPlan${respuesta[key].idInsumo}_${index}`).html(Math.round(totalConsumoMensual).toLocaleString('de-DE'))
                 
               } else {
-                $(`#insumoNecesario${respuesta[key].idInsumo}${objMonths[index]}`).html(totalConsumoMensual.toLocaleString('de-DE'))
+                $(`#insumoNecesario${respuesta[key].idInsumo}${objMonths[index]}`).html(Math.round(totalConsumoMensual).toLocaleString('de-DE'))
 
               }
 

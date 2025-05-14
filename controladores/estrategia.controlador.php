@@ -56,8 +56,13 @@ class ControladorEstrategia{
 		$data = array();
 
 		foreach (json_decode($respuesta['insumos']) as $key => $value) {
-			
-			$data[] = array('insumo'=>ControladorEstrategia::buscarInsumoPorId($value,$insumos),'idInsumo'=>$value,'porcentaje'=>$porcentajes[$key]);
+		
+
+			$tabla = 'insumos';
+
+			$porceMS = ModeloEstrategia::mdlPorceMSInsumo($tabla, $value);
+
+			$data[] = array('insumo'=>ControladorEstrategia::buscarInsumoPorId($value,$insumos),'idInsumo'=>$value,'porcentaje'=>$porcentajes[$key],'porceMS'=>$porceMS['porceMS']);
 
 		}
 
