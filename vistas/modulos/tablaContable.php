@@ -38,7 +38,7 @@
             'Estructura Indirecta' => ['plan' => 'estructuraIndirectaContable', 'real' => 'estructuraIndirectaRealContable','class'=>'EstructuraIndirecta'],
             'Gastos Varios' => ['plan' => 'gastosVariosContable', 'real' => 'gastosVariosRealContable','class'=>'GastosVarios'],
             'Ingresos Extraordinarios' => ['plan' => 'ingresosExtraContable', 'real' => 'ingresosExtraRealContable','class'=>'IngresosExtraordinarios'],
-            'Flujo Neto' => ['plan' => 'flujoNetoContable', 'real' => 'flujoNetoRealContable','class'=>''],
+            'Flujo Neto' => ['plan' => 'flujoNetoContable', 'real' => 'flujoNetoRealContable','class'=>'Anual'],
           ];
 
           $indexPrefixes = 0;
@@ -78,6 +78,10 @@
                 }
               ?>
 
+<?php
+// var_dump($indexPrefixes);
+// var_dump('total'.$idPrefixes['class']);
+?>
               <td id="total<?=$idPrefixes['class']?>" style="font-weight:bold"></td>
 
             </tr>

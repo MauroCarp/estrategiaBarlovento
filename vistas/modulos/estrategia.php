@@ -1201,6 +1201,13 @@ let calculateStockAndTotals = () => {
         
       } 
 
+      calcularFlujoDeFondoMensual()
+      calcularFlujoNeto()
+      calcularInsumosContable()
+      calcularAnimalesContable()
+      calcularEstructuraContable()
+      calcularFlujoDeFondoMensual()
+      calcularFlujoNeto()
 
     } else {
   
@@ -1328,14 +1335,15 @@ let calculateStockAndTotals = () => {
   
       } 
         
+      calcularInsumosContableSeteado()
+      calcularAnimalesContableSeteado()
+      calcularEstructuraContableSeteado()
+      calcularFlujoDeFondoMensualSeteado()
+      calcularFlujoNetoSeteado()
+      
     }
 
     calcularPesoPromedio(idDieta)
-    calcularInsumosContableSeteado()
-    calcularAnimalesContableSeteado()
-    calcularEstructuraContableSeteado()
-    calcularFlujoDeFondoMensualSeteado()
-    calcularFlujoNetoSeteado()
 
     resolve()
   })

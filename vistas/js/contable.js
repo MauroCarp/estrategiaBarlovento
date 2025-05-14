@@ -844,6 +844,8 @@ let calcularFlujoNeto = ()=>{
 
     let totalesNeto = {}
 
+    let totalNetoAnual = 0
+
     for (let index = 1; index <= 12; index++) {
 
         let directa = Number($(`#estructuraDirectaContable${index}`).text().replace(/\./g, ''))
@@ -873,6 +875,7 @@ let calcularFlujoNeto = ()=>{
     for (const month in totalesNeto) {
 
         let resultado = (Number(totalesNeto[month]['positivo']) - Number(totalesNeto[month]['negativo'])) + totalesNeto[month]['flujoMensual']
+        totalNetoAnual += resultado
 
         let color = (resultado < 0) ? 'red' : 'green'
 
@@ -880,13 +883,19 @@ let calcularFlujoNeto = ()=>{
        $(`#flujoNetoContable${month}`).css('color',color)
 
     }
+
+    let color = (totalNetoAnual < 0) ? 'red' : 'green'
+
+    $('#totalAnual').html(`${totalNetoAnual.toLocaleString('de-DE')}`)
+    $('#totalAnual').css('color',color)
 }
 
 let calcularFlujoNetoSeteado = ()=>{
 
     let totalesNeto = {}
     let totalesNetoReal = {}
-
+    let totalNetoAnual = 0
+    let totalNetoAnualReal = 0
     for (let index = 1; index <= 12; index++) {
 
         let directa = Number($(`#estructuraDirectaContable${index}`).text().replace(/\./g, ''))
@@ -938,8 +947,10 @@ let calcularFlujoNetoSeteado = ()=>{
     for (const month in totalesNeto) {
 
         let resultado = (Number(totalesNeto[month]['positivo']) - Number(totalesNeto[month]['negativo'])) + totalesNeto[month]['flujoMensual']
+        totalNetoAnual += resultado
         
         let resultadoReal = ((Number(totalesNetoReal[month]['flujoMensual']) + Number(totalesNetoReal[month]['positivo'])) - (Number(totalesNetoReal[month]['negativo'])))
+        totalNetoAnualReal += resultadoReal
 
         let color = (resultado < 0) ? 'red' : 'green'
 
@@ -952,10 +963,11 @@ let calcularFlujoNetoSeteado = ()=>{
         $(`#flujoNetoRealContable${month}`).css('color',color)
         $(`#flujoNetoRealContable${month}`).css('background-color','rgba(175, 206, 238,.25)')
         $(`#flujoNetoRealContable${month}`).css('padding','2px')
-
-
        
     }
+
+    $('#totalAnual').text(`${totalNetoAnual.toLocaleString('de-DE')} | ${totalNetoAnualReal.toLocaleString('de-DE')}`)
+
 }
 
 // TODO: CALCULAR CONSUMO NECESARIO REAL
