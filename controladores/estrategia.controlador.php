@@ -794,8 +794,8 @@ class ControladorEstrategia{
 	}
 
 	static public function getMonthName($numberMonth){
-
-		$meses = array(1=>'Mayo',2=>'Junio',3=>'Julio',4=>'Agosto',5=>'Septiembre',6=>'Octubre',7=>'Noviembre',8=>'Diciembre',9=>'Enero',10=>'Febrero',11=>'Marzo',12=>'Abril');
+		// El array de meses comienza con Junio
+		$meses = array(1=>'Junio',2=>'Julio',3=>'Agosto',4=>'Septiembre',5=>'Octubre',6=>'Noviembre',7=>'Diciembre',8=>'Enero',9=>'Febrero',10=>'Marzo',11=>'Abril',12=>'Mayo');
 
 		return $meses[$numberMonth];		
 	

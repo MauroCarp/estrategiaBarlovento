@@ -2,7 +2,7 @@
   
   <div class="modal-dialog">
 
-    <div class="modal-content" style="width:1100px;margin-left:-150px">
+    <div class="modal-content" style="width:1150px;margin-left:-150px">
 
       <form role="form" method="post" enctype="multipart/form-data" id="formCarga">
 
@@ -30,13 +30,13 @@
 
               <thead>
                 <tr>
-                  <th style="width:100px"></th>
+                  <th style="width:150px"></th>
                   <th style="width:100px">Ingreso</th>
                   <th style="width:100px">Kg Ingreso</th>
                   <th style="width:100px">Venta</th>
                   <th style="width:100px">Kg Venta</th>
                   <th>$ Kg</th>
-                  <th>A Pagar</th>
+                  <th></th>
                   <th style="width:100px">Stock</th>
                   <th style="width:100px">Dif.</th>
                 </tr>
@@ -44,7 +44,7 @@
                   <th style="width:100px"><th>
                   <th colspan='2'><th>
                   <th><span style="float:left">Ing</span><span style="float:right">Egr</span></th>
-                  <th><span style="float:left">Ing</span><span style="float:right">Egr</span></th>
+                  <th><span style="float:left">A Pagar Ing</span><span style="float:right">A Cobrar Egr</span></th>
                   <th colspan='2' style="width:100px"></th>
                 </tr>
               </thead>
@@ -56,9 +56,9 @@
               if(empty($data['estrategia']) || !$data['estrategia']['seteado']){
                 
                 $months = [
-                  1 => 'Mayo', 2 => 'Junio', 3 => 'Julio', 4 => 'Agosto', 
-                  5 => 'Septiembre', 6 => 'Octubre', 7 => 'Noviembre', 8 => 'Diciembre',
-                  9 => 'Enero', 10 => 'Febrero', 11 => 'Marzo', 12 => 'Abril'
+                    1 => 'Junio', 2 => 'Julio', 3 => 'Agosto', 4 => 'Septiembre',
+                    5 => 'Octubre', 6 => 'Noviembre', 7 => 'Diciembre', 8 => 'Enero',
+                    9 => 'Febrero', 10 => 'Marzo', 11 => 'Abril', 12 => 'Mayo'
                 ];
 
                 if($data['estrategia']){
@@ -96,7 +96,13 @@
                   ?>
 
                   <tr class="monthRow">
-                    <td><?= $month ?></td>
+                    <?php
+                        $year = explode('/',$data['estrategia']['campania'])[0];
+                        $year = (in_array($month,['Enero','Febero','Marzo','Abril','Mayo'])) ? $year + 1 : $year;
+                        $monthYear = $month . ' ' . substr($year,2);
+                    ?>
+
+                    <td><?= $monthYear ?></td>
                     <td><input class="form-control ingEgr ingreso" type="number" id="ingreso<?= $index ?>" min="0" value="<?=$ingresosVal?>"></td>
                     <td><input class="form-control kgIngreso" type="number" id="kgIngreso<?= $index ?>" min="0" value="<?=$kgIngresosPlanVal?>"></td>
                     <td><input class="form-control ingEgr venta" type="number" id="venta<?= $index ?>" min="0" value="<?=$egresosPlanVal?>"></td>
@@ -149,9 +155,9 @@
               <?php } else { 
 
                 $months = [
-                  1 => 'Mayo', 2 => 'Junio', 3 => 'Julio', 4 => 'Agosto', 
-                  5 => 'Septiembre', 6 => 'Octubre', 7 => 'Noviembre', 8 => 'Diciembre',
-                  9 => 'Enero', 10 => 'Febrero', 11 => 'Marzo', 12 => 'Abril'
+                    1 => 'Junio', 2 => 'Julio', 3 => 'Agosto', 4 => 'Septiembre',
+                    5 => 'Octubre', 6 => 'Noviembre', 7 => 'Diciembre', 8 => 'Enero',
+                    9 => 'Febrero', 10 => 'Marzo', 11 => 'Abril', 12 => 'Mayo'
                 ];
                 
                 $kgIngresosPlan = (!empty($data['estrategia']) && isset($data['estrategia']['kgIngresosPlan'])) ? json_decode($data['estrategia']['kgIngresosPlan'], true) : [];
@@ -170,7 +176,14 @@
 
                 foreach ($months as $index => $month): ?>
                   <tr class="monthRow">
-                      <td><?= $month ?></td>
+
+                      <?php
+                        $year = explode('/',$data['estrategia']['campania'])[0];
+                        $year = (in_array($month,['Enero','Febero','Marzo','Abril','Mayo'])) ? $year + 1 : $year;
+                        $monthYear = $month . ' ' . substr($year,2);
+                      ?>
+
+                      <td><?= $monthYear ?></td>
                       <td><span class="ingEgr planificado ingreso" id="ingreso<?= $index ?>"><?=(isset($ingresosPlan[$index])) ? $ingresosPlan[$index] : 0 ?></span><span id="ingresoReal<?= $index ?>" class="real"><?=(isset($ingresosReal[$index])) ? ' | ' . $ingresosReal[$index] : '' ?></span></td>
                       <td><span class="planificado kgIngreso" id="kgIngreso<?= $index ?>"><?=(isset($kgIngresosPlan[$index])) ? $kgIngresosPlan[$index] : 0 ?></span><span id="kgIngresoReal<?= $index ?>" class="real"><?=(isset($kgIngresosReal[$index])) ? ' | ' . $kgIngresosReal[$index] : '' ?></span></td>
                       <td><span class="ingEgr planificado venta" id="venta<?= $index ?>"><?=(isset($egresosPlan[$index])) ? $egresosPlan[$index] : 0 ?></span><span id="ventaReal<?= $index ?>" class="real"><?=(isset($egresosReal[$index])) ? ' | ' . $egresosReal[$index] : '' ?></span></td>

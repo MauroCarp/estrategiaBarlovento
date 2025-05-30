@@ -44,9 +44,9 @@
 
                 <?php 
                 $months = [
-                  1 => 'Mayo', 2 => 'Junio', 3 => 'Julio', 4 => 'Agosto', 
-                  5 => 'Septiembre', 6 => 'Octubre', 7 => 'Noviembre', 8 => 'Diciembre',
-                  9 => 'Enero', 10 => 'Febrero', 11 => 'Marzo', 12 => 'Abril'
+                    1 => 'Junio', 2 => 'Julio', 3 => 'Agosto', 4 => 'Septiembre',
+                    5 => 'Octubre', 6 => 'Noviembre', 7 => 'Diciembre', 8 => 'Enero',
+                    9 => 'Febrero', 10 => 'Marzo', 11 => 'Abril', 12 => 'Mayo'
                 ];
                 $estructuraIndex = ['estructuraDirecto', 'estructuraIndirecto', 'gastosVarios', 'ingresosExtraordinarios'];
 
@@ -106,7 +106,14 @@
                                 ?>                                
 
                                 <tr class="monthRow">
-                                    <td><?= $month ?></td>
+
+                                  <?php 
+                                  $year = explode('/',$data['estrategia']['campania'])[0];
+                                  $year = (in_array($month,['Enero','Febero','Marzo','Abril','Mayo'])) ? $year + 1 : $year;
+                                  $monthYear = $month . ' ' . substr($year,2);
+
+                                    ?>
+                                    <td><?= $monthYear ?></td>
                                     <td><input class="form-control sm-input estructura" type="number" id="<?=$estructura?>_importe_<?= $i ?>" value="<?=($val) ? $val[$i] : 0?>"></td>
                                     <td>
                                         <select class="form-control aPagar" onChange="cambiarColorApagar($(this))" id="<?=$estructura?>_aPagar_<?= $i ?>" style="font-weight:bold;color:green">

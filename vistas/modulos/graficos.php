@@ -431,7 +431,7 @@
             let dataEstrategia = '<?php echo json_encode($data['estrategia']);?>'
             let dataEstrategiaSeteado = '<?php echo (!empty($data['estrategia']) && $data['estrategia']['seteado']) ? $data['estrategia']['seteado'] : '0'?>'
             
-            let labels = ['Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre','Enero','Febrero','Marzo','Abril']
+            let labels = ['Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre','Enero','Febrero','Marzo','Abril','Mayo']
     
             if(dataEstrategiaSeteado == '0'){
     

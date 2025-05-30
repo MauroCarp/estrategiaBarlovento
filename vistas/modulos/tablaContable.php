@@ -14,9 +14,15 @@
 
               <th style="width:100px;"></th>
                         
-              <?php foreach ($meses as $key => $mes) { ?>
+              <?php foreach ($meses as $key => $mes) { 
                 
-                <th><?=$mes?></th>
+                $year = explode('/',$data['estrategia']['campania'])[0];
+                $year = (in_array($mes,['Ene','Feb','Mar','Abr','May'])) ? $year + 1 : $year;
+                $monthYear = $mes . ' ' . substr($year,2);
+
+              ?>
+                
+                <th><?=$monthYear?></th>
 
               <?php } ?> 
 

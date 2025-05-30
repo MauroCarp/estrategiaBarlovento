@@ -150,9 +150,15 @@
                           
                 <?php 
 
-                  foreach ($meses as $key => $mes) { ?>
+                  foreach ($meses as $key => $mes) { 
+                    
+                    $year = explode('/',$data['estrategia']['campania'])[0];
+                    $year = (in_array($mes,['Ene','Feb','Mar','Abr','May'])) ? $year + 1 : $year;
+                    $monthYear = $mes . ' ' . substr($year,2);
+
+                  ?>
                   
-                  <th><button type="button" class="btn btn-block btn-secondary btnCargaReal" data-toggle="modal" data-target="#modalCargarEstrategiaReal" data-month="<?=$key?>" <?=(empty($data['estrategia']) || (isset($data['estrategia']['seteado']) && !$data['estrategia']['seteado'])) ? 'disabled' : ''?>><?=$mes?></button></th>
+                  <th><button type="button" class="btn btn-block btn-secondary btnCargaReal" data-toggle="modal" data-target="#modalCargarEstrategiaReal" data-month="<?=$key?>" <?=(empty($data['estrategia']) || (isset($data['estrategia']['seteado']) && !$data['estrategia']['seteado'])) ? 'disabled' : ''?>><?=$monthYear?></button></th>
 
                 <?php } ?> 
 
@@ -536,9 +542,9 @@ const cargarInsumos = ()=>{
     if(idDieta != ''){
 
         let months = {
-            5:'Mayo', 6:'Junio', 7:'Julio', 8:'Agosto', 
-            9:'Septiembre', 10:'Octubre', 11:'Noviembre', 12:'Diciembre',
-            1:'Enero', 2:'Febrero', 3:'Marzo', 4:'Abril'
+            5:'Junio', 6:'Julio', 7:'Agosto', 8:'Septiembre', 
+            9:'Octubre', 10:'Noviembre', 11:'Diciembre', 12:'Enero',
+            1:'Febrero', 2:'Marzo', 3:'Abril', 4:'Mayo'
         };
 
         $.ajax({
@@ -632,19 +638,20 @@ const cargarInsumos = ()=>{
                             inputHiddenIngreso.setAttribute('name', `insumoIngreso${idInsumo}${i}`);
                             
                             inputHiddenPrecio = inputHidden.cloneNode(true);
-                            // inputHiddenAPagar = inputHidden.cloneNode(true);
                             inputHiddenPrecio.setAttribute('name', `insumoPrecio${idInsumo}${i}`);
-                            // inputHiddenAPagar.setAttribute('name', `insumoAPagar${idInsumo}${i}`);
 
-
-                            // $('#inputsInsumos').append(inputHiddenIngreso,inputHiddenPrecio,inputHiddenAPagar)
                             $('#inputsInsumos').append(inputHiddenIngreso,inputHiddenPrecio)
                             
                             let trInsumo = document.createElement('TR');
                             let tdMonth = document.createElement('TD');
                             tdMonth.setAttribute('style','font-weight:bold;padding:10px')
 
-                            tdMonth.innerText = months[i];
+                            let year = $('#selectCampania').val().split('/')[0];
+                            year = (['Enero','Febrero','Marzo','Abril','Mayo'].includes(months[i])) ? parseInt(year) + 1 : parseInt(year);
+                            let monthYear = months[i] + ' ' + year.toString().slice(-2);
+
+
+                            tdMonth.innerText = monthYear;
                             trInsumo.append(tdMonth);
 
                             for (let j = 0; j < 3; j++) {
@@ -768,9 +775,9 @@ if(isSaved != '' && isSeted == '0'){
   cargarInsumos()
 
   let months = {
-      0:'Mayo', 1:'Junio', 2:'Julio', 3:'Agosto', 
-      4:'Septiembre', 5:'Octubre', 6:'Noviembre', 7:'Diciembre',
-      8:'Enero', 9:'Febrero', 10:'Marzo', 11:'Abril'
+      0:'Junio', 1:'Julio', 2:'Agosto', 3:'Septiembre', 
+      4:'Octubre', 5:'Noviembre', 6:'Diciembre', 7:'Enero',
+      8:'Febrero', 9:'Marzo', 10:'Abril', 11:'Mayo'
   };
 
   let correccionMeses = {
