@@ -394,23 +394,7 @@ let calcularEstructuraContable = ()=>{
 
     const processPayment = (importe, aPagar, prefix, index,color = 'red') => {
         let month;
-        if (aPagar === 'A') {
-            month = ((index + 1) - 1) % 12 + 1;
-
-            updateContable(`#${prefix}Contable${month}`, Number(importe), color);
-        } else if (aPagar === 'B') {
-            month1 = ((index + 1) - 1) % 12 + 1;
-            month2 = ((index + 2) - 1) % 12 + 1;
-
-            updateContable(`#${prefix}Contable${month1}`, Number(importe / 2), color);
-            updateContable(`#${prefix}Contable${month2}`, Number(importe / 2), color);
-        } else if (aPagar === 'C') {
-            month = ((index + 2) - 1) % 12 + 1;
-            updateContable(`#${prefix}Contable${month}`, Number(importe), color);
-        } else if (aPagar === 'D') {
-            month = ((index + 3) - 1) % 12 + 1;
-            updateContable(`#${prefix}Contable${month}`, Number(importe), color);
-        }
+        updateContable(`#${prefix}Contable${index}`, Number(importe), color);
     };
 
     for (let index = 1; index <= 12; index++) {
@@ -489,23 +473,25 @@ let calcularEstructuraContableSeteado = ()=>{
     const processPayment = (importe, aPagar, prefix, index,color = 'red', real = false) => {
 
         let month;
-        if (aPagar === 'A') {
-            month = ((index + 1) - 1) % 12 + 1;
-            updateContable(`#${prefix}Contable${month}`, Number(importe), color,real);
+        updateContable(`#${prefix}Contable${index}`, Number(importe), color,real);
 
-        } else if (aPagar === 'B') {
-            month1 = ((index + 1) - 1) % 12 + 1;
-            month2 = ((index + 2) - 1) % 12 + 1;
+        // if (aPagar === 'A') {
+        //     month = ((index + 1) - 1) % 12 + 1;
+        //     updateContable(`#${prefix}Contable${month}`, Number(importe), color,real);
 
-            updateContable(`#${prefix}Contable${month1}`, Number(importe / 2), color,real);
-            updateContable(`#${prefix}Contable${month2}`, Number(importe / 2), color,real);
-        } else if (aPagar === 'C') {
-            month = ((index + 2) - 1) % 12 + 1;
-            updateContable(`#${prefix}Contable${month}`, Number(importe), color,real);
-        } else if (aPagar === 'D') {
-            month = ((index + 3) - 1) % 12 + 1;
-            updateContable(`#${prefix}Contable${month}`, Number(importe), color,real);
-        }
+        // } else if (aPagar === 'B') {
+        //     month1 = ((index + 1) - 1) % 12 + 1;
+        //     month2 = ((index + 2) - 1) % 12 + 1;
+
+        //     updateContable(`#${prefix}Contable${month1}`, Number(importe / 2), color,real);
+        //     updateContable(`#${prefix}Contable${month2}`, Number(importe / 2), color,real);
+        // } else if (aPagar === 'C') {
+        //     month = ((index + 2) - 1) % 12 + 1;
+        //     updateContable(`#${prefix}Contable${month}`, Number(importe), color,real);
+        // } else if (aPagar === 'D') {
+        //     month = ((index + 3) - 1) % 12 + 1;
+        //     updateContable(`#${prefix}Contable${month}`, Number(importe), color,real);
+        // }
         
     };
     
